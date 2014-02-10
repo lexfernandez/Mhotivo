@@ -7,11 +7,11 @@ namespace Mhotivo.App_Data
 {
     public interface IRepository
     {
-        T First<T>(Expression<Func<T, bool>> query) where T : class;
-        T GetById<T>(long id) where T : class;
-        T Create<T>(T itemToCreate) where T : class;
-        IQueryable<T> Query<T>(Expression<Func<T, bool>> expression) where T : class;
-        T Update<T>(T itemToUpdate) where T : class;
-        void Delete<T>(T itemToDelete);
+        Object First(Expression<Func<Object, bool>> query);
+        Object GetById(long id);
+        Object Create(Object itemToCreate);
+        IQueryable<Object> Query(Expression<Func<Object, bool>> expression);
+        Object Update(Object itemToUpdate); 
+        void Delete(Object itemToDelete);
     }
 }
