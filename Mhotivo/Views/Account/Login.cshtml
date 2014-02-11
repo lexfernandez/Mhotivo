@@ -18,9 +18,9 @@
         <legend>Formulario de inicio de sesión</legend>
         <ol>
             <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
+                @Html.LabelFor(m => m.UserEmail)
+                @Html.TextBoxFor(m => m.UserEmail)
+                @Html.ValidationMessageFor(m => m.UserEmail)
             </li>
             <li>
                 @Html.LabelFor(m => m.Password)
@@ -29,7 +29,7 @@
             </li>
             <li>
                 @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                @Html.LabelFor(m => m.RememberMe)
             </li>
         </ol>
         <input type="submit" value="Iniciar sesión" />
@@ -38,11 +38,6 @@
         @Html.ActionLink("Register", "Register") si no tiene ninguna cuenta.
     </p>
 }
-</section>
-
-<section class="social" id="socialLoginForm">
-    <h2>Usar otro servicio para iniciar sesión.</h2>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
 </section>
 
 @section Scripts {

@@ -60,8 +60,15 @@ namespace Mhotivo.Models
     public class RegisterModel
     {
         [Required]
+        [Display(Name = "Nombre")]
+        public string DisplaName { get; set; }
+
+        [Required]
         [Display(Name = "Email")]
         public string UserName { get; set; }
+
+        [Display(Name = "Estado")]
+        public bool Status { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
@@ -73,6 +80,12 @@ namespace Mhotivo.Models
         [Display(Name = "Confirmar contraseña")]
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Role")]
+        public int roleId { get; set; }
+
+        
     }
 
 }

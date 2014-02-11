@@ -9,6 +9,10 @@ namespace Mhotivo.App_Data
 {
     public class MhotivoContext : DbContext
     {
+        public MhotivoContext()
+            : base("DefaultConnection")
+        {
+        }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
     }
