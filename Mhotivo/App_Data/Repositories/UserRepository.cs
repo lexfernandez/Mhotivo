@@ -6,7 +6,18 @@ using Mhotivo.Models;
 
 namespace Mhotivo.App_Data.Repositories
 {
-    public class UserRepository
+    public interface IUserRepository
+    {
+        User First(Expression<Func<User, bool>> query);
+        User GetById(long id);
+        User Create(User itemToCreate);
+        IQueryable<bool> Query(Expression<Func<User, bool>> expression);
+        User Update(User itemToUpdate);
+        void Delete(User itemToDelete);
+        void SaveChanges();
+    }
+
+    public class UserRepository : IUserRepository
     {
         private readonly MhotivoContext _context;
 
@@ -46,6 +57,11 @@ namespace Mhotivo.App_Data.Repositories
         public void Delete(User itemToDelete)
         {
             _context.Users.Remove(itemToDelete);
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }
