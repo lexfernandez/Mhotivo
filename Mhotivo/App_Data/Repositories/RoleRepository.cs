@@ -6,7 +6,18 @@ using Mhotivo.Models;
 
 namespace Mhotivo.App_Data.Repositories
 {
-    public class RoleRepository
+    public interface IRoleRepository
+    {
+        Role First(Expression<Func<Role, bool>> query);
+        Role GetById(long id);
+        Role Create(Role itemToCreate);
+        IQueryable<bool> Query(Expression<Func<Role, bool>> expression);
+        Role Update(Role itemToUpdate);
+        void Delete(Role itemToDelete);
+        void SaveChanges();
+    }
+
+    public class RoleRepository : IRoleRepository
     {
         private readonly MhotivoContext _context;
 
@@ -28,6 +39,7 @@ namespace Mhotivo.App_Data.Repositories
         public Role Create(Role itemToCreate)
         {
             return _context.Roles.Add(itemToCreate);
+            
         }
 
         public IQueryable<bool> Query(Expression<Func<Role, bool>> expression)
@@ -46,6 +58,11 @@ namespace Mhotivo.App_Data.Repositories
         public void Delete(Role itemToDelete)
         {
             _context.Roles.Remove(itemToDelete);
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }
