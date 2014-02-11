@@ -45,6 +45,13 @@ namespace Mhotivo.Controllers
             return View(model);
         }
 
+        public ActionResult LogOff(string returnUrl)
+        {
+            SessionLayer.LogOff();
+
+            return RedirectToAction("Index", "Home");
+        }
+
         //
         // POST: /Account/LogOff
 
@@ -56,6 +63,7 @@ namespace Mhotivo.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
 
         //
         // GET: /Account/Register
@@ -79,15 +87,12 @@ namespace Mhotivo.Controllers
                 // Intento de registrar al usuario
                 try
                 {
-                    System.Diagnostics.Debug.WriteLine("Si paso acá");
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { 
                        DisplayName = model.DisplaName,
                        Status = model.Status,
                        Role_RoleId = model.roleId
                     });
-                    System.Diagnostics.Debug.WriteLine("Si paso acá");
                     SessionLayer.LogIn(model.UserName, model.Password);
-                    System.Diagnostics.Debug.WriteLine("LogIn");
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
