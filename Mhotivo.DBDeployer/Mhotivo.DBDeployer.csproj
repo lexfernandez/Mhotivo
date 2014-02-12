@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>27694e7a-62fb-4d41-80c3-20ea3dd769db</ProjectGuid>
+    <ProjectGuid>{58046F23-8B19-41FA-88E2-D5BD2E506446}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mhotivo.DBDeployer</RootNamespace>
@@ -46,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
+      <Project>{1ee5faf4-d47a-4655-950f-8d8e1eaadfe0}</Project>
+      <Name>Mhotivo.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
