@@ -26,9 +26,14 @@ namespace Mhotivo.App_Data.Repositories
             _context = context;
         }
 
-        public Role First(Expression<Func<Role, bool>> query)
+        public void SaveChanges()
         {
-            return _context.Roles.FirstOrDefault(query);
+            _context.SaveChanges();
+        }
+
+        public Role First(Expression<Func<Role, Role>> query)
+        {
+            return _context.Roles.Select(query).FirstOrDefault();
         }
 
         public Role GetById(long id)
@@ -42,7 +47,7 @@ namespace Mhotivo.App_Data.Repositories
             
         }
 
-        public IQueryable<bool> Query(Expression<Func<Role, bool>> expression)
+        public IQueryable<Role> Query(Expression<Func<Role, Role>> expression)
         {
             return _context.Roles.Select(expression);
         }
