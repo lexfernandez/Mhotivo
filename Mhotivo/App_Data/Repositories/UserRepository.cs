@@ -15,9 +15,14 @@ namespace Mhotivo.App_Data.Repositories
             _context = context;
         }
 
-        public User First(Expression<Func<User, bool>> query)
+        public void SaveChanges()
         {
-            return _context.Users.FirstOrDefault(query);
+            _context.SaveChanges();
+        }
+
+        public User First(Expression<Func<User, User>> query)
+        {
+            return _context.Users.Select(query).FirstOrDefault();
         }
 
         public User GetById(long id)
@@ -30,7 +35,7 @@ namespace Mhotivo.App_Data.Repositories
             return _context.Users.Add(itemToCreate);
         }
 
-        public IQueryable<bool> Query(Expression<Func<User, bool>> expression)
+        public IQueryable<User> Query(Expression<Func<User, User>> expression)
         {
             return _context.Users.Select(expression);
         }

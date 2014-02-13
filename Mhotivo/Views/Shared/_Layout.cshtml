@@ -9,7 +9,6 @@
 
 		<!--basic styles-->
 
-		@Styles.Render("~/Content/themes/basic/css")
         
         <link href="~/Content/themes/ace/bootstrap.min.css" rel="stylesheet" />
 		<link href="~/Content/themes/ace/bootstrap-responsive.min.css" rel="stylesheet" />
@@ -27,8 +26,6 @@
 
 		<!--ace styles-->
 		
-		@Styles.Render("~/Content/themes/ace/css")
-        
         <link rel="stylesheet" href="~/Content/themes/ace/ace.min.css" />
 		<link rel="stylesheet" href="~/Content/themes/ace/ace-responsive.min.css" />
 		<link rel="stylesheet" href="~/Content/themes/ace/ace-skins.min.css" />
@@ -709,7 +706,42 @@
 
 		<script src="~/Scripts/ace-elements.min.js"></script>
 		<script src="~/Scripts/ace.min.js"></script>
+        
+<script type="text/javascript">
+$(document).ready(function () {
 
-		<!--inline scripts related to this page-->
+    $("a.toEdit").on("click", function (e) {
+        e.preventDefault();
+        var roleId = $(this).attr("id");
+        var uri = $(this).attr("href");
+        $.ajax({
+            type: "GET",
+            url: uri + roleId
+        })
+        .done(function (html) {
+            $("#body").replaceWith(html);
+        });
+    }); //end edit
+
+    $('#Form').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: form.attr('action'),
+            data: form.serialize(),
+            dataType: "json",
+            success: function (response) {
+                if (!response.success) {
+                    alert(response.message);
+                } else {
+                    alert("Los datos fueron modificados exitosamente!");
+                }
+            }
+        });
+    });
+
+});
+</script>
+	    <!--inline scripts related to this page-->
 	</body>
 </html>
