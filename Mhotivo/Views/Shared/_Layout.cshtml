@@ -601,7 +601,7 @@
 					</ul><!--.breadcrumb-->
 
 					<div class="nav-search" id="nav-search">
-						<form class="form-search" />
+						<form class="form-search" >
 							<span class="input-icon">
 								<input type="text" placeholder="Search ..." class="input-small nav-search-input" id="nav-search-input" autocomplete="off" />
 								<i class="icon-search nav-search-icon"></i>
@@ -724,13 +724,12 @@ $(document).ready(function () {
     }); //end edit
 
     $('#Form').submit(function (e) {
-        e.preventDefault();
         $.ajax({
             type: "POST",
             url: form.attr('action'),
             data: form.serialize(),
             dataType: "json",
-            success: function (response) {
+            success: function(response) {
                 if (!response.success) {
                     alert(response.message);
                 } else {
@@ -738,6 +737,7 @@ $(document).ready(function () {
                 }
             }
         });
+        return false;
     });
 
 });
