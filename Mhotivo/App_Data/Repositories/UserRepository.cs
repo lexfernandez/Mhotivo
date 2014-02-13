@@ -8,10 +8,10 @@ namespace Mhotivo.App_Data.Repositories
 {
     public interface IUserRepository
     {
-        User First(Expression<Func<User, bool>> query);
+        User First(Expression<Func<User, User>> query);
         User GetById(long id);
         User Create(User itemToCreate);
-        IQueryable<bool> Query(Expression<Func<User, bool>> expression);
+        IQueryable<User> Query(Expression<Func<User, User>> expression);
         User Update(User itemToUpdate);
         void Delete(User itemToDelete);
         void SaveChanges();
@@ -62,11 +62,6 @@ namespace Mhotivo.App_Data.Repositories
         public void Delete(User itemToDelete)
         {
             _context.Users.Remove(itemToDelete);
-        }
-
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
         }
     }
 }
