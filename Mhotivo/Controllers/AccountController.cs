@@ -9,6 +9,7 @@ using System.Web.Security;
 using WebMatrix.WebData;
 using Mhotivo.Filters;
 using Mhotivo.Models;
+using Mhotivo.Logic;
 
 namespace Mhotivo.Controllers
 {
@@ -34,14 +35,21 @@ namespace Mhotivo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-           /* if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid && SessionLayer.LogIn(model.UserEmail, model.Password, model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }
-            */
+            
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             ModelState.AddModelError("", "El nombre de usuario o la contraseña especificados son incorrectos.");
             return View(model);
+        }
+
+        public ActionResult LogOff(string returnUrl)
+        {
+            SessionLayer.LogOff();
+
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -51,10 +59,11 @@ namespace Mhotivo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
+            SessionLayer.LogOff();
 
             return RedirectToAction("Index", "Home");
         }
+
 
         //
         // GET: /Account/Register
@@ -78,8 +87,12 @@ namespace Mhotivo.Controllers
                 // Intento de registrar al usuario
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { 
+                       DisplayName = model.DisplaName,
+                       Status = model.Status,
+                       Role_RoleId = model.roleId
+                    });
+                    SessionLayer.LogIn(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)

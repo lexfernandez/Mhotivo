@@ -612,7 +612,7 @@
 						</form>
 					</div><!--#nav-search-->
 				</div>
-				
+
 				@RenderSection("featured", required: false)
 				<div class="page-content">
 					<div class="row-fluid">
@@ -699,6 +699,8 @@
 		<script type="text/javascript">
 		    if ("ontouchend" in document) document.write("<script src='~/Scripts/jquery.mobile.custom.min.js'>" + "<" + "/script>");
 		</script>
+
+        @RenderSection("Scripts", required: false)
 		<script src="~/Scripts/bootstrap.min.js"></script>
 
 		<!--page specific plugin scripts-->

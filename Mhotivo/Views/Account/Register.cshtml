@@ -15,6 +15,12 @@
     <fieldset>
         <legend>Formulario de registro</legend>
         <ol>
+
+            <li>
+                @Html.LabelFor(m => m.DisplaName)
+                @Html.TextBoxFor(m => m.DisplaName)
+            </li>
+
             <li>
                 @Html.LabelFor(m => m.UserName)
                 @Html.TextBoxFor(m => m.UserName)
@@ -26,6 +32,11 @@
             <li>
                 @Html.LabelFor(m => m.ConfirmPassword)
                 @Html.PasswordFor(m => m.ConfirmPassword)
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.roleId)
+                @Html.TextBoxFor(m => m.roleId)
             </li>
         </ol>
         <input type="submit" value="Registrarse" />
