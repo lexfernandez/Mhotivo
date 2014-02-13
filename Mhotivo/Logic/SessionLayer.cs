@@ -1,48 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Transactions;
-using System.Web.Mvc;
+﻿using System.Web;
 using System.Web.Security;
 
-using WebMatrix.WebData;
-using Mhotivo.Filters;
-using Mhotivo.Models;
 
 namespace Mhotivo.Logic
 {
-    public class SessionLayer
+    public class SessionLayer: ISessionManagement
     {
-        public static bool LogIn(string email, string password, bool remember){
-            return WebSecurity.Login(email, password, persistCookie: remember);
-        }
 
-        public static bool Validate(string email, string password, string confirmPassword)
+        private static SessionLayer _instance;
+        private readonly string _userNameIdentifier;
+        private readonly string _userRoleIdentifier;
+
+        private SessionLayer()
         {
-            if (password.Equals(confirmPassword))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            _userNameIdentifier = "loggedUserName";
+            _userRoleIdentifier = "loggedUserRole";
         }
 
-        public static bool LogIn(string email, string password)
+        public static SessionLayer Instance
         {
-            return LogIn(email, password, false);
+            get { return _instance ?? (_instance = new SessionLayer()); }
         }
 
-        public static void LogOff()
+        public bool LogIn(string userName, string password, bool remember = false)
         {
-            WebSecurity.Logout();
+            if (!ValidateUser(userName, password)) return false;
+
+            FormsAuthentication.RedirectFromLoginPage(userName, true);
+            HttpContext.Current.Session[_userNameIdentifier] = userName;
+
+            return true;
         }
 
+        public void LogOut(bool redirect = false)
+        {
+            FormsAuthentication.SignOut();
+            HttpContext.Current.Session.Remove(_userNameIdentifier);
+            HttpContext.Current.Session.Remove(_userRoleIdentifier);
 
+            if(redirect) FormsAuthentication.RedirectToLoginPage();
 
-        
-    
+        }
+
+        public string GetUserLoggedName()
+        {
+            return HttpContext.Current.Session[_userNameIdentifier].ToString();
+        }
+
+        public string GetUserLoggedRole()
+        {
+            return HttpContext.Current.Session[_userRoleIdentifier].ToString();
+        }
+
+        private bool ValidateUser(string userName, string password)
+        {
+            return true;
+        }
+
     }
 }

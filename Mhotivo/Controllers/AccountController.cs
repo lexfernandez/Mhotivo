@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Transactions;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-
-using WebMatrix.WebData;
+﻿using System.Web.Mvc;
 using Mhotivo.Filters;
 using Mhotivo.Models;
 using Mhotivo.Logic;
@@ -17,9 +9,11 @@ namespace Mhotivo.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
-        //
-        // GET: /Account/Login
 
+        private readonly  ISessionManagement _session = SessionLayer.Instance;
+
+        
+        // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -27,15 +21,14 @@ namespace Mhotivo.Controllers
             return View();
         }
 
-        //
+        
         // POST: /Account/Login
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && SessionLayer.LogIn(model.UserEmail, model.Password, model.RememberMe))
+            if (ModelState.IsValid && _session.LogIn(model.UserEmail, model.Password, model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -45,39 +38,35 @@ namespace Mhotivo.Controllers
             return View(model);
         }
 
+        // GET: /Account/LogOff
         public ActionResult LogOff(string returnUrl)
         {
-            SessionLayer.LogOff();
+            _session.LogOut();
 
             return RedirectToAction("Index", "Home");
         }
 
-        //
+        
         // POST: /Account/LogOff
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            SessionLayer.LogOff();
+            _session.LogOut();
 
             return RedirectToAction("Index", "Home");
         }
 
 
-        //
-        // GET: /Account/Register
-
+        /*
         [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
+        */
 
-        //
-        // POST: /Account/Register
-
-        [HttpPost]
+        /*[HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
@@ -86,13 +75,12 @@ namespace Mhotivo.Controllers
             {
                 // Intento de registrar al usuario
                 try
-                {
+                {                        
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { 
-                       DisplayName = model.DisplaName,
-                       Status = model.Status,
+                       DisplayName = model.DisplaName, model.Status,
                        Role_RoleId = model.roleId
                     });
-                    SessionLayer.LogIn(model.UserName, model.Password);
+                    _session.LogIn(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -103,17 +91,11 @@ namespace Mhotivo.Controllers
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return View(model);
-        }
-
-        //
-        // POST: /Account/Disassociate
+        }*/
 
         
 
-        //
-        // GET: /Account/Manage
-
-        public ActionResult Manage(ManageMessageId? message)
+        /*public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "La contraseña se ha cambiado."
@@ -123,10 +105,9 @@ namespace Mhotivo.Controllers
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
+         * */
 
-        //
-        // POST: /Account/Manage
-
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Manage(LocalPasswordModel model)
@@ -149,16 +130,13 @@ namespace Mhotivo.Controllers
                     {
                         return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
                     }
-                    else
-                    {
-                        ModelState.AddModelError("", "La contraseña actual es incorrecta o la nueva contraseña no es válida.");
-                    }
+                    ModelState.AddModelError("", "La contraseña actual es incorrecta o la nueva contraseña no es válida.");
                 }
             
             
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return View(model);
-        }
+        }*/
 
         //
         // POST: /Account/ExternalLogin
@@ -170,20 +148,17 @@ namespace Mhotivo.Controllers
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            return RedirectToAction("Index", "Home");
         }
 
-        public enum ManageMessageId
+        /*public enum ManageMessageId
         {
             ChangePasswordSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
-        }
+        }*/
 
-        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
+        /*private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             // Vaya a http://go.microsoft.com/fwlink/?LinkID=177550 para
             // obtener una lista completa de códigos de estado.
@@ -219,7 +194,7 @@ namespace Mhotivo.Controllers
                 default:
                     return "Error desconocido. Compruebe los datos especificados e inténtelo de nuevo. Si el problema continúa, póngase en contacto con el administrador del sistema.";
             }
-        }
+        }*/
         #endregion
     }
 }
