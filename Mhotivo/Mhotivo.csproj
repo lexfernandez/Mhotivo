@@ -275,7 +275,12 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
+      <Project>{1ee5faf4-d47a-4655-950f-8d8e1eaadfe0}</Project>
+      <Name>Mhotivo.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
