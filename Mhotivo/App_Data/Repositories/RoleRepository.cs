@@ -8,10 +8,10 @@ namespace Mhotivo.App_Data.Repositories
 {
     public interface IRoleRepository
     {
-        Role First(Expression<Func<Role, bool>> query);
+        Role First(Expression<Func<Role, Role>> query);
         Role GetById(long id);
         Role Create(Role itemToCreate);
-        IQueryable<bool> Query(Expression<Func<Role, bool>> expression);
+        IQueryable<Role> Query(Expression<Func<Role, Role>> expression);
         Role Update(Role itemToUpdate);
         void Delete(Role itemToDelete);
         void SaveChanges();
@@ -63,11 +63,6 @@ namespace Mhotivo.App_Data.Repositories
         public void Delete(Role itemToDelete)
         {
             _context.Roles.Remove(itemToDelete);
-        }
-
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
         }
     }
 }

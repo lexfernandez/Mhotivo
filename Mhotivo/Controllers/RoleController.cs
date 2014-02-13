@@ -32,17 +32,10 @@ namespace Mhotivo.Controllers
         }
 
         [HttpPost]
-        public JsonResult Edit(Role modelRole)
+        public ActionResult Edit(Role modelRole)
         {
-            try
-            {
-                repository.Update(modelRole);
-            }
-            catch (Exception e)
-            {
-                return this.Json(new { success = false, message = "Algo no funciono correctamente y los cambios no fueron aplicados!" });
-            }
-            return this.Json(new { success = true, message = string.Empty });
+            repository.Update(modelRole);
+            return View("Index", repository.Query(x => x));
         }
     }
 }

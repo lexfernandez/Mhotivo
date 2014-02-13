@@ -22,7 +22,7 @@
         <td>@Html.DisplayFor(modelItem => item.Name)</td>
         <td>@Html.DisplayFor(modelItem => item.Description)</td>
         <td>
-            <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="@Html.DisplayFor(modelItem => item.RoleId)" href="/Role/Edit/"><i class="icon-edit bigger-120"></i></a>
+            <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Role/Edit/@Html.DisplayFor(modelItem => item.RoleId)"  ><i class="icon-edit bigger-120"></i></a>
         </td>
     </tr>
 }
