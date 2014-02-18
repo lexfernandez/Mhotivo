@@ -12,6 +12,7 @@ namespace Mhotivo.App_Data.Repositories
         User GetById(long id);
         User Create(User itemToCreate);
         IQueryable<User> Query(Expression<Func<User, User>> expression);
+        IQueryable<User> Filter(Expression<Func<User, bool>> expression);
         User Update(User itemToUpdate);
         void Delete(User itemToDelete);
         void SaveChanges();
@@ -49,6 +50,11 @@ namespace Mhotivo.App_Data.Repositories
         public IQueryable<User> Query(Expression<Func<User, User>> expression)
         {
             return _context.Users.Select(expression);
+        }
+
+        public IQueryable<User> Filter(Expression<Func<User, bool>> expression)
+        {
+            return _context.Users.Where(expression);
         }
 
         public User Update(User itemToUpdate)
