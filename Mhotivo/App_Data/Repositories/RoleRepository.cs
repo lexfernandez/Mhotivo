@@ -12,6 +12,7 @@ namespace Mhotivo.App_Data.Repositories
         Role GetById(long id);
         Role Create(Role itemToCreate);
         IQueryable<Role> Query(Expression<Func<Role, Role>> expression);
+        IQueryable<Role> Filter(Expression<Func<Role, bool>> expression);
         Role Update(Role itemToUpdate);
         void Delete(Role itemToDelete);
         void SaveChanges();
@@ -50,6 +51,11 @@ namespace Mhotivo.App_Data.Repositories
         public IQueryable<Role> Query(Expression<Func<Role, Role>> expression)
         {
             return _context.Roles.Select(expression);
+        }
+
+        public IQueryable<Role> Filter(Expression<Func<Role, bool>> expression)
+        {
+            return _context.Roles.Where(expression);
         }
 
         public Role Update(Role itemToUpdate)

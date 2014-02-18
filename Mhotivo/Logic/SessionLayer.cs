@@ -1,12 +1,14 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Web;
 using System.Web.Security;
+using Mhotivo.App_Data;
+using Mhotivo.Models;
 
 
 namespace Mhotivo.Logic
 {
     public class SessionLayer: ISessionManagement
     {
-
         private static SessionLayer _instance;
         private readonly string _userNameIdentifier;
         private readonly string _userRoleIdentifier;
@@ -28,6 +30,7 @@ namespace Mhotivo.Logic
 
             FormsAuthentication.RedirectFromLoginPage(userName, true);
             HttpContext.Current.Session[_userNameIdentifier] = userName;
+            HttpContext.Current.Session[_userRoleIdentifier] = GetUserRole(userName);
 
             return true;
         }
@@ -44,18 +47,50 @@ namespace Mhotivo.Logic
 
         public string GetUserLoggedName()
         {
-            return HttpContext.Current.Session[_userNameIdentifier].ToString();
+            var userName = HttpContext.Current.Session[_userNameIdentifier];
+            return userName != null ? userName.ToString() : null;
         }
 
         public string GetUserLoggedRole()
         {
-            return HttpContext.Current.Session[_userRoleIdentifier].ToString();
+            var userRole = HttpContext.Current.Session[_userRoleIdentifier];
+            return userRole != null ? userRole.ToString() : null;
         }
 
-        private bool ValidateUser(string userName, string password)
+        private static bool ValidateUser(string userName, string password)
         {
-            return true;
+            using (var ctx = new MhotivoContext())
+            {
+                var myUser =(from u in ctx.Users
+                                 where u.Email.Equals(userName)
+                                 select u);
+                if (myUser.Count() != 0 && myUser.First().Password.Equals(password))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
+
+        private static string GetUserRole(string userName)
+        {
+            using (var ctx = new MhotivoContext())
+            {
+                var myUser = (from u in ctx.Users
+                              where u.Email.Equals(userName)
+                              select u);
+                if (!myUser.Any()) return null;
+                var singleUser = myUser.First();
+                Role role = null;
+                if (singleUser != null)
+                    role = singleUser.Role;
+                if (role != null)
+                    return role.Name;
+            }
+            return "admin";
+        }
+
+
 
     }
 }
