@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.ComponentModel;
 using System.Linq.Expressions;
 using Mhotivo.Models;
 
 namespace Mhotivo.App_Data.Repositories
 {
-    public interface IRoleRepository
+    public interface IRoleRepository :  IDisposable
     {
         Role First(Expression<Func<Role, Role>> query);
         Role GetById(long id);
@@ -24,6 +25,7 @@ namespace Mhotivo.App_Data.Repositories
         public RoleRepository(MhotivoContext context)
         {
             _context = context;
+           
         }
 
         public void SaveChanges()
@@ -63,6 +65,11 @@ namespace Mhotivo.App_Data.Repositories
         public void Delete(Role itemToDelete)
         {
             _context.Roles.Remove(itemToDelete);
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }

@@ -6,7 +6,7 @@ using Mhotivo.Models;
 
 namespace Mhotivo.App_Data.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IDisposable
     {
         User First(Expression<Func<User, User>> query);
         User GetById(long id);
@@ -62,6 +62,11 @@ namespace Mhotivo.App_Data.Repositories
         public void Delete(User itemToDelete)
         {
             _context.Users.Remove(itemToDelete);
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }
