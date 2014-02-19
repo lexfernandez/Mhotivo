@@ -76,18 +76,11 @@ namespace Mhotivo.Logic
         {
             using (var ctx = new MhotivoContext())
             {
-                var myUser = (from u in ctx.Users
-                              where u.Email.Equals(userName)
-                              select u);
-                if (!myUser.Any()) return null;
-                var singleUser = myUser.First();
-                Role role = null;
-                if (singleUser != null)
-                    role = singleUser.Role;
-                if (role != null)
-                    return role.Name;
+                User user = ctx.Users.Where(x => x.Email.Equals(userName)).Include(x => x.Role).FirstOrDefault();
+                if(user!=null)
+                    return user.Role.Name;
+                return "Guest";
             }
-            return "admin";
         }
 
 
