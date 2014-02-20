@@ -80,7 +80,7 @@ namespace Mhotivo.Logic
                 User user = ctx.Users.Where(x => x.Email.Equals(userName)).Include(x => x.Role).FirstOrDefault();
                 if(user!=null)
                     return user.Role.Name;
-                return "Guest";
+                return "";
             }
         }
 
