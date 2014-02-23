@@ -149,6 +149,7 @@
     </Compile>
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
@@ -241,6 +242,7 @@
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\ace-elements.min.js" />
     <Content Include="Scripts\ace.min.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -304,8 +306,8 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\User\Delete.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\Shared\_MessageArea.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using Mhotivo.Models;
@@ -11,7 +10,7 @@ namespace Mhotivo.App_Data.Repositories
         Role First(Expression<Func<Role, Role>> query);
         Role GetById(long id);
         Role Create(Role itemToCreate);
-        IQueryable<Role> Query(Expression<Func<Role, Role>> expression);
+        IQueryable<TResult> Query<TResult>(Expression<Func<Role, TResult>> expression);
         IQueryable<Role> Filter(Expression<Func<Role, bool>> expression);
         Role Update(Role itemToUpdate);
         void Delete(Role itemToDelete);
@@ -21,10 +20,16 @@ namespace Mhotivo.App_Data.Repositories
     public class RoleRepository : IRoleRepository
     {
         private readonly MhotivoContext _context;
+        private static RoleRepository _instance;
 
-        public RoleRepository(MhotivoContext context)
+        private RoleRepository(MhotivoContext ctx)
         {
-            _context = context;
+            _context = ctx;
+        }
+
+        public static RoleRepository Instance
+        {
+            get { return _instance ?? (_instance = new RoleRepository(new MhotivoContext())); }
         }
 
         public void SaveChanges()
@@ -34,23 +39,27 @@ namespace Mhotivo.App_Data.Repositories
 
         public Role First(Expression<Func<Role, Role>> query)
         {
-            return _context.Roles.Select(query).FirstOrDefault();
+            var roles = _context.Roles.Select(query);
+            return roles.Count() != 0 ? roles.First() : null;
         }
 
         public Role GetById(long id)
         {
-            return _context.Roles.First(x => x.RoleId == id);
+            var roles = _context.Roles.Where(x => x.RoleId == id);
+            return roles.Count() != 0 ? roles.First() : null;
         }
 
         public Role Create(Role itemToCreate)
         {
-            return _context.Roles.Add(itemToCreate);
-            
+            var role = _context.Roles.Add(itemToCreate);
+            _context.SaveChanges();
+            return role;
         }
 
-        public IQueryable<Role> Query(Expression<Func<Role, Role>> expression)
+        public IQueryable<TResult> Query<TResult>(Expression<Func<Role, TResult>> expression)
         {
             return _context.Roles.Select(expression);
+
         }
 
         public IQueryable<Role> Filter(Expression<Func<Role, bool>> expression)
@@ -60,10 +69,17 @@ namespace Mhotivo.App_Data.Repositories
 
         public Role Update(Role itemToUpdate)
         {
-            _context.Roles.Attach(itemToUpdate);
-            _context.Entry(itemToUpdate).State = EntityState.Modified;
             _context.SaveChanges();
             return itemToUpdate;
+        }
+
+        public Role UpdateNew(Role itemToUpdate)
+        {
+            var role = GetById(itemToUpdate.RoleId);
+            role.Name = itemToUpdate.Name;
+            role.Description = itemToUpdate.Description;
+
+            return Update(role);
         }
 
         public void Delete(Role itemToDelete)

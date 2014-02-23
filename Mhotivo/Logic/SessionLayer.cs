@@ -1,9 +1,7 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Security;
-using Mhotivo.App_Data;
-using Mhotivo.Models;
+using Mhotivo.App_Data.Repositories;
 
 
 namespace Mhotivo.Logic
@@ -11,6 +9,7 @@ namespace Mhotivo.Logic
     public class SessionLayer: ISessionManagement
     {
         private static SessionLayer _instance;
+        private static readonly UserRepository UserRepo = UserRepository.Instance;
         private readonly string _userNameIdentifier;
         private readonly string _userRoleIdentifier;
 
@@ -59,29 +58,18 @@ namespace Mhotivo.Logic
         }
 
         private static bool ValidateUser(string userName, string password)
-        {
-            using (var ctx = new MhotivoContext())
-            {
-                var myUser =(from u in ctx.Users
-                                 where u.Email.Equals(userName)
-                                 select u);
-                if (myUser.Count() != 0 && myUser.First().Password.Equals(password))
-                {
-                    return true;
-                }
-            }
-            return false;
+        {    
+            var myUsers = UserRepo.Filter(x => x.Email.Equals(userName) && x.Password.Equals(password));
+            return myUsers != null && myUsers.Count() == 1; 
         }
 
         private static string GetUserRole(string userName)
         {
-            using (var ctx = new MhotivoContext())
-            {
-                User user = ctx.Users.Where(x => x.Email.Equals(userName)).Include(x => x.Role).FirstOrDefault();
-                if(user!=null)
-                    return user.Role.Name;
-                return "";
-            }
+            var users = UserRepo.Filter(x => x.Email.Equals(userName));
+            if (users != null && users.Count() !=0)
+                return users.First().Role.Name;
+            return "";
+            
         }
 
 

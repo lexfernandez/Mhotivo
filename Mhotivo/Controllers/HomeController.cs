@@ -1,8 +1,5 @@
 ﻿using System.Web.Mvc;
-using Mhotivo.App_Data;
-using Mhotivo.App_Data.Repositories;
 using Mhotivo.Models;
-using Mhotivo.Logic;
 
 namespace Mhotivo.Controllers
 {
@@ -11,6 +8,15 @@ namespace Mhotivo.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Modifique esta plantilla para poner en marcha su aplicación ASP.NET MVC.";
+
+            var message = (MessageModel)TempData["MessageInfo"];
+
+            if (message != null)
+            {
+                ViewBag.MessageType = message.MessageType;
+                ViewBag.MessageTitle = message.MessageTitle;
+                ViewBag.MessageContent = message.MessageContent;
+            }
             
             return View();
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Mhotivo.App_Data;
+﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
 using Mhotivo.Models;
 
@@ -11,14 +6,22 @@ namespace Mhotivo.Controllers
 {
     public class RoleController : Controller
     {
-        private readonly RoleRepository repository = new RoleRepository(new MhotivoContext());
+        private readonly RoleRepository _roleRepo = RoleRepository.Instance;
                 //
         // GET: /Role/
 
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            return View(repository.Query( x => x));
+            var message = (MessageModel)TempData["MessageInfo"];
+
+            if (message != null)
+            {
+                ViewBag.MessageType = message.MessageType;
+                ViewBag.MessageTitle = message.MessageTitle;
+                ViewBag.MessageContent = message.MessageContent;
+            }
+
+            return View(_roleRepo.Query(x => x));
         }
 
         //
@@ -27,15 +30,24 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var role = repository.GetById(id);
+            var role = _roleRepo.GetById(id);
             return View("_Edit", role);
         }
 
         [HttpPost]
         public ActionResult Edit(Role modelRole)
         {
-            repository.Update(modelRole);
-            return View("Index", repository.Query(x => x));
+            var role = _roleRepo.UpdateNew(modelRole);
+            const string title = "Role Actualizado";
+            var content = "El role " + role.Name + " ha sido modificado exitosamente.";
+            TempData["MessageInfo"] = new MessageModel
+            {
+                MessageType = "SUCCESS",
+                MessageTitle = title,
+                MessageContent = content
+            };
+
+            return RedirectToAction("Index");
         }
     }
 }

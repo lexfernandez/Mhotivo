@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Globalization;
-using System.Web.Security;
+using System.Web.Mvc;
 
 namespace Mhotivo.Models
 {
@@ -23,6 +20,25 @@ namespace Mhotivo.Models
         public Role Role { get; set; }
     }
 
+    public class DisplayUserModel
+    {
+
+        public int UserId { get; set; }
+
+        [Display(Name = "Correo Elctrónico")]
+        public string Email { get; set; }
+
+        [Display(Name = "Nombre")]
+        public string DisplayName { get; set; }
+        
+        [Display(Name = "Estado")]
+        public string Status { get; set; }
+
+        [Display(Name = "Tipo de Usuario")]
+        public string Role { get; set; }
+        
+    }
+
     public class LocalPasswordModel
     {
         [Required]
@@ -38,7 +54,7 @@ namespace Mhotivo.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar la nueva contraseña")]
-        [Compare("NewPassword", ErrorMessage = "La nueva contraseña y la contraseña de confirmación no coinciden.")]
+        [System.ComponentModel.DataAnnotations.Compare("NewPassword", ErrorMessage = "La nueva contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -57,7 +73,7 @@ namespace Mhotivo.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterModel
+    public class UserRegisterModel
     {
         [Required]
         [Display(Name = "Nombre")]
@@ -78,14 +94,43 @@ namespace Mhotivo.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "Role")]
-        public int roleId { get; set; }
+        [Display(Name = "Tipo de Usuario")]
+        public int RoleId { get; set; }
+    }
 
-        
+    public class UserEditModel
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Nombre")]
+        public string DisplayName { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Display(Name = "Activo")]
+        public bool Status { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Contraseña")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmar contraseña")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Tipo de Usuario")]
+        public int RoleId { get; set; }
     }
 
 }

@@ -12,7 +12,8 @@
         
         <link href="~/Content/themes/ace/bootstrap.min.css" rel="stylesheet" />
 		<link href="~/Content/themes/ace/bootstrap-responsive.min.css" rel="stylesheet" />
-		<link href="~/Content/themes/ace/font-awesome.min.css" rel="stylesheet" />
+	    <link href="~/Content/themes/ace/font-awesome.min.css" rel="stylesheet" />
+        
 		
         <!--[if IE 7]>
 		  <link rel="stylesheet" href="~/Content/themes/ace/font-awesome-ie7.min.css" />
@@ -698,20 +699,21 @@
 		</script>
 
         @RenderSection("Scripts", required: false)
-		<script src="~/Scripts/bootstrap.min.js"></script>
+	    <script src="~/Scripts/bootstrap.min.js"></script>
 
 		<!--page specific plugin scripts-->
 
 		<!--ace scripts-->
 
 		<script src="~/Scripts/ace-elements.min.js"></script>
-		<script src="~/Scripts/ace.min.js"></script>
+	    <script src="~/Scripts/ace.min.js"></script>
+        <script src="~/Scripts/bootbox.min.js"></script>
         
 <script type="text/javascript">
 $(document).ready(function () {
 
+    //start Edit
     $("a.toEdit").on("click", function (e) {
-        
         var uri = $(this).attr("id");
         $.ajax({
             type: "GET",
@@ -720,7 +722,31 @@ $(document).ready(function () {
         .done(function (html) {
             $("#body").replaceWith(html);
         });
-    }); //end edit
+    });
+    //end edit
+
+    //start Delete
+    $("a.toDelete").on("click", function () {
+        var uri = $(this).attr("id");
+        var idMessage = "input[id*='" + uri + "_Message']";
+        var idForm = "#Form_" + uri;
+        var message = $(idMessage).val();
+        bootbox.dialog(message,
+            [
+               {
+                   "label": "Cancelar",
+                   "class": "btn-small"
+               },
+               {
+                   "label": "Eliminar",
+                   "class": "btn-small btn-danger",
+                   "callback": function () {
+                       $(idForm).submit();
+                   }
+               }
+            ]
+        );
+    }); //End of delete
 
 
     $('#Form').on("submit",function (e) {

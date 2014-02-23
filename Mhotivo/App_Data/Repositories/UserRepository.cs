@@ -14,7 +14,7 @@ namespace Mhotivo.App_Data.Repositories
         IQueryable<User> Query(Expression<Func<User, User>> expression);
         IQueryable<User> Filter(Expression<Func<User, bool>> expression);
         User Update(User itemToUpdate);
-        void Delete(User itemToDelete);
+        User Delete(long id);
         void SaveChanges();
     }
 
@@ -22,9 +22,75 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        public UserRepository(MhotivoContext context)
+        private UserRepository(MhotivoContext ctx)
         {
-            _context = context;
+            _context = ctx;
+        }
+
+        public static UserRepository Instance
+        {
+            get { return new UserRepository(new MhotivoContext()); }
+        }
+
+        public User First(Expression<Func<User, User>> query)
+        {
+            var users = _context.Users.Select(query);
+            return users.Count() != 0 ? users.Include(x => x.Role).First() : null;
+        }
+
+        public User GetById(long id)
+        {
+            var users = _context.Users.Where(x => x.UserId == id);
+            return users.Count() != 0 ? users.Include(x => x.Role).First() : null;
+        }
+
+        public User Create(User itemToCreate)
+        {
+            var user = _context.Users.Add(itemToCreate);
+            _context.Entry(user.Role).State = EntityState.Modified;
+            _context.SaveChanges();
+                return user;
+        }
+
+        public IQueryable<User> Query(Expression<Func<User, User>> expression)
+        {
+            var myUsers = _context.Users.Select(expression);
+            return myUsers.Count() != 0 ? myUsers.Include(x => x.Role) : myUsers;
+            
+        }
+
+        public IQueryable<User> Filter(Expression<Func<User, bool>> expression)
+        {
+            var myUsers = _context.Users.Where(expression);
+            return myUsers.Count() != 0 ? myUsers.Include(x => x.Role) : myUsers;
+        }
+
+        public User Update(User itemToUpdate)
+        {
+            _context.Entry(itemToUpdate.Role).State = EntityState.Modified;
+            _context.SaveChanges();
+            return itemToUpdate;   
+        }
+
+        public User UpdateNew(User itemToUpdate)
+        {
+            var user = GetById(itemToUpdate.UserId);
+            user.DisplayName = itemToUpdate.DisplayName;
+            user.Email = itemToUpdate.Email;
+            user.Password = itemToUpdate.Password;
+            user.Role = itemToUpdate.Role;
+            user.Status = itemToUpdate.Status;
+
+            return Update(user);
+            
+        }
+
+        public User Delete(long id)
+        {
+            var itemToDelete = GetById(id);
+            _context.Users.Remove(itemToDelete);
+            _context.SaveChanges();
+            return itemToDelete;
         }
 
         public void SaveChanges()
@@ -32,42 +98,9 @@ namespace Mhotivo.App_Data.Repositories
             _context.SaveChanges();
         }
 
-        public User First(Expression<Func<User, User>> query)
+        public String ActiveUserDisplaytext(bool active)
         {
-            return _context.Users.Select(query).FirstOrDefault();
-        }
-
-        public User GetById(long id)
-        {
-            return _context.Users.First(x => x.UserId == id);
-        }
-
-        public User Create(User itemToCreate)
-        {
-            return _context.Users.Add(itemToCreate);
-        }
-
-        public IQueryable<User> Query(Expression<Func<User, User>> expression)
-        {
-            return _context.Users.Select(expression);
-        }
-
-        public IQueryable<User> Filter(Expression<Func<User, bool>> expression)
-        {
-            return _context.Users.Where(expression);
-        }
-
-        public User Update(User itemToUpdate)
-        {
-            _context.Users.Attach(itemToUpdate);
-            _context.Entry(itemToUpdate).State = EntityState.Modified;
-            _context.SaveChanges();
-            return itemToUpdate;
-        }
-
-        public void Delete(User itemToDelete)
-        {
-            _context.Users.Remove(itemToDelete);
+            return active ? "Activo" : "Inactivo";
         }
     }
 }

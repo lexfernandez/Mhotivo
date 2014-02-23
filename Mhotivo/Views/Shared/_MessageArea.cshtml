@@ -1,0 +1,51 @@
+﻿@using System.Web.UI.WebControls
+@{
+    Layout = null;
+}
+
+@if (ViewBag.MessageTitle != null)
+{
+     if(ViewBag.MessageType == "INFO")
+     {
+         <div class="alert alert-block alert-info">
+             <button type="button" class="close" data-dismiss="alert">
+                 <i class="icon-remove"></i>
+             </button>
+             <p>
+                 <strong>
+                     <i class="icon-bookmark"></i>
+                     @ViewBag.MessageTitle
+                 </strong>
+			    @ViewBag.MessageContent
+			</p>
+		</div>
+     }else if (ViewBag.MessageType == "SUCCESS")
+     {
+         <div class="alert alert-block alert-success">
+			<button type="button" class="close" data-dismiss="alert">
+				<i class="icon-remove"></i>
+			</button>
+			<p>
+				<strong>
+					<i class="icon-ok"></i>
+					@ViewBag.MessageTitle
+				</strong>
+				@ViewBag.MessageContent
+			</p>
+		</div>
+     }else if (ViewBag.MessageType == "ERROR")
+     {
+         <div class="alert alert-block alert-error">
+			<button type="button" class="close" data-dismiss="alert">
+				<i class="icon-remove"></i>
+			</button>
+			<p>
+				<strong>
+					<i class="icon-remove"></i>
+					@ViewBag.MessageTitle
+				</strong>
+				@ViewBag.MessageContent
+			</p>
+		</div>
+     }
+}
