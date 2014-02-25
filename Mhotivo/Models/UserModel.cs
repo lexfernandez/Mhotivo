@@ -84,8 +84,6 @@ namespace Mhotivo.Models
         [Required]
         [Display(Name = "Role")]
         public int roleId { get; set; }
-
-        
     }
 
 }

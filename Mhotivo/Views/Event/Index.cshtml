@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Mhotivo.Models.Event>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/fullcalendar")
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $('#calendar').fullCalendar({
+            editable: false,
+            events: [
+				
+                @foreach (var item in Model)
+                {
+                    <text>
+				            {
+				            id: @item.EventId ,
+				            title: '@item.Description' ,
+				            start: new Date(@item.StartDateTime.Year, @item.StartDateTime.Month, @item.StartDateTime.Day ,  @item.StartDateTime.Hour , @item.StartDateTime.Minute),
+				            start: new Date(@item.EndDateTime.Year, @item.EndDateTime.Month, @item.EndDateTime.Day ,  @item.EndDateTime.Hour , @item.EndDateTime.Minute),
+				            allDay: false
+                            },
+				    </text>
+                }
+            ]
+        });
+		
+    });
+
+</script>
+
+<style>
+
+    #calendar {
+        width: 900px;
+        height: 500px;
+        margin: 0 auto;
+    }
+
+</style><div id='calendar'></div>

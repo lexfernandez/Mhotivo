@@ -8,9 +8,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!--basic styles-->
-
-        
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/fullcalendar")
         <link href="~/Content/themes/ace/bootstrap.min.css" rel="stylesheet" />
+		<link href="~/Content/themes/ace/bootstrap.min.css" rel="stylesheet" />
 		<link href="~/Content/themes/ace/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link href="~/Content/themes/ace/font-awesome.min.css" rel="stylesheet" />
 		
@@ -698,7 +699,8 @@
 		</script>
 
         @RenderSection("Scripts", required: false)
-		<script src="~/Scripts/bootstrap.min.js"></script>
+	    <script src="~/Scripts/bootstrap.min.js"></script>
+       
 
 		<!--page specific plugin scripts-->
 
