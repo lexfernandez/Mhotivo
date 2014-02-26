@@ -1,4 +1,4 @@
-﻿@model Mhotivo.Models.Role
+﻿@model Mhotivo.Models.RoleEditModel
 
 @{
     ViewBag.Title = "Edit";
@@ -21,7 +21,7 @@
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name, new { @readonly="readonly" })
+            @Html.EditorFor(model => model.Name)
             @Html.ValidationMessageFor(model => model.Name)
         </div>
 
