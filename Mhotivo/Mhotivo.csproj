@@ -183,6 +183,7 @@
     <Content Include="Content\themes\ace\ace.min.css" />
     <Content Include="Content\themes\ace\bootstrap-responsive.min.css" />
     <Content Include="Content\themes\ace\bootstrap.min.css" />
+    <Content Include="Content\themes\ace\colorbox.css" />
     <Content Include="Content\themes\ace\font-awesome-ie7.min.css" />
     <Content Include="Content\themes\ace\font-awesome.min.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -313,6 +314,8 @@
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\Shared\_MessageArea.cshtml" />
     <Content Include="Views\People\Index.cshtml" />
+    <Content Include="Views\People\Create.cshtml" />
+    <Content Include="Views\People\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">

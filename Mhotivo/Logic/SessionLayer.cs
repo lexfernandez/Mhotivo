@@ -28,9 +28,9 @@ namespace Mhotivo.Logic
         {
             if (!ValidateUser(userName, password)) return false;
 
-            FormsAuthentication.RedirectFromLoginPage(userName, true);
             HttpContext.Current.Session[_userNameIdentifier] = userName;
             HttpContext.Current.Session[_userRoleIdentifier] = GetUserRole(userName);
+            FormsAuthentication.RedirectFromLoginPage(userName, true);
 
             return true;
         }

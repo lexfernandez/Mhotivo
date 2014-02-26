@@ -35,7 +35,6 @@ namespace Mhotivo.Controllers
                     UrlPicture = x.UrlPicture,
                     FullName = x.FullName
                 }));   
-            return View();
         }
 
         [HttpGet]
@@ -43,7 +42,7 @@ namespace Mhotivo.Controllers
         {
             var people = _peopleRepo.GetById(peopleId);
 
-            var editUser = new PeopleEditModel()
+            var editUser = new PeopleEditModel
             {
                 FirstName = people.FirstName,
                 LastName = people.LastName,
