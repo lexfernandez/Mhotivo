@@ -132,6 +132,7 @@
   <ItemGroup>
     <Compile Include="App_Data\MhotivoContext.cs" />
     <Compile Include="App_Data\IRepository.cs" />
+    <Compile Include="App_Data\Repositories\PeopleRepository.cs" />
     <Compile Include="App_Data\Repositories\UserRepository.cs" />
     <Compile Include="App_Data\Repositories\RoleRepository.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
     <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\PeopleModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
@@ -239,6 +242,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="Properties\PublishProfiles\DeployProfile.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\ace-elements.min.js" />
     <Content Include="Scripts\ace.min.js" />
@@ -308,6 +312,7 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\Shared\_MessageArea.cshtml" />
+    <Content Include="Views\People\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
