@@ -10,6 +10,7 @@ namespace Mhotivo.App_Data
             
         }
 
+        public DbSet<Event> Events { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
     }
