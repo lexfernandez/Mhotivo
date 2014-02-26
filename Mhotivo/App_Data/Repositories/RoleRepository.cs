@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using Mhotivo.Models;
@@ -69,7 +70,8 @@ namespace Mhotivo.App_Data.Repositories
 
         public Role Update(Role itemToUpdate)
         {
-            _context.SaveChanges();
+            _context.Entry(itemToUpdate).State = EntityState.Modified;
+            SaveChanges();
             return itemToUpdate;
         }
 

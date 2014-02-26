@@ -5,8 +5,6 @@ using System.Web.Mvc;
 
 namespace Mhotivo.Models
 {
-    
-
     [Table("User")]
     public class User
     {
