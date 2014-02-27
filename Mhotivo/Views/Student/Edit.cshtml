@@ -1,0 +1,189 @@
+﻿@model Mhotivo.Models.StudentEditModel
+
+@{
+    ViewBag.Title = "Editar Estudiante";
+    Layout = "";
+}
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div id="body" class="modal-body" style="max-height: 500px;">
+@using (Html.BeginForm("Edit", "student", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"}))
+{@Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Editar Estudiante</legend>
+
+        @Html.HiddenFor(model => model.Id)
+        <p class="text-error">
+            @Html.ValidationMessageFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.DateOfBirth)
+            @Html.ValidationMessageFor(model => model.IDNumber)
+            @Html.ValidationMessageFor(model => model.Gender)
+            @Html.ValidationMessageFor(model => model.Nationality)
+            @Html.ValidationMessageFor(model => model.State)
+            @Html.ValidationMessageFor(model => model.City)
+            @Html.ValidationMessageFor(model => model.StreetAddress)
+            @Html.ValidationMessageFor(model => model.StartDate)
+            @Html.ValidationMessageFor(model => model.BloodType)
+            @Html.ValidationMessageFor(model => model.AccountNumber)
+            @Html.ValidationMessageFor(model => model.Biography)
+            @Html.ValidationMessageFor(model => model.Tutor1Id)
+            @Html.ValidationMessageFor(model => model.Tutor2Id)
+        </p>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.FirstName)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.FirstName)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.LastName)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.LastName)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.DateOfBirth)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.DateOfBirth)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.IDNumber)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.IDNumber)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Gender)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Gender)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Nationality)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Nationality)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.City)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.City)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.State)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.State)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.StreetAddress)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.StreetAddress)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.StartDate)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.StartDate)
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.BloodType)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.BloodType)
+            </div>
+        </div>
+           
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.AccountNumber)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.AccountNumber)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Biography)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Biography)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Tutor1Id)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("Tutor1Id", "--Padre o Tutor--")
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Tutor2Id)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("Tutor2Id", "--Padre o Tutor--")
+            </div>
+        </div>
+
+        <div class="space"></div>
+
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-small">
+                <i class="icon-remove"></i>
+                Cancel
+            </button>
+
+            <button type="submit" class="btn btn-small btn-primary">
+                <i class="icon-ok"></i>
+                Actualizar
+            </button>
+        </div>
+    </fieldset>
+}
+
+</div>
