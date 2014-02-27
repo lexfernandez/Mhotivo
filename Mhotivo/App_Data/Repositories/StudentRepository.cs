@@ -47,8 +47,14 @@ namespace Mhotivo.App_Data.Repositories
         public Student Create(Student itemToCreate)
         {
             var student = _context.Students.Add(itemToCreate);
-            _context.Entry(student.Tutor1).State = EntityState.Modified;
-            _context.Entry(student.Tutor2).State = EntityState.Modified;
+            if (itemToCreate.Tutor1 != null)
+            {
+                _context.Entry(itemToCreate.Tutor1).State = EntityState.Modified;
+            }
+            if (itemToCreate.Tutor2 != null)
+            {
+                _context.Entry(itemToCreate.Tutor2).State = EntityState.Modified;
+            }
             _context.SaveChanges();
             return student;
         }

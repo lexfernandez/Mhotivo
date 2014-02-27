@@ -148,8 +148,8 @@ namespace Mhotivo.Controllers
                 BloodType = modelStudent.BloodType,
                 AccountNumber = modelStudent.AccountNumber,
                 Biography = modelStudent.Biography,
-                Tutor1 = _parentRepo.GetById(modelStudent.Tutor1),
-                Tutor2 = _parentRepo.GetById(modelStudent.Tutor2)
+                Tutor1 = _parentRepo.GetById(modelStudent.Tutor1Id),
+                Tutor2 = _parentRepo.GetById(modelStudent.Tutor2Id)
             };
 
             var student = _studentRepo.Create(myStudent);

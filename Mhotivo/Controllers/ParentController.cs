@@ -27,9 +27,9 @@ namespace Mhotivo.Controllers
             return View(_parentRepo.Query(x => x).ToList()
                 .Select(x => new DisplayParentModel
                 {
+                    ParentID = x.PeopleID,
                     FullName = x.FullName,
                     DateOfBirth = x.DateOfBirth,
-                    //Students = x.Students
                 }));
         }
 
@@ -64,7 +64,7 @@ namespace Mhotivo.Controllers
             myParent.LastName = modelParent.LastName;
             myParent.FullName = (modelParent.FirstName + " " + modelParent.LastName).Trim();
             myParent.IDNumber = modelParent.IDNumber;
-            myParent.DateOfBirth = modelParent.DateOfBirth;
+            myParent.DateOfBirth = modelParent.DateOfBirth.Date;
             myParent.Gender = modelParent.Gender;
             myParent.Nationality = modelParent.Nationality;
             myParent.State = modelParent.State;
@@ -72,8 +72,8 @@ namespace Mhotivo.Controllers
             myParent.StreetAddress = modelParent.StreetAddress;
 
             var parent = _parentRepo.Update(myParent);
-            const string title = "Estudiante Actualizado";
-            var content = "El estudiante ha sido actualizado exitosamente.";
+            const string title = "Padre o Tutor Actualizado";
+            var content = "El Padre o Tutor ha sido actualizado exitosamente.";
 
             TempData["MessageInfo"] = new MessageModel
             {
@@ -91,7 +91,7 @@ namespace Mhotivo.Controllers
             var parent = _parentRepo.Delete(id);
 
             const string title = "Usuario Eliminado";
-            var content = "El estudiante ha sido eliminado exitosamente.";
+            var content = "El Padre o Tutor ha sido eliminado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
             {
                 MessageType = "INFO",
@@ -102,24 +102,32 @@ namespace Mhotivo.Controllers
             return RedirectToAction("Index");
         }
 
-        /*[HttpGet]
+        [HttpGet]
         public ActionResult Add()
         {
-            ViewBag.RoleId = new SelectList(_roleRepo.Query(x => x), "RoleId", "Name");
             return View("Create");
-        }*/
+        }
 
         [HttpPost]
         public ActionResult Add(ParentRegisterModel modelParent)
         {
             var myParent = new Parent
             {
-                
+                FirstName = modelParent.FirstName,
+                LastName = modelParent.LastName,
+                FullName = (modelParent.FirstName + " " + modelParent.LastName).Trim(),
+                IDNumber = modelParent.IDNumber,
+                DateOfBirth = modelParent.DateOfBirth.Date,
+                Gender = modelParent.Gender,
+                Nationality = modelParent.Nationality,
+                State = modelParent.State,
+                City = modelParent.City,
+                StreetAddress = modelParent.StreetAddress
             };
 
             var parent = _parentRepo.Create(myParent);
-            const string title = "Estudiante Agregado";
-            var content = "El estudiante ha sido agregado exitosamente.";
+            const string title = "Padre o Tutor Agregado";
+            var content = "El Padre o Tutor ha sido agregado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
             {
                 MessageType = "SUCCESS",

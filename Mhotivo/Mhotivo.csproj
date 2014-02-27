@@ -321,6 +321,9 @@
     <Content Include="Views\Student\Create.cshtml" />
     <Content Include="Views\Student\Details.cshtml" />
     <Content Include="Views\Parent\Index.cshtml" />
+    <Content Include="Views\Parent\Edit.cshtml" />
+    <Content Include="Views\Parent\Create.cshtml" />
+    <Content Include="Views\Parent\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

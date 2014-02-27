@@ -1,7 +1,7 @@
-﻿@model Mhotivo.Models.StudentRegisterModel
+﻿@model Mhotivo.Models.ParentRegisterModel
 
 @{
-    ViewBag.Title = "Nuevo Estudiante";
+    ViewBag.Title = "Nuevo Padre o Tutor";
     Layout = "";
 }
 
@@ -10,12 +10,12 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <div id="body" class="modal-body" style="max-height: 500px;">
-@using (Html.BeginForm("Add", "student", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"}))
+@using (Html.BeginForm("Add", "parent", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"}))
 {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Nuevo Estudiante</legend>
+        <legend>Nuevo Padre o Tutor</legend>
         
         <p class="text-error">
             @Html.ValidationMessageFor(model => model.FirstName)
@@ -27,12 +27,6 @@
             @Html.ValidationMessageFor(model => model.State)
             @Html.ValidationMessageFor(model => model.City)
             @Html.ValidationMessageFor(model => model.StreetAddress)
-            @Html.ValidationMessageFor(model => model.StartDate)
-            @Html.ValidationMessageFor(model => model.BloodType)
-            @Html.ValidationMessageFor(model => model.AccountNumber)
-            @Html.ValidationMessageFor(model => model.Biography)
-            @Html.ValidationMessageFor(model => model.Tutor1Id)
-            @Html.ValidationMessageFor(model => model.Tutor2Id)
         </p>
         
         <div class="control-group">
@@ -113,60 +107,6 @@
             </div>
             <div class="controls">
                 @Html.EditorFor(model => model.StreetAddress)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.StartDate)
-            </div>
-            <div class="controls">
-                @Html.EditorFor(model => model.StartDate)
-            </div>
-        </div>
-        
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.BloodType)
-            </div>
-            <div class="controls">
-                @Html.EditorFor(model => model.BloodType)
-            </div>
-        </div>
-           
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.AccountNumber)
-            </div>
-            <div class="controls">
-                @Html.EditorFor(model => model.AccountNumber)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.Biography)
-            </div>
-            <div class="controls">
-                @Html.EditorFor(model => model.Biography)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.Tutor1Id)
-            </div>
-            <div class="controls">
-                @Html.DropDownList("Tutor1Id", "--Select Parent--")
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.Tutor2Id)
-            </div>
-            <div class="controls">
-                @Html.DropDownList("Tutor2Id", "--Select Parent--")
             </div>
         </div>
 
