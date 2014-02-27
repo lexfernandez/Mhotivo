@@ -21,7 +21,6 @@ namespace Mhotivo.App_Data.Repositories
     public class RoleRepository : IRoleRepository
     {
         private readonly MhotivoContext _context;
-        private static RoleRepository _instance;
 
         private RoleRepository(MhotivoContext ctx)
         {
@@ -31,7 +30,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public static RoleRepository Instance
         {
-            get { return _instance ?? (_instance = new RoleRepository(new MhotivoContext())); }
+            get { return new RoleRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()
