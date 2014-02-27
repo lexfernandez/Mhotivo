@@ -13,7 +13,7 @@ namespace Mhotivo.App_Data.Repositories
         User Create(User itemToCreate);
         IQueryable<User> Query(Expression<Func<User, User>> expression);
         IQueryable<User> Filter(Expression<Func<User, bool>> expression);
-        User Update(User itemToUpdate);
+        User Update(User itemToUpdate, bool updateRole);
         User Delete(long id);
         void SaveChanges();
     }
@@ -65,23 +65,30 @@ namespace Mhotivo.App_Data.Repositories
             return myUsers.Count() != 0 ? myUsers.Include(x => x.Role) : myUsers;
         }
 
-        public User Update(User itemToUpdate)
+        public User Update(User itemToUpdate, bool updateRole = true)
         {
-            _context.Entry(itemToUpdate.Role).State = EntityState.Modified;
+            if (updateRole)
+                _context.Entry(itemToUpdate.Role).State = EntityState.Modified;
             _context.SaveChanges();
             return itemToUpdate;   
         }
 
         public User UpdateNew(User itemToUpdate)
         {
+            var updateRole = false;
             var user = GetById(itemToUpdate.UserId);
             user.DisplayName = itemToUpdate.DisplayName;
             user.Email = itemToUpdate.Email;
             user.Password = itemToUpdate.Password;
-            user.Role = itemToUpdate.Role;
             user.Status = itemToUpdate.Status;
 
-            return Update(user);
+            if (user.Role.RoleId != itemToUpdate.Role.RoleId)
+            {
+                user.Role = itemToUpdate.Role;
+                updateRole = true;
+            }
+
+            return Update(user, updateRole);
             
         }
 
