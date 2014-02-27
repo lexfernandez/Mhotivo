@@ -56,14 +56,19 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(UserEditModel modelUser)
         {
+            var updateRole = false;
             var myUser = _userRepo.GetById(modelUser.Id);
             myUser.DisplayName = modelUser.DisplayName;
             myUser.Email = modelUser.Email;
             myUser.Password = modelUser.Password;
-            myUser.Role = _roleRepo.GetById(modelUser.RoleId);
             myUser.Status = modelUser.Status;
-
-            var user = _userRepo.Update(myUser);
+            if (myUser.Role.RoleId != modelUser.RoleId)
+            {
+                myUser.Role = _roleRepo.GetById(modelUser.RoleId);
+                updateRole = true;
+            }
+            
+            var user = _userRepo.Update(myUser, updateRole);
             const string title = "Usuario Actualizado";
             var content = "El usuario " + user.DisplayName + " - " + user.Email + " ha sido actualizado exitosamente.";
 

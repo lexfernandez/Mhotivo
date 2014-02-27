@@ -34,5 +34,10 @@ namespace Mhotivo.Controllers
 
             return View();
         }
+
+        public ActionResult UnderConstruction()
+        {
+            return View();
+        }
     }
 }

@@ -17,13 +17,17 @@ namespace Mhotivo
               bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                           "~/Scripts/jquery.unobtrusive*",
                           "~/Scripts/jquery.validate*"));
-
-              // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información sobre los formularios. De este modo, estará
-              // preparado para la producción y podrá utilizar la herramienta de creación disponible en http://modernizr.com para seleccionar solo las pruebas que necesite.
               bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                           "~/Scripts/modernizr-*"));
 
-              bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
+              // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información sobre los formularios. De este modo, estará
+              // preparado para la producción y podrá utilizar la herramienta de creación disponible en http://modernizr.com para seleccionar solo las pruebas que necesite.
+              bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
+                          "~/Scripts/fullcalendar.min.js"));
+
+              bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css",
+                          "~/Content/fullcalendar.css",
+                          "~/Content/fullcalendar.print.css"));
 
               bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                           "~/Content/themes/base/jquery.ui.core.css",
