@@ -30,14 +30,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var r = _roleRepo.GetById(id);
-            var role = new RoleEditModel
-                   {
-                       RoleId = r.RoleId,
-                       Description = r.Description,
-                       Name = r.Name
-                   };
-
+            var role = _roleRepo.GetById(id);
             return View("_Edit", role);
         }
 

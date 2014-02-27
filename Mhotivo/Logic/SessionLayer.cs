@@ -48,7 +48,7 @@ namespace Mhotivo.Logic
         public string GetUserLoggedName()
         {
             var userName = HttpContext.Current.Session[_userNameIdentifier];
-            return userName != null ? userName.ToString() : "";
+            return userName != null ? userName.ToString() : null;
         }
 
         public string GetUserLoggedRole()

@@ -6,14 +6,14 @@ using Mhotivo.Models;
 
 namespace Mhotivo.App_Data.Repositories
 {
-    public interface IUserRepository : IDisposable
+    public interface IUserRepository
     {
         User First(Expression<Func<User, User>> query);
         User GetById(long id);
         User Create(User itemToCreate);
         IQueryable<User> Query(Expression<Func<User, User>> expression);
         IQueryable<User> Filter(Expression<Func<User, bool>> expression);
-        User Update(User itemToUpdate, bool updateRole);
+        User Update(User itemToUpdate);
         User Delete(long id);
         void SaveChanges();
     }
@@ -65,30 +65,23 @@ namespace Mhotivo.App_Data.Repositories
             return myUsers.Count() != 0 ? myUsers.Include(x => x.Role) : myUsers;
         }
 
-        public User Update(User itemToUpdate, bool updateRole = true)
+        public User Update(User itemToUpdate)
         {
-            if (updateRole)
-                _context.Entry(itemToUpdate.Role).State = EntityState.Modified;
+            _context.Entry(itemToUpdate.Role).State = EntityState.Modified;
             _context.SaveChanges();
             return itemToUpdate;   
         }
 
         public User UpdateNew(User itemToUpdate)
         {
-            var updateRole = false;
             var user = GetById(itemToUpdate.UserId);
             user.DisplayName = itemToUpdate.DisplayName;
             user.Email = itemToUpdate.Email;
             user.Password = itemToUpdate.Password;
+            user.Role = itemToUpdate.Role;
             user.Status = itemToUpdate.Status;
 
-            if (user.Role.RoleId != itemToUpdate.Role.RoleId)
-            {
-                user.Role = itemToUpdate.Role;
-                updateRole = true;
-            }
-
-            return Update(user, updateRole);
+            return Update(user);
             
         }
 
@@ -108,11 +101,6 @@ namespace Mhotivo.App_Data.Repositories
         public String ActiveUserDisplaytext(bool active)
         {
             return active ? "Activo" : "Inactivo";
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
         }
     }
 }

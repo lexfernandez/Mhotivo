@@ -17,7 +17,8 @@ namespace Mhotivo.Models
         public string DisplayName { get; set; }
         public string Password { get; set; }
         public bool Status { get; set; }
-        public Role Role { get; set; }
+        
+        public virtual Role Role { get; set; }
     }
 
     public class DisplayUserModel
