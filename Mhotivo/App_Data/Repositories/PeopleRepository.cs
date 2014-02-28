@@ -77,7 +77,7 @@ namespace Mhotivo.App_Data.Repositories
             people.City = itemToUpdate.City;
             people.FirstName = itemToUpdate.FirstName;
             people.FullName = itemToUpdate.FullName;
-            people.Masculino = itemToUpdate.Masculino;
+            people.Gender = itemToUpdate.Gender;
             people.LastName = itemToUpdate.LastName;
             people.Nationality = itemToUpdate.Nationality;
             people.State = itemToUpdate.State;

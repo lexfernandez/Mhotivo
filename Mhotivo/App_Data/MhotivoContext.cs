@@ -14,6 +14,8 @@ namespace Mhotivo.App_Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<People> Peoples { get; set; }
+        public DbSet<Parent> Parents { get; set; }
+        public DbSet<Student> Students { get; set; }
         public DbSet<AppointmentDiary> AppointmentDiary { get; set; }
     }
 }

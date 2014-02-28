@@ -1,0 +1,149 @@
+﻿@model Mhotivo.Models.ParentRegisterModel
+
+@{
+    ViewBag.Title = "Nuevo Padre o Tutor";
+    Layout = "";
+}
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div id="body" class="modal-body" style="max-height: 500px;">
+@using (Html.BeginForm("Add", "parent", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"}))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Nuevo Padre o Tutor</legend>
+        
+        <p class="text-error">
+            @Html.ValidationMessageFor(model => model.Address)
+            @Html.ValidationMessageFor(model => model.IDNumber)
+            @Html.ValidationMessageFor(model => model.BirthDate)
+            @Html.ValidationMessageFor(model => model.City)
+            @Html.ValidationMessageFor(model => model.FilePicture)
+            @Html.ValidationMessageFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.Gender)
+            @Html.ValidationMessageFor(model => model.Nationality)
+            @Html.ValidationMessageFor(model => model.Country)
+            @Html.ValidationMessageFor(model => model.State)
+        </p>
+        
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.FilePicture)
+            </div>
+            <div class="controls">
+                <input type="file" name="FilePicture" id="FilePicture"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.IDNumber)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.IDNumber)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.FirstName)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.FirstName)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.LastName)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.LastName)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.BirthDate)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.BirthDate)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Gender)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("Gender", new List<SelectListItem> { new SelectListItem {Value="Masculino", Text="Masculino" }, new SelectListItem{Value="Femenino", Text="Femenino"}})
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Nationality)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Nationality)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Address)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Address)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.City)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.City)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.State)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.State)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Country)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Country)
+            </div>
+        </div>
+
+        <div class="space"></div>
+
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-small">
+                <i class="icon-remove"></i>
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-small btn-primary">
+                <i class="icon-ok"></i>
+                Crear
+            </button>
+        </div>
+    </fieldset>
+}
+
+</div>
