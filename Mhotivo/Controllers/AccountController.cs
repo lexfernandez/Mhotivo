@@ -38,8 +38,8 @@ namespace Mhotivo.Controllers
             return View(model);
         }
 
-        // GET: /Account/Logout
-        public ActionResult Logout(string returnUrl)
+        // GET: /Account/LogOff
+        public ActionResult LogOff(string returnUrl)
         {
             _session.LogOut();
 
@@ -47,10 +47,10 @@ namespace Mhotivo.Controllers
         }
 
         
-        // POST: /Account/Logout
+        // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Logout()
+        public ActionResult LogOff()
         {
             _session.LogOut();
 

@@ -13,16 +13,4 @@ namespace Mhotivo.Models
         public String Name { get; set; }
         public String Description { get; set; }
     }
-
-    public class RoleEditModel
-    {
-        public int RoleId { get; set; }
-
-        [Required]
-        [Display(Name = "Nombre")]
-        public String Name { get; set; }
-
-        [Display(Name = "Descripción")]
-        public String Description { get; set; }
-    }
 }
