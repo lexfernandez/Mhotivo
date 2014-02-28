@@ -18,17 +18,37 @@
         <legend>Nuevo Padre o Tutor</legend>
         
         <p class="text-error">
+            @Html.ValidationMessageFor(model => model.Address)
+            @Html.ValidationMessageFor(model => model.IDNumber)
+            @Html.ValidationMessageFor(model => model.BirthDate)
+            @Html.ValidationMessageFor(model => model.City)
+            @Html.ValidationMessageFor(model => model.FilePicture)
             @Html.ValidationMessageFor(model => model.FirstName)
             @Html.ValidationMessageFor(model => model.LastName)
-            @Html.ValidationMessageFor(model => model.DateOfBirth)
-            @Html.ValidationMessageFor(model => model.IDNumber)
             @Html.ValidationMessageFor(model => model.Gender)
             @Html.ValidationMessageFor(model => model.Nationality)
+            @Html.ValidationMessageFor(model => model.Country)
             @Html.ValidationMessageFor(model => model.State)
-            @Html.ValidationMessageFor(model => model.City)
-            @Html.ValidationMessageFor(model => model.StreetAddress)
         </p>
         
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.FilePicture)
+            </div>
+            <div class="controls">
+                <input type="file" name="FilePicture" id="FilePicture"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.IDNumber)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.IDNumber)
+            </div>
+        </div>
+
         <div class="control-group">
             <div class="control-label">
                 @Html.LabelFor(model => model.FirstName)
@@ -49,19 +69,10 @@
 
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.DateOfBirth)
+                @Html.LabelFor(model => model.BirthDate)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.DateOfBirth)
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.IDNumber)
-            </div>
-            <div class="controls">
-                @Html.EditorFor(model => model.IDNumber)
+                @Html.EditorFor(model => model.BirthDate)
             </div>
         </div>
 
@@ -70,7 +81,7 @@
                 @Html.LabelFor(model => model.Gender)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.Gender)
+                @Html.DropDownList("Gender", new List<SelectListItem> { new SelectListItem {Value="Masculino", Text="Masculino" }, new SelectListItem{Value="Femenino", Text="Femenino"}})
             </div>
         </div>
 
@@ -80,6 +91,15 @@
             </div>
             <div class="controls">
                 @Html.EditorFor(model => model.Nationality)
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Address)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Address)
             </div>
         </div>
 
@@ -103,10 +123,10 @@
 
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.StreetAddress)
+                @Html.LabelFor(model => model.Country)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.StreetAddress)
+                @Html.EditorFor(model => model.Country)
             </div>
         </div>
 

@@ -13,7 +13,7 @@ namespace Mhotivo.App_Data.Repositories
         Student Create(Student itemToCreate);
         IQueryable<Student> Query(Expression<Func<Student, Student>> expression);
         IQueryable<Student> Filter(Expression<Func<Student, bool>> expression);
-        Student Update(Student itemToUpdate);
+        Student Update(Student itemToUpdate, bool Tutor1, bool Tutor2);
         Student Delete(long id);
         void SaveChanges();
     }
@@ -40,7 +40,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Student GetById(long id)
         {
-            var student = _context.Students.Where(x => x.PeopleID == id);
+            var student = _context.Students.Where(x => x.PeopleId == id);
             return student.Count() != 0 ? student.Include(x => x.Tutor1).First() : null;
         }
 
@@ -71,15 +71,15 @@ namespace Mhotivo.App_Data.Repositories
             return myStudents.Count() != 0 ? myStudents.Include(x => x.Tutor1) : myStudents;
         }
 
-        public Student Update(Student itemToUpdate)
+        public Student Update(Student itemToUpdate, bool Tutor1, bool Tutor2)
         {
-            if (itemToUpdate.Tutor1 != null)
-            {
-                _context.Entry(itemToUpdate.Tutor1).State = EntityState.Modified;
-            }
-            if (itemToUpdate.Tutor2 != null)
+            if (itemToUpdate.Tutor2 != null && Tutor2)
             {
                 _context.Entry(itemToUpdate.Tutor2).State = EntityState.Modified;
+            }
+            if (itemToUpdate.Tutor1 != null && Tutor1)
+            {
+                _context.Entry(itemToUpdate.Tutor1).State = EntityState.Modified;
             }
             _context.SaveChanges();
             return itemToUpdate;
@@ -87,25 +87,36 @@ namespace Mhotivo.App_Data.Repositories
 
         public Student UpdateNew(Student itemToUpdate)
         {
-            var student = GetById(itemToUpdate.PeopleID);
+            var student = GetById(itemToUpdate.PeopleId);
+            var updateTutor1 = false;
+            var updateTutor2 = false;
+
             student.FirstName = itemToUpdate.FirstName;
             student.LastName = itemToUpdate.LastName;
             student.FullName = itemToUpdate.FullName;
-            student.DateOfBirth = itemToUpdate.DateOfBirth;
+            student.BirthDate = itemToUpdate.BirthDate;
             student.AccountNumber = itemToUpdate.AccountNumber;
             student.Gender = itemToUpdate.Gender;
             student.Nationality = itemToUpdate.Nationality;
             student.State = itemToUpdate.State;
             student.City = itemToUpdate.City;
-            student.StreetAddress = itemToUpdate.StreetAddress;
+            student.Address = itemToUpdate.Address;
             student.StartDate = itemToUpdate.StartDate;
             student.BloodType = itemToUpdate.BloodType;
             student.AccountNumber = itemToUpdate.AccountNumber;
             student.Biography = itemToUpdate.Biography;
-            student.Tutor1 = itemToUpdate.Tutor1;
-            student.Tutor2 = itemToUpdate.Tutor2;
+            if (student.Tutor1.PeopleId != itemToUpdate.Tutor1.PeopleId)
+            {
+                student.Tutor1 = itemToUpdate.Tutor1;
+                updateTutor1 = true;
+            }
+            if (student.Tutor2.PeopleId != itemToUpdate.Tutor2.PeopleId)
+            {
+                student.Tutor2 = itemToUpdate.Tutor2;
+                updateTutor2 = true;
+            }
 
-            return Update(student);
+            return Update(student, updateTutor1, updateTutor2);
 
         }
 

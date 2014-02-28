@@ -133,6 +133,7 @@
     <Compile Include="App_Data\MhotivoContext.cs" />
     <Compile Include="App_Data\IRepository.cs" />
     <Compile Include="App_Data\Repositories\ParentRepository.cs" />
+    <Compile Include="App_Data\Repositories\PeopleRepository.cs" />
     <Compile Include="App_Data\Repositories\StudentRepository.cs" />
     <Compile Include="App_Data\Repositories\UserRepository.cs" />
     <Compile Include="App_Data\Repositories\RoleRepository.cs" />

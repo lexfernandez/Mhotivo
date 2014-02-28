@@ -23,13 +23,21 @@ else
     <table class="table table-striped table-bordered table-hover" id="sample-table-1">
 	    <thead>
 		    <tr>
+                <th>@Html.DisplayNameFor(model => model.UrlPicture)</th>
 				<th>@Html.DisplayNameFor(model => model.FullName)</th>
+				<th>@Html.DisplayNameFor(model => model.BirthDate)</th>
+				<th>@Html.DisplayNameFor(model => model.Nationality)</th>
+				<th>@Html.DisplayNameFor(model => model.Address)</th>
+				<th>@Html.DisplayNameFor(model => model.City)</th>
+				<th>@Html.DisplayNameFor(model => model.State)</th>
+				<th>@Html.DisplayNameFor(model => model.Country)</th>
+			    <th>@Html.DisplayNameFor(model => model.Gender)</th>
 			    <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+                <th>@Html.DisplayNameFor(model => model.BloodType)</th>
+                <th>@Html.DisplayNameFor(model => model.AccountNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.Biography)</th>
 			    <th>@Html.DisplayNameFor(model => model.Tutor1)</th>
 			    <th>@Html.DisplayNameFor(model => model.Tutor2)</th>
-		        <th>@Html.DisplayNameFor(model => model.BloodType)</th>
-                <th>@Html.DisplayNameFor(model => model.AccountNumber)</th>
-		        <th>@Html.DisplayNameFor(model => model.Biography)</th>
                 <th></th>
 		    </tr>
 	    </thead>
@@ -37,13 +45,27 @@ else
         
             @foreach (var item in Model) {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
-                    <th>@Html.DisplayFor(modelItem => item.Tutor1)</th>
-                    <th>@Html.DisplayFor(modelItem => item.Tutor2)</th>
+                    <td>
+                        <a href="~/@Html.DisplayNameFor(model => model.UrlPicture)" data-rel="colorbox">
+							<img alt="150x150" src="~/@Html.DisplayNameFor(model => model.UrlPicture)" />
+							<div class="text">
+							</div>
+						</a>
+                    </td>
+				    <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+				    <td>@Html.DisplayFor(modelItem => item.BirthDate)</td>
+				    <td>@Html.DisplayFor(modelItem => item.Nationality)</td>
+				    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+				    <td>@Html.DisplayFor(modelItem => item.City)</td>
+				    <td>@Html.DisplayFor(modelItem => item.State)</td>
+				    <td>@Html.DisplayFor(modelItem => item.Country)</td>
+			        <td>@Html.DisplayFor(modelItem => item.Gender)</td>
+			        <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.BloodType)</td>
                     <td>@Html.DisplayFor(modelItem => item.AccountNumber)</td>
                     <td>@Html.DisplayFor(modelItem => item.Biography)</td>
+			        <td>@Html.DisplayFor(modelItem => item.Tutor1)</td>
+			        <td>@Html.DisplayFor(modelItem => item.Tutor2)</td>
                     <td>
                         <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Student/Edit/@Html.DisplayFor(modelItem => item.StudentID)"><i class="icon-edit bigger-120"></i></a>
                         <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.StudentID)_Val"><i class="icon-trash bigger-120"></i></a>

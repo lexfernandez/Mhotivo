@@ -12,6 +12,7 @@ namespace Mhotivo.Controllers
     {
         private readonly StudentRepository _studentRepo = StudentRepository.Instance;
         private readonly ParentRepository _parentRepo = ParentRepository.Instance;
+        private readonly PeopleRepository _peopleRepo = PeopleRepository.Instance;
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -28,12 +29,20 @@ namespace Mhotivo.Controllers
             return View(_studentRepo.Query(x => x).ToList()
                 .Select(x => new DisplayStudentModel
                 {
-                    StartDate = x.StartDate,
+                    StudentID = x.PeopleId,
+                    UrlPicture = x.UrlPicture,
+                    FullName = x.FullName,
+                    BirthDate = x.BirthDate.ToShortDateString(),
+                    Nationality = x.Nationality,
+                    Address = x.Address,
+                    City = x.City,
+                    State = x.State,
+                    Country = x.Country,
+                    Gender = _peopleRepo.SexLabel(x.Gender),
+                    StartDate = x.StartDate.ToShortDateString(),
                     BloodType = x.BloodType,
                     AccountNumber = x.AccountNumber,
                     Biography = x.Biography,
-                    StudentID = x.PeopleID,
-                    FullName = x.FullName,
                     Tutor1 = x.Tutor1 == null ? null : x.Tutor1.FullName,
                     Tutor2 = x.Tutor2 == null ? null : x.Tutor2.FullName
                 }));
@@ -49,23 +58,24 @@ namespace Mhotivo.Controllers
                 LastName = thisStudent.LastName,
                 FullName = (thisStudent.FirstName + " " + thisStudent.LastName).Trim(),
                 IDNumber = thisStudent.IDNumber,
-                DateOfBirth = thisStudent.DateOfBirth.Date,
-                Gender = thisStudent.Gender,
+                BirthDate = thisStudent.BirthDate.ToShortDateString(),
+                Gender = _peopleRepo.SexLabel(thisStudent.Gender),
                 Nationality = thisStudent.Nationality,
+                Country = thisStudent.Country,
                 State = thisStudent.State,
                 City = thisStudent.City,
-                StreetAddress = thisStudent.StreetAddress,
+                Address = thisStudent.Address,
                 StartDate = thisStudent.StartDate.Date,
-                Id = thisStudent.PeopleID,
+                Id = thisStudent.PeopleId,
                 BloodType = thisStudent.BloodType,
                 AccountNumber = thisStudent.AccountNumber,
                 Biography = thisStudent.Biography,
-                Tutor1Id = thisStudent.Tutor1 == null ? -1 : thisStudent.Tutor1.PeopleID,
-                Tutor2Id = thisStudent.Tutor2 == null ? -1 : thisStudent.Tutor2.PeopleID
+                Tutor1Id = thisStudent.Tutor1 == null ? -1 : thisStudent.Tutor1.PeopleId,
+                Tutor2Id = thisStudent.Tutor2 == null ? -1 : thisStudent.Tutor2.PeopleId
             };
 
-            ViewBag.Tutor1Id = new SelectList(_parentRepo.Query(x => x), "PeopleID", "FullName", thisStudent.Tutor1 == null ? -1 : thisStudent.Tutor1.PeopleID);
-            ViewBag.Tutor2Id = new SelectList(_parentRepo.Query(x => x), "PeopleID", "FullName", thisStudent.Tutor2 == null ? -1 : thisStudent.Tutor2.PeopleID);
+            ViewBag.Tutor1Id = new SelectList(_parentRepo.Query(x => x), "PeopleID", "FullName", thisStudent.Tutor1 == null ? -1 : thisStudent.Tutor1.PeopleId);
+            ViewBag.Tutor2Id = new SelectList(_parentRepo.Query(x => x), "PeopleID", "FullName", thisStudent.Tutor2 == null ? -1 : thisStudent.Tutor2.PeopleId);
 
             return View("Edit", student);
         }
@@ -74,27 +84,40 @@ namespace Mhotivo.Controllers
         public ActionResult Edit(StudentEditModel modelStudent)
         {
             var myStudent = _studentRepo.GetById(modelStudent.Id);
+            var updateTutor1 = false;
+            var updateTutor2 = false;
 
             myStudent.FirstName = modelStudent.FirstName;
             myStudent.LastName = modelStudent.LastName;
             myStudent.FullName = (modelStudent.FirstName + " " + modelStudent.LastName).Trim();
             myStudent.IDNumber = modelStudent.IDNumber;
-            myStudent.DateOfBirth = modelStudent.DateOfBirth;
-            myStudent.Gender = modelStudent.Gender;
+            myStudent.BirthDate = DateTime.Parse(modelStudent.BirthDate);
+            myStudent.Gender = _peopleRepo.IsMasculino(modelStudent.Gender);
             myStudent.Nationality = modelStudent.Nationality;
             myStudent.State = modelStudent.State;
             myStudent.City = modelStudent.City;
-            myStudent.StreetAddress = modelStudent.StreetAddress;
+            myStudent.Country = modelStudent.Country;
+            myStudent.Address = modelStudent.Address;
             myStudent.StartDate = modelStudent.StartDate;
             myStudent.BloodType = modelStudent.BloodType;
             myStudent.AccountNumber = modelStudent.AccountNumber;
             myStudent.Biography = modelStudent.Biography;
-            myStudent.Tutor1 = _parentRepo.GetById(modelStudent.Tutor1Id);
-            myStudent.Tutor2 = _parentRepo.GetById(modelStudent.Tutor2Id);
+            if (modelStudent.Tutor1Id == 0 || (modelStudent.Tutor1Id != modelStudent.Tutor2Id && (myStudent.Tutor2 == null || myStudent.Tutor2.PeopleId != modelStudent.Tutor1Id) && (myStudent.Tutor1 == null || myStudent.Tutor1.PeopleId != modelStudent.Tutor1Id)))
+            {
+                myStudent.Tutor1 = _parentRepo.GetById(modelStudent.Tutor1Id);
+                updateTutor1 = true;
 
-            var student = _studentRepo.Update(myStudent);
+            }
+            _studentRepo.Update(myStudent, updateTutor1, false);
+            if (modelStudent.Tutor2Id == 0 || (modelStudent.Tutor1Id != modelStudent.Tutor2Id && (myStudent.Tutor1 == null || myStudent.Tutor1.PeopleId != modelStudent.Tutor2Id) && (myStudent.Tutor2 == null || myStudent.Tutor2.PeopleId != modelStudent.Tutor2Id)))
+            {
+                myStudent.Tutor2 = _parentRepo.GetById(modelStudent.Tutor2Id);
+                updateTutor2 = true;
+            }
+
+            var student = _studentRepo.Update(myStudent, false, updateTutor2);
             const string title = "Estudiante Actualizado";
-            var content = "El estudiante ha sido actualizado exitosamente.";
+            var content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
 
             TempData["MessageInfo"] = new MessageModel
             {
@@ -111,8 +134,8 @@ namespace Mhotivo.Controllers
         {
             var student = _studentRepo.Delete(id);
 
-            const string title = "Usuario Eliminado";
-            var content = "El estudiante ha sido eliminado exitosamente.";
+            const string title = "Estudiante Eliminado";
+            var content = "El estudiante " + student.FullName + " ha sido eliminado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
             {
                 MessageType = "INFO", MessageTitle = title, MessageContent = content
@@ -138,12 +161,13 @@ namespace Mhotivo.Controllers
                 LastName = modelStudent.LastName,
                 FullName = (modelStudent.FirstName + " " + modelStudent.LastName).Trim(),
                 IDNumber = modelStudent.IDNumber,
-                DateOfBirth = modelStudent.DateOfBirth.Date,
-                Gender = modelStudent.Gender,
+                BirthDate = DateTime.Parse(modelStudent.BirthDate),
+                Gender = _peopleRepo.IsMasculino(modelStudent.Gender),
                 Nationality = modelStudent.Nationality,
+                Country = modelStudent.Country,
                 State = modelStudent.State,
                 City = modelStudent.City,
-                StreetAddress = modelStudent.StreetAddress,
+                Address = modelStudent.Address,
                 StartDate = modelStudent.StartDate.Date,
                 BloodType = modelStudent.BloodType,
                 AccountNumber = modelStudent.AccountNumber,
@@ -154,7 +178,7 @@ namespace Mhotivo.Controllers
 
             var student = _studentRepo.Create(myStudent);
             const string title = "Estudiante Agregado";
-            var content = "El estudiante ha sido agregado exitosamente.";
+            var content = "El estudiante " + myStudent.FullName + " ha sido agregado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
             {
                 MessageType = "SUCCESS",

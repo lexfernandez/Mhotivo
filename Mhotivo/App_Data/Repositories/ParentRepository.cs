@@ -40,14 +40,13 @@ namespace Mhotivo.App_Data.Repositories
 
         public Parent GetById(long id)
         {
-            var parent = _context.Parents.Where(x => x.PeopleID == id);
+            var parent = _context.Parents.Where(x => x.PeopleId == id);
             return parent.Count() != 0 ? parent.First() : null;
         }
 
         public Parent Create(Parent itemToCreate)
         {
             var parent = _context.Parents.Add(itemToCreate);
-            //_context.Entry(parent.Students).State = EntityState.Modified;
             _context.SaveChanges();
             return parent;
         }
@@ -66,23 +65,23 @@ namespace Mhotivo.App_Data.Repositories
 
         public Parent Update(Parent itemToUpdate)
         {
-            //_context.Entry(itemToUpdate.Students).State = EntityState.Modified;
             _context.SaveChanges();
             return itemToUpdate;
         }
 
         public Parent UpdateNew(Parent itemToUpdate)
         {
-            var parent = GetById(itemToUpdate.PeopleID);
+            var parent = GetById(itemToUpdate.PeopleId);
             parent.FirstName = itemToUpdate.FirstName;
             parent.LastName = itemToUpdate.LastName;
             parent.FullName = itemToUpdate.FullName;
-            parent.DateOfBirth = itemToUpdate.DateOfBirth;
+            parent.BirthDate = itemToUpdate.BirthDate;
             parent.Gender = itemToUpdate.Gender;
             parent.Nationality = itemToUpdate.Nationality;
             parent.State = itemToUpdate.State;
             parent.City = itemToUpdate.City;
-            parent.StreetAddress = itemToUpdate.StreetAddress;
+            parent.Address = itemToUpdate.Address;
+            parent.Country = itemToUpdate.Country;
 
             return Update(parent);
 

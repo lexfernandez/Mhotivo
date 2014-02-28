@@ -21,10 +21,28 @@ namespace Mhotivo.Models
         public string FullName { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
-        public DateTime DateOfBirth { get; set; }
+        public string BirthDate { get; set; }
 
-        [Display(Name = "Estudiantes")]
-        public string Students { get; set; }
+        [Display(Name = "Nacionalidad")]
+        public string Nationality { get; set; }
+
+        [Display(Name = "Pais")]
+        public string Country { get; set; }
+
+        [Display(Name = "Ciudad")]
+        public string City { get; set; }
+
+        [Display(Name = "Estado")]
+        public string State { get; set; }
+
+        [Display(Name = "Dirección")]
+        public string Address { get; set; }
+
+        [Display(Name = "Foto Perfil")]
+        public string UrlPicture { get; set; }
+
+        [Display(Name = "Sexo")]
+        public string Gender { get; set; }
     }
 
     public class ParentEditModel
@@ -38,36 +56,46 @@ namespace Mhotivo.Models
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Apellidos")]
-        public string LastName { get; set; }
-
-        [Required]
         [Display(Name = "Numero de Identidad")]
         public string IDNumber { get; set; }
 
         [Required]
-        [Display(Name = "Fecha de Nacimiento")]
-        public DateTime DateOfBirth { get; set; }
+        [Display(Name = "Apellidos")]
+        public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "Sexo")]
-        public char Gender { get; set; }
+        [Display(Name = "Fecha de Nacimiento")]
+        public string BirthDate { get; set; }
 
         [Required]
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
         [Required]
-        [Display(Name = "Departamento")]
-        public string State { get; set; }
-
-        [Required]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
         [Required]
-        [Display(Name = "Direccion")]
-        public string StreetAddress { get; set; }
+        [Display(Name = "Estado")]
+        public string State { get; set; }
+
+        [Required]
+        [Display(Name = "Pais")]
+        public string Country { get; set; }
+
+        [Required]
+        [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 10)]
+        [Display(Name = "Dirección")]
+        public string Address { get; set; }
+
+        [Display(Name = "Foto Perfil")]
+        public HttpPostedFileBase FilePicture { get; set; }
+
+        public string UrlPicture { get; set; }
+
+        [Required]
+        [Display(Name = "Sexo")]
+        public string Gender { get; set; }
     }
 
     public class ParentRegisterModel
@@ -88,26 +116,35 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Fecha de Nacimiento")]
-        public DateTime DateOfBirth { get; set; }
-
-        [Required]
-        [Display(Name = "Sexo")]
-        public char Gender { get; set; }
+        public string BirthDate { get; set; }
 
         [Required]
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
         [Required]
-        [Display(Name = "Departamento")]
-        public string State { get; set; }
-
-        [Required]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
         [Required]
-        [Display(Name = "Direccion")]
-        public string StreetAddress { get; set; }
+        [Display(Name = "Estado")]
+        public string State { get; set; }
+
+        [Required]
+        [Display(Name = "Pais")]
+        public string Country { get; set; }
+
+        [Required]
+        [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 10)]
+        [Display(Name = "Dirección")]
+        public string Address { get; set; }
+
+        [Required]
+        [Display(Name = "Foto Perfil")]
+        public HttpPostedFileBase FilePicture { get; set; }
+
+        [Required]
+        [Display(Name = "Sexo")]
+        public string Gender { get; set; }
     }
 }

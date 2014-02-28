@@ -27,10 +27,10 @@ namespace Mhotivo.DAL
 
             var People = new List<People>
             {
-                new Student{FirstName="Miguel Alejandro", LastName="Solis Madrid", FullName="Miguel Alejandro Solis Madrid", DateOfBirth=DateTime.Parse("1992-01-14"), Gender='M', IDNumber="0501-1992-03345", Nationality="Hondureña", City="San Pedro Sula", State="Cortes", StreetAddress="Col. Jardines del Valle", BloodType="O+", StartDate=DateTime.Parse("2014-02-02"), AccountNumber="20941145", Biography="Bueno"},
-                new Parent{FirstName="Chuck", LastName="Norris", FullName="Chuck Norris", DateOfBirth=DateTime.Parse("1940-03-10"), Gender='M', IDNumber="0501-1940-32541", Nationality="Hondureña", City="San Pedro Sula", State="Cortes", StreetAddress="Col. Jardines del Valle"}
+                new Student{FirstName="Miguel Alejandro", LastName="Solis Madrid", FullName="Miguel Alejandro Solis Madrid", BirthDate=DateTime.Parse("1992-01-14"), Gender = true, IDNumber="0501-1992-03345", Nationality="Hondureña", City="San Pedro Sula", State="Cortes", Address="Col. Jardines del Valle", BloodType="O+", StartDate=DateTime.Parse("2014-02-02"), AccountNumber="20941145", Biography="Bueno"},
+                new Parent{FirstName="Chuck", LastName="Norris", FullName="Chuck Norris", BirthDate=DateTime.Parse("1940-03-10"), Gender=true, IDNumber="0501-1940-32541", Nationality="Hondureña", City="San Pedro Sula", State="Cortes", Address="Col. Jardines del Valle"}
             };
-            People.ForEach(s => context.People.Add(s));
+            People.ForEach(s => context.Peoples.Add(s));
             context.SaveChanges();
         }
     }
