@@ -5,7 +5,7 @@ using Mhotivo.Models;
 
 namespace Mhotivo.App_Data.Repositories
 {
-    public interface IPeopleRepository
+    public interface IPeopleRepository : IDisposable
     {
         People First(Expression<Func<People, People>> query);
         People GetById(long id);
@@ -108,6 +108,11 @@ namespace Mhotivo.App_Data.Repositories
         public bool IsMasculino(string sex)
         {
             return sex.Equals(MasculinoLabel);
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
         }
     }
 }
