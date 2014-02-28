@@ -7,8 +7,8 @@
 <script>
     $(document).ready(function () {
 
-        var sourceFullView = { url: '/Home/GetDiaryEvents/' };
-        var sourceSummaryView = { url: '/Home/GetDiarySummary/' };
+        var sourceFullView = { url: '/Event/GetDiaryEvents/' };
+        var sourceSummaryView = { url: '/Event/GetDiarySummary/' };
         var CalLoading = true;
 
         $('#calendar').fullCalendar({
@@ -22,7 +22,7 @@
             allDaySlot: false,
             selectable: true,
             slotMinutes: 15,
-            events: '/Home/GetDiaryEvents/',
+            events: '/Event/GetDiaryEvents/',
             eventClick: function (calEvent, jsEvent, view) {
                 alert('You clicked on event id: ' + calEvent.id
                     + "\nSpecial ID: " + calEvent.someKey
@@ -81,21 +81,6 @@
         
     });
 
-    $('#btnInit').click(function () {
-        $.ajax({
-            type: 'POST',
-            url: "/Home/Init",
-            success: function (response) {
-                if (response == 'True') {
-                    $('#calendar').fullCalendar('refetchEvents');
-                    alert('Database populated! ');
-                }
-                else {
-                    alert('Error, could not populate database!');
-                }
-            }
-        });
-    });
 
     $('#btnPopupCancel').click(function () {
         ClearPopupFormValues();
@@ -117,7 +102,7 @@
 
         $.ajax({
             type: 'POST',
-            url: "/Home/SaveEvent",
+            url: "/Event/SaveEvent",
             data: dataRow,
             success: function (response) {
                 if (response == 'True') {
@@ -154,7 +139,7 @@
 
         $.ajax({
             type: 'POST',
-            url: "/Home/UpdateEvent",
+            url: "/Event/UpdateEvent",
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(dataRow)

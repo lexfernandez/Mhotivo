@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using Mhotivo.App_Data;
 using Mhotivo.App_Data.Repositories;
+using System.Data.Entity;
 using System.Globalization;
 
 namespace Mhotivo.Models
@@ -24,7 +26,7 @@ namespace Mhotivo.Models
             var toDate = ConvertFromUnixTimestamp(end);
             using (AppointmentDiaryRepository ent = AppointmentDiaryRepository.Instance)
             {
-                var rslt = ent.Where(s => s.DateTimeScheduled >= fromDate && System.Data.Objects.EntityFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
+                var rslt = ent.Where(s => s.DateTimeScheduled >= fromDate && DbFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
 
                 List<DiaryEvent> result = new List<DiaryEvent>();
                 foreach (var item in rslt)
@@ -56,8 +58,8 @@ namespace Mhotivo.Models
             var toDate = ConvertFromUnixTimestamp(end);
             using (AppointmentDiaryRepository ent = AppointmentDiaryRepository.Instance)
             {
-                var rslt = ent.Where(s => s.DateTimeScheduled >= fromDate && System.Data.Objects.EntityFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate)
-                                                        .GroupBy(s => System.Data.Objects.EntityFunctions.TruncateTime(s.DateTimeScheduled))
+                var rslt = ent.Where(s => s.DateTimeScheduled >= fromDate && DbFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate)
+                                                        .GroupBy(s => DbFunctions.TruncateTime(s.DateTimeScheduled))
                                                         .Select(x => new { DateTimeScheduled = x.Key, Count = x.Count() });
 
                 List<DiaryEvent> result = new List<DiaryEvent>();
@@ -121,7 +123,7 @@ namespace Mhotivo.Models
                 ent.Create(rec);
                 ent.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception c)
             {
                 return false;
             }

@@ -30,7 +30,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public static AppointmentDiaryRepository Instance
         {
-            get { return _instance ?? (_instance = new AppointmentDiaryRepository(new MhotivoContext())); }
+            get { return new AppointmentDiaryRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()
