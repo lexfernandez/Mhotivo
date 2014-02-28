@@ -34,7 +34,7 @@ namespace Mhotivo.Models
         Female
     }
 
-    [Table("People")]
+    /*[Table("People")]
     public class Student : People
     {
         public DateTime StartDate;
@@ -59,5 +59,5 @@ namespace Mhotivo.Models
         public String PhotoDir { get; set; }
         public Gender Gender { get; set; }
         public String Description { get; set; }
-    }
+    }*/
 }
