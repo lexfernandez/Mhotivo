@@ -28,7 +28,7 @@ namespace Mhotivo.Controllers
                     Address = x.Address,
                     BirthDay = x.BirthDate.ToShortDateString(),
                     PeopleId = x.PeopleId,
-                    Sexo = _peopleRepo.SexLabel(x.Masculino),
+                    Sexo = _peopleRepo.SexLabel(x.Gender),
                     City = x.City,
                     Nationality = x.Nationality,
                     State = x.State,
@@ -48,7 +48,7 @@ namespace Mhotivo.Controllers
                 LastName = people.LastName,
                 Address = people.Address,
                 PeopleId = people.PeopleId,
-                Sexo = _peopleRepo.SexLabel(people.Masculino),
+                Sexo = _peopleRepo.SexLabel(people.Gender),
                 BirthDay = people.BirthDate.ToShortDateString(),
                 City = people.City,
                 Nationality = people.Nationality,
@@ -69,7 +69,7 @@ namespace Mhotivo.Controllers
             people.FirstName = peopleModel.FirstName;
             people.FullName = peopleModel.FirstName + " " + peopleModel.LastName;
             people.LastName = peopleModel.LastName;
-            people.Masculino = _peopleRepo.IsMasculino(peopleModel.Sexo);
+            people.Gender = _peopleRepo.IsMasculino(peopleModel.Sexo);
             people.Nationality = peopleModel.Nationality;
             people.State = peopleModel.State;
             people.UrlPicture = peopleModel.UrlPicture;
