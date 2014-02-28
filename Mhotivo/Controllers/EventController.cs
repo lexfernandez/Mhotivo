@@ -3,44 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Mhotivo.App_Data;
-using Mhotivo.App_Data.Repositories;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
 {
     public class EventController : Controller
     {
-        private readonly EventRepository repository = new EventRepository(new MhotivoContext());
-        
+        //
         // GET: /Event/
 
         public ActionResult Index()
         {
-            return View(repository.Query(x => x));
-        }
-
-        public ActionResult Create()
-        {
             return View();
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(EventCreate eventCreation)
+        public void UpdateEvent(int id, string NewEventStart, string NewEventEnd)
         {
-            var eventModel = new Event
-            {
-                CreationDate = DateTime.Now,
-                Description = eventCreation.Description,
-                EndDateTime = eventCreation.EndDateTime,
-                IsActive = true,
-                StartDateTime = eventCreation.StartDateTime
-            };
-            repository.Create(eventModel);
-            repository.SaveChanges();
-            return RedirectToAction("Index");
+            DiaryEvent.UpdateDiaryEvent(id, NewEventStart, NewEventEnd);
         }
+
+
+        public bool SaveEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration)
+        {
+            return DiaryEvent.CreateNewEvent(Title, NewEventDate, NewEventTime, NewEventDuration);
+        }
+
+        public JsonResult GetDiarySummary(double start, double end)
+        {
+            var ApptListForDate = DiaryEvent.LoadAppointmentSummaryInDateRange(start, end);
+            var eventList = from e in ApptListForDate
+                            select new
+                            {
+                                id = e.DiaryEventId,
+                                title = e.Title,
+                                start = e.StartDateString,
+                                end = e.EndDateString,
+                                someKey = e.SomeImportantKeyID,
+                                allDay = false
+                            };
+            var rows = eventList.ToArray();
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetDiaryEvents(double start, double end)
+        {
+            var ApptListForDate = DiaryEvent.LoadAllAppointmentsInDateRange(start, end);
+            var eventList = from e in ApptListForDate
+                            select new
+                            {
+                                id = e.DiaryEventId,
+                                title = e.Title,
+                                start = e.StartDateString,
+                                end = e.EndDateString,
+                                color = e.StatusColor,
+                                className = e.ClassName,
+                                someKey = e.SomeImportantKeyID,
+                                allDay = false
+                            };
+            var rows = eventList.ToArray();
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
+
     }
+
+    
 }

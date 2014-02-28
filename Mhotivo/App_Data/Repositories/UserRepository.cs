@@ -55,7 +55,7 @@ namespace Mhotivo.App_Data.Repositories
         public IQueryable<User> Query(Expression<Func<User, User>> expression)
         {
             var myUsers = _context.Users.Select(expression);
-            return myUsers.Count() != 0 ? myUsers.Include(x => x.Role) : myUsers;
+            return myUsers.Count() != 0 ? myUsers.Include(x => x.UserId) : myUsers;
             
         }
 
