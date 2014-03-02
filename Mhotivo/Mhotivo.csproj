@@ -142,6 +142,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -153,7 +154,9 @@
     <Compile Include="Logic\SessionLayer.cs" />
     <Compile Include="Models\AppointmentDiary.cs" />
     <Compile Include="Models\DiaryEvent.cs" />
+    <Compile Include="Models\Group.cs" />
     <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\PeopleModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
@@ -165,6 +168,14 @@
     <Compile Include="Shared.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Mhotivo.Data.dll" />
+    <Content Include="bin\Mhotivo.Data.pdb" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="bin\Mhotivo.dll" />
@@ -332,6 +343,8 @@
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Event\Create.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\Notification\Index.cshtml" />
+    <Content Include="Views\Notification\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
