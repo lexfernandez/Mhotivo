@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
@@ -33,14 +34,15 @@ namespace Mhotivo.Controllers
                     Nationality = x.Nationality,
                     State = x.State,
                     UrlPicture = x.UrlPicture,
-                    FullName = x.FullName
+                    FullName = x.FullName,
+                    Identification = x.IDNumber
                 }));   
         }
 
         [HttpGet]
-        public ActionResult Edit(long peopleId)
+        public ActionResult Edit(long id)
         {
-            var people = _peopleRepo.GetById(peopleId);
+            var people = _peopleRepo.GetById(id);
 
             var editUser = new PeopleEditModel
             {
@@ -53,8 +55,23 @@ namespace Mhotivo.Controllers
                 City = people.City,
                 Nationality = people.Nationality,
                 State = people.State,
-                UrlPicture = people.UrlPicture
+                UrlPicture = people.UrlPicture,
+                Identification = people.IDNumber
             };
+
+            
+            ViewBag.Sexo = new SelectList(
+                new List<SelectListItem>
+                {
+                    new SelectListItem
+                    {
+                        Value = "Masculino", Text = "Masculino", Selected = _peopleRepo.IsMasculino("Masculino")
+                    }, 
+                    new SelectListItem
+                    {
+                        Text = "Femenino", Value = "Femenino", Selected = _peopleRepo.IsMasculino("Femenino")
+                    }
+                },"Value","Text", _peopleRepo.SexLabel(people.Gender));
             
             return View("Edit", editUser);
         }
@@ -64,7 +81,7 @@ namespace Mhotivo.Controllers
         {
             var people = _peopleRepo.GetById(peopleModel.PeopleId);
             people.Address = peopleModel.Address;
-            people.BirthDate = new DateTime();
+            people.BirthDate = DateTime.Parse(peopleModel.BirthDay);
             people.City = peopleModel.City;
             people.FirstName = peopleModel.FirstName;
             people.FullName = peopleModel.FirstName + " " + peopleModel.LastName;
@@ -73,11 +90,29 @@ namespace Mhotivo.Controllers
             people.Nationality = peopleModel.Nationality;
             people.State = peopleModel.State;
             people.UrlPicture = peopleModel.UrlPicture;
+            people.IDNumber = peopleModel.Identification;
 
             var result = _peopleRepo.Update(people);
             const string title = "Persona Actualizada";
             var content = "La persona " + result.FullName + " - " + result.PeopleId + " ha sido actualizada exitosamente.";
 
+            TempData["MessageInfo"] = new MessageModel
+            {
+                MessageType = "INFO",
+                MessageTitle = title,
+                MessageContent = content
+            };
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(long id)
+        {
+            var parent = _peopleRepo.Delete(id);
+
+            const string title = "Persona Eliminada";
+            var content = "La persona " + parent.FullName + " ha sido eliminado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
             {
                 MessageType = "INFO",

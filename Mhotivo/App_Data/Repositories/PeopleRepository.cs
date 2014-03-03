@@ -20,8 +20,8 @@ namespace Mhotivo.App_Data.Repositories
     public class PeopleRepository : IPeopleRepository
     {
         private readonly MhotivoContext _context;
-        private const string MasculinoLabel = "Masculino";
-        private const string FemeninoLabel = "Femenino";
+        public const string MasculinoLabel = "Masculino";
+        public const string FemeninoLabel = "Femenino";
 
         private PeopleRepository(MhotivoContext ctx)
         {

@@ -18,6 +18,7 @@
 
         @Html.HiddenFor(model => model.PeopleId)
         <p class="text-error">
+            @Html.ValidationMessageFor(model => model.Identification)
             @Html.ValidationMessageFor(model => model.Address)
             @Html.ValidationMessageFor(model => model.BirthDay)
             @Html.ValidationMessageFor(model => model.City)
@@ -27,8 +28,16 @@
             @Html.ValidationMessageFor(model => model.Sexo)
             @Html.ValidationMessageFor(model => model.Nationality)
             @Html.ValidationMessageFor(model => model.State)
-
         </p>
+        
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.Identification)
+            </div>
+            <div class="controls">
+                @Html.EditorFor(model => model.Identification)
+            </div>
+        </div>
 
         <div class="control-group">
             <div class="control-label">
@@ -107,7 +116,7 @@
                 @Html.LabelFor(model => model.Sexo)
             </div>
             <div class="controls">
-                @Html.DropDownList("SexList")
+                @Html.DropDownList("Sexo")
             </div>
         </div>
 
