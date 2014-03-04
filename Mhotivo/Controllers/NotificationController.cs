@@ -18,17 +18,50 @@ namespace Mhotivo.Controllers
 
         public ActionResult Index()
         {
-            var notifications = db.Notifications.Select(x => x);
-            return View();
+            var notifications = db.Notifications.Where(x => true);
+            return View(notifications);
         }
 
         //
         // GET: /Notification/Create
-
+        [HttpGet]
         public ActionResult Add()
         {
-            return View("Create");
+            Notification notification=new Notification();;
+            return View("Add",notification);
         }
+
+        [HttpPost]
+        public ActionResult Add( Notification eventNotification)
+        {
+            Notification template= new Notification();
+            template.EventName = eventNotification.EventName;
+            template.From = eventNotification.From;
+            template.To = eventNotification.To;
+            template.Created = DateTime.Now;
+            db.Notifications.Add(template);
+            db.SaveChanges();
+            const string title = "Notificación Agregado";
+            var content = "El evento " + eventNotification.EventName + " ha sido agregado exitosamente.";
+            TempData["MessageInfo"] = new MessageModel
+            {
+                MessageType = "SUCCESS",
+                MessageTitle = title,
+                MessageContent = content
+            };
+
+            return RedirectToAction("Index");
+        }
+
+        public JsonResult GetGroupsAndEmails(string filter)
+        {
+            IQueryable<string> groupsName = db.Groups.Where(x => x.Name.Contains(filter)).Select(x => x.Name);
+            IQueryable<string> groupsNameAndUserEmails = db.Users.Where(x => x.DisplayName.Contains(filter) || x.Email.Contains(filter))
+                .Select(x => x.Email)
+                .Union(groupsName);
+            return this.Json(groupsNameAndUserEmails);
+        }
+
 
         //
         // GET: /Notification/Details/5

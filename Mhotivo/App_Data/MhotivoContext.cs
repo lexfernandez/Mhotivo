@@ -16,5 +16,6 @@ namespace Mhotivo.App_Data
         public DbSet<People> Peoples { get; set; }
         public DbSet<AppointmentDiary> AppointmentDiary { get; set; }
         public DbSet<Notification>  Notifications { get; set; }
+        public DbSet<Group> Groups { get; set; }
     }
 }

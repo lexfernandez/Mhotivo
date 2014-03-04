@@ -9,7 +9,7 @@
 
 <h2>Notificaciones</h2>
 
-<a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Notification/Add/"><span class="btn btn-small btn-primary active">Agregar Notificación</span></a>
+<a href="/Notification/Add/"><span class="btn btn-small btn-primary active">Agregar Notificación</span></a>
 
 @if (!Model.Any())
 {
@@ -41,18 +41,18 @@ else
                         @using (Html.BeginForm("Delete", "Notification", new { id = Html.DisplayFor(modelItem => item.Id) }, FormMethod.Post,
                             new { id = "Form_" + Html.DisplayFor(modelItem => item.Id) + "_Val", style = "display: none" })) { }
                         <input type="hidden" id="@Html.DisplayFor(modelItem => item.Id)_Val_Message"
-                               value="¿Realmente desea eliminar al usuario @Html.DisplayFor(modelItem => item.EventName) - @Html.DisplayFor(modelItem => item.Created)?" />
+                               value="¿Realmente desea eliminar la notificación: @Html.DisplayFor(modelItem => item.EventName) - creada: @Html.DisplayFor(modelItem => item.Created)?" />
                     </td>
                 </tr>
             }
         </tbody>
-    </table>
-    
-    <!-- Modal -->
+    </table>    
+}
+
+<!-- Modal -->
     <div tabindex="-1" class="modal hide fade" id="EditModal" style="display: none;" aria-hidden="true">
         <div id="body" class="modal-body">
         
         </div>
     </div>
-    
-}
+  

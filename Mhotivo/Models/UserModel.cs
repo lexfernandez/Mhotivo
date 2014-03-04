@@ -16,6 +16,7 @@ namespace Mhotivo.Models
         public string Password { get; set; }
         public bool Status { get; set; }
         public Role Role { get; set; }
+        public ICollection<Group> Groups { get; set; } 
     }
 
     public class DisplayUserModel
