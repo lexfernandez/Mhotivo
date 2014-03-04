@@ -132,6 +132,7 @@
   <ItemGroup>
     <Compile Include="App_Data\MhotivoContext.cs" />
     <Compile Include="App_Data\IRepository.cs" />
+    <Compile Include="App_Data\Repositories\MeisterRepository.cs" />
     <Compile Include="App_Data\Repositories\ParentRepository.cs" />
     <Compile Include="App_Data\Repositories\StudentRepository.cs" />
     <Compile Include="App_Data\Repositories\UserRepository.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MeisterController.cs" />
     <Compile Include="Controllers\ParentController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -154,6 +156,7 @@
     </Compile>
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
+    <Compile Include="Models\MeisterModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\ParentModel.cs" />
     <Compile Include="Models\PeopleModel.cs" />
@@ -324,6 +327,10 @@
     <Content Include="Views\Parent\Edit.cshtml" />
     <Content Include="Views\Parent\Create.cshtml" />
     <Content Include="Views\Parent\Details.cshtml" />
+    <Content Include="Views\Meister\Create.cshtml" />
+    <Content Include="Views\Meister\Details.cshtml" />
+    <Content Include="Views\Meister\Edit.cshtml" />
+    <Content Include="Views\Meister\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
