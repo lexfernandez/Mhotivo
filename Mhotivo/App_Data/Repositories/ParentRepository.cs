@@ -99,5 +99,10 @@ namespace Mhotivo.App_Data.Repositories
         {
             _context.SaveChanges();
         }
+
+        internal void Detach(Parent parent)
+        {
+            _context.Entry(parent).State = EntityState.Detached;
+        }
     }
 }

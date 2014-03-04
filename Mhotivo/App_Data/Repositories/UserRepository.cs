@@ -49,7 +49,7 @@ namespace Mhotivo.App_Data.Repositories
             var user = _context.Users.Add(itemToCreate);
             _context.Entry(user.Role).State = EntityState.Modified;
             _context.SaveChanges();
-                return user;
+            return user;
         }
 
         public IQueryable<User> Query(Expression<Func<User, User>> expression)

@@ -13,6 +13,7 @@ namespace Mhotivo.Controllers
         private readonly StudentRepository _studentRepo = StudentRepository.Instance;
         private readonly ParentRepository _parentRepo = ParentRepository.Instance;
         private readonly PeopleRepository _peopleRepo = PeopleRepository.Instance;
+        private readonly ContactInformationRepository _contactRepo = ContactInformationRepository.Instance;
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -46,6 +47,22 @@ namespace Mhotivo.Controllers
                     Tutor1 = x.Tutor1 == null ? null : x.Tutor1.FullName,
                     Tutor2 = x.Tutor2 == null ? null : x.Tutor2.FullName
                 }));
+        }
+
+        [HttpGet]
+        public ActionResult ContactEdit(long id)
+        {
+            var thisContactInformation = _contactRepo.GetById(id);
+            var contactInformation = new ContactInformationEditModel
+            {
+                Type = thisContactInformation.Type,
+                Value = thisContactInformation.Value,
+                Id = thisContactInformation.ContactId,
+                people = thisContactInformation.People,
+                Controller = "Student"
+            };
+
+            return View("ContactEdit", contactInformation);
         }
 
         [HttpGet]
@@ -108,14 +125,14 @@ namespace Mhotivo.Controllers
                 updateTutor1 = true;
 
             }
-            _studentRepo.Update(myStudent, updateTutor1, false);
+            _studentRepo.Update(myStudent, updateTutor1, false, false);
             if (modelStudent.Tutor2Id == 0 || (modelStudent.Tutor1Id != modelStudent.Tutor2Id && (myStudent.Tutor1 == null || myStudent.Tutor1.PeopleId != modelStudent.Tutor2Id) && (myStudent.Tutor2 == null || myStudent.Tutor2.PeopleId != modelStudent.Tutor2Id)))
             {
                 myStudent.Tutor2 = _parentRepo.GetById(modelStudent.Tutor2Id);
                 updateTutor2 = true;
             }
 
-            var student = _studentRepo.Update(myStudent, false, updateTutor2);
+            var student = _studentRepo.Update(myStudent, false, updateTutor2, false);
             const string title = "Estudiante Actualizado";
             var content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
 
@@ -142,6 +159,17 @@ namespace Mhotivo.Controllers
             };
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult ContactAdd(long id)
+        {
+            var model = new ContactInformationRegisterModel
+            {
+                PeopleId = (int) id,
+                Controller = "Student"
+            };
+            return View("ContactAdd", model);
         }
 
         [HttpGet]
@@ -175,7 +203,10 @@ namespace Mhotivo.Controllers
                 Tutor1 = _parentRepo.GetById(modelStudent.Tutor1Id),
                 Tutor2 = _parentRepo.GetById(modelStudent.Tutor2Id)
             };
-
+            if(myStudent.Tutor1 != null)
+                _parentRepo.Detach(myStudent.Tutor1);
+            if(myStudent.Tutor2 != null)
+                _parentRepo.Detach(myStudent.Tutor2);
             var student = _studentRepo.Create(myStudent);
             const string title = "Estudiante Agregado";
             var content = "El estudiante " + myStudent.FullName + " ha sido agregado exitosamente.";
@@ -187,6 +218,126 @@ namespace Mhotivo.Controllers
             };
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Details(long id)
+        {
+            var thisStudent = _studentRepo.GetById(id);
+            var student = new DisplayStudentModel
+            {
+                StudentID = thisStudent.PeopleId,
+                IDNumber = thisStudent.IDNumber,
+                UrlPicture = thisStudent.UrlPicture,
+                FirstName = thisStudent.FirstName,
+                LastName = thisStudent.LastName,
+                FullName = thisStudent.FullName,
+                BirthDate = thisStudent.BirthDate.ToShortDateString(),
+                Nationality = thisStudent.Nationality,
+                Address = thisStudent.Address,
+                City = thisStudent.City,
+                State = thisStudent.State,
+                Country = thisStudent.Country,
+                Gender = _peopleRepo.SexLabel(thisStudent.Gender),
+                StartDate = thisStudent.StartDate.ToShortDateString(),
+                BloodType = thisStudent.BloodType,
+                AccountNumber = thisStudent.AccountNumber,
+                Biography = thisStudent.Biography,
+                Contacts = thisStudent.Contacts,
+                Tutor1 = thisStudent.Tutor1 == null ? null : thisStudent.Tutor1.FullName,
+                Tutor2 = thisStudent.Tutor2 == null ? null : thisStudent.Tutor2.FullName,
+            };
+
+            return View("Details", student);
+        }
+
+        [HttpPost]
+        public ActionResult Details(DisplayStudentModel modelStudent)
+        {
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult DetailsEdit(long id)
+        {
+            var thisStudent = _studentRepo.GetById(id);
+            var student = new StudentEditModel
+            {
+                FirstName = thisStudent.FirstName,
+                LastName = thisStudent.LastName,
+                FullName = (thisStudent.FirstName + " " + thisStudent.LastName).Trim(),
+                IDNumber = thisStudent.IDNumber,
+                BirthDate = thisStudent.BirthDate.ToShortDateString(),
+                Gender = _peopleRepo.SexLabel(thisStudent.Gender),
+                Nationality = thisStudent.Nationality,
+                Country = thisStudent.Country,
+                State = thisStudent.State,
+                City = thisStudent.City,
+                Address = thisStudent.Address,
+                StartDate = thisStudent.StartDate.Date,
+                Id = thisStudent.PeopleId,
+                BloodType = thisStudent.BloodType,
+                AccountNumber = thisStudent.AccountNumber,
+                Biography = thisStudent.Biography,
+                Contacts = thisStudent.Contacts,
+                Tutor1Id = thisStudent.Tutor1 == null ? -1 : thisStudent.Tutor1.PeopleId,
+                Tutor2Id = thisStudent.Tutor2 == null ? -1 : thisStudent.Tutor2.PeopleId
+            };
+
+            ViewBag.Tutor1Id = new SelectList(_parentRepo.Query(x => x), "PeopleID", "FullName", thisStudent.Tutor1 == null ? -1 : thisStudent.Tutor1.PeopleId);
+            ViewBag.Tutor2Id = new SelectList(_parentRepo.Query(x => x), "PeopleID", "FullName", thisStudent.Tutor2 == null ? -1 : thisStudent.Tutor2.PeopleId);
+
+            return View("DetailsEdit", student);
+        }
+
+        [HttpPost]
+        public ActionResult DetailsEdit(StudentEditModel modelStudent)
+        {
+            var myStudent = _studentRepo.GetById(modelStudent.Id);
+            var updateTutor1 = false;
+            var updateTutor2 = false;
+
+            myStudent.FirstName = modelStudent.FirstName;
+            myStudent.LastName = modelStudent.LastName;
+            myStudent.FullName = (modelStudent.FirstName + " " + modelStudent.LastName).Trim();
+            myStudent.IDNumber = modelStudent.IDNumber;
+            myStudent.BirthDate = DateTime.Parse(modelStudent.BirthDate);
+            myStudent.Gender = _peopleRepo.IsMasculino(modelStudent.Gender);
+            myStudent.Nationality = modelStudent.Nationality;
+            myStudent.State = modelStudent.State;
+            myStudent.City = modelStudent.City;
+            myStudent.Country = modelStudent.Country;
+            myStudent.Address = modelStudent.Address;
+            myStudent.StartDate = modelStudent.StartDate;
+            myStudent.BloodType = modelStudent.BloodType;
+            myStudent.AccountNumber = modelStudent.AccountNumber;
+            myStudent.Contacts = modelStudent.Contacts;
+            myStudent.Biography = modelStudent.Biography;
+            if (modelStudent.Tutor1Id == 0 || (modelStudent.Tutor1Id != modelStudent.Tutor2Id && (myStudent.Tutor2 == null || myStudent.Tutor2.PeopleId != modelStudent.Tutor1Id) && (myStudent.Tutor1 == null || myStudent.Tutor1.PeopleId != modelStudent.Tutor1Id)))
+            {
+                myStudent.Tutor1 = _parentRepo.GetById(modelStudent.Tutor1Id);
+                updateTutor1 = true;
+
+            }
+            _studentRepo.Update(myStudent, updateTutor1, false, false);
+            if (modelStudent.Tutor2Id == 0 || (modelStudent.Tutor1Id != modelStudent.Tutor2Id && (myStudent.Tutor1 == null || myStudent.Tutor1.PeopleId != modelStudent.Tutor2Id) && (myStudent.Tutor2 == null || myStudent.Tutor2.PeopleId != modelStudent.Tutor2Id)))
+            {
+                myStudent.Tutor2 = _parentRepo.GetById(modelStudent.Tutor2Id);
+                updateTutor2 = true;
+            }
+
+            var student = _studentRepo.Update(myStudent, true, updateTutor2, false);
+            const string title = "Estudiante Actualizado";
+            var content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
+
+            TempData["MessageInfo"] = new MessageModel
+            {
+                MessageType = "INFO",
+                MessageTitle = title,
+                MessageContent = content
+            };
+
+            return RedirectToAction("Details/" + modelStudent.Id);
         }
     }
 }

@@ -9,7 +9,7 @@
 
 <h2>Padres Registrados</h2>
 
-<a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Parent/Add/"><span class="btn btn-small btn-primary active">Agregar Padres y Tutores</span></a>
+<a class="toAdd" data-toggle="modal" role="button" data-id="Parent/Add" ><span class="btn btn-small btn-primary active">Agregar Padres y Tutores</span></a>
 
 @if(!Model.Any())
 {
@@ -25,13 +25,11 @@ else
 		    <tr>
 				<th>@Html.DisplayNameFor(model => model.UrlPicture)</th>
 				<th>@Html.DisplayNameFor(model => model.FullName)</th>
-				<th>@Html.DisplayNameFor(model => model.BirthDate)</th>
-				<th>@Html.DisplayNameFor(model => model.Nationality)</th>
+				<th>@Html.DisplayNameFor(model => model.IDNumber)</th>
 				<th>@Html.DisplayNameFor(model => model.Address)</th>
 				<th>@Html.DisplayNameFor(model => model.City)</th>
 				<th>@Html.DisplayNameFor(model => model.State)</th>
 				<th>@Html.DisplayNameFor(model => model.Country)</th>
-			    <th>@Html.DisplayNameFor(model => model.Gender)</th>
                 <th></th>
 		    </tr>
 	    </thead>
@@ -39,21 +37,19 @@ else
         
             @foreach (var item in Model) {
                 <tr>
-                    <td>
+                    <td data-id="Parent/Details/@Html.DisplayFor(modelItem => item.ParentID)" class="toDetails">
                         <a href="~/@Html.DisplayNameFor(model => model.UrlPicture)" data-rel="colorbox">
 							<img alt="150x150" src="~/@Html.DisplayNameFor(model => model.UrlPicture)" />
 							<div class="text">
 							</div>
 						</a>
                     </td>
-				    <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-				    <td>@Html.DisplayFor(modelItem => item.BirthDate)</td>
-				    <td>@Html.DisplayFor(modelItem => item.Nationality)</td>
-				    <td>@Html.DisplayFor(modelItem => item.Address)</td>
-				    <td>@Html.DisplayFor(modelItem => item.City)</td>
-				    <td>@Html.DisplayFor(modelItem => item.State)</td>
-				    <td>@Html.DisplayFor(modelItem => item.Country)</td>
-			        <td>@Html.DisplayFor(modelItem => item.Gender)</td>
+				    <td data-id="Parent/Details/@Html.DisplayFor(modelItem => item.ParentID)" class="toDetails">@Html.DisplayFor(modelItem => item.FullName)</td>
+				    <td data-id="Parent/Details/@Html.DisplayFor(modelItem => item.ParentID)" class="toDetails">@Html.DisplayFor(modelItem => item.IDNumber)</td>
+				    <td data-id="Parent/Details/@Html.DisplayFor(modelItem => item.ParentID)" class="toDetails">@Html.DisplayFor(modelItem => item.Address)</td>
+				    <td data-id="Parent/Details/@Html.DisplayFor(modelItem => item.ParentID)" class="toDetails">@Html.DisplayFor(modelItem => item.City)</td>
+				    <td data-id="Parent/Details/@Html.DisplayFor(modelItem => item.ParentID)" class="toDetails">@Html.DisplayFor(modelItem => item.State)</td>
+				    <td data-id="Parent/Details/@Html.DisplayFor(modelItem => item.ParentID)" class="toDetails">@Html.DisplayFor(modelItem => item.Country)</td>
                     <td>
                         <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Parent/Edit/@Html.DisplayFor(modelItem => item.ParentID)"><i class="icon-edit bigger-120"></i></a>
                         <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.ParentID)_Val"><i class="icon-trash bigger-120"></i></a>

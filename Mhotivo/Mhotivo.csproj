@@ -129,27 +129,31 @@
   <ItemGroup>
     <Compile Include="App_Data\MhotivoContext.cs" />
     <Compile Include="App_Data\IRepository.cs" />
-    <Compile Include="App_Data\Repositories\ParentRepository.cs" />
-    <Compile Include="App_Data\Repositories\PeopleRepository.cs" />
+    <Compile Include="App_Data\Repositories\BenefactorRepository.cs" />
+    <Compile Include="App_Data\Repositories\ContactRepository.cs" />
     <Compile Include="App_Data\Repositories\EventRepository.cs" />
     <Compile Include="App_Data\Repositories\DiaryEventRepository.cs" />
+    <Compile Include="App_Data\Repositories\ParentRepository.cs" />
+    <Compile Include="App_Data\Repositories\PeopleRepository.cs" />
+    <Compile Include="App_Data\Repositories\RoleRepository.cs" />
     <Compile Include="App_Data\Repositories\StudentRepository.cs" />
     <Compile Include="App_Data\Repositories\UserRepository.cs" />
-    <Compile Include="App_Data\Repositories\RoleRepository.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BenefactorController.cs" />
+    <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ParentController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\ParentController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SendNotifications.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -158,13 +162,15 @@
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
     <Compile Include="Models\AppointmentDiary.cs" />
+    <Compile Include="Models\BenefactorModel.cs" />
+    <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\DiaryEvent.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\MessageModel.cs" />
-    <Compile Include="Models\ParentModel.cs" />
     <Compile Include="Models\Notification.cs" />
-    <Compile Include="Models\PeopleModel.cs" />
     <Compile Include="Models\EventModel.cs" />
+    <Compile Include="Models\ParentModel.cs" />
+    <Compile Include="Models\PeopleModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -308,7 +314,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -329,14 +334,26 @@
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Notification\Index.cshtml" />
     <Content Include="Views\Notification\Add.cshtml" />
-    <Content Include="Views\Parent\Create.cshtml" />
-    <Content Include="Views\Parent\Details.cshtml" />
-    <Content Include="Views\Parent\Edit.cshtml" />
-    <Content Include="Views\Parent\Index.cshtml" />
     <Content Include="Views\Student\Create.cshtml" />
     <Content Include="Views\Student\Details.cshtml" />
+    <Content Include="Views\Student\DetailsEdit.cshtml" />
     <Content Include="Views\Student\Edit.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Shared\ContactAdd.cshtml" />
+    <Content Include="Views\Shared\ContactEdit.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Parent\Create.cshtml" />
+    <Content Include="Views\Parent\Details.cshtml" />
+    <Content Include="Views\Parent\DetailsEdit.cshtml" />
+    <Content Include="Views\Parent\Edit.cshtml" />
+    <Content Include="Views\Parent\Index.cshtml" />
+    <Content Include="Views\Benefactor\Create.cshtml" />
+    <Content Include="Views\Benefactor\Details.cshtml" />
+    <Content Include="Views\Benefactor\DetailsEdit.cshtml" />
+    <Content Include="Views\Benefactor\Edit.cshtml" />
+    <Content Include="Views\Benefactor\Index.cshtml" />
+    <Content Include="Views\Benefactor\StudentAdd.cshtml" />
+    <Content Include="Views\Benefactor\StudentEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
