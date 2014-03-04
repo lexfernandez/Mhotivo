@@ -145,6 +145,7 @@
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\SendNotifications.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">

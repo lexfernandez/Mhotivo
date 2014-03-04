@@ -27,18 +27,24 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            Notification notification=new Notification();;
+            var notification=new Notification();;
             return View("Add",notification);
         }
 
         [HttpPost]
         public ActionResult Add( Notification eventNotification)
         {
-            Notification template= new Notification();
-            template.EventName = eventNotification.EventName;
-            template.From = eventNotification.From;
-            template.To = eventNotification.To;
-            template.Created = DateTime.Now;
+            var template= new Notification
+                          {
+                              EventName = eventNotification.EventName,
+                              From = eventNotification.From,
+                              To = eventNotification.To,
+                              WithCopyTo = eventNotification.WithCopyTo,
+                              WithHiddenCopyTo = eventNotification.WithHiddenCopyTo,
+                              Subject = eventNotification.Subject,
+                              Message = eventNotification.Message,
+                              Created = DateTime.Now
+                          };
             db.Notifications.Add(template);
             db.SaveChanges();
             const string title = "Notificación Agregado";
@@ -49,7 +55,6 @@ namespace Mhotivo.Controllers
                 MessageTitle = title,
                 MessageContent = content
             };
-
             return RedirectToAction("Index");
         }
 
@@ -61,33 +66,6 @@ namespace Mhotivo.Controllers
                 .Union(groupsName);
             return this.Json(groupsNameAndUserEmails);
         }
-
-
-        //
-        // GET: /Notification/Details/5
-
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        //
-        // POST: /Notification/Create
-
-        //[HttpPost]
-        //public ActionResult Add(FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
 
         ////
         //// GET: /Notification/Edit/5
@@ -115,13 +93,6 @@ namespace Mhotivo.Controllers
         //    }
         //}
 
-        ////
-        //// GET: /Notification/Delete/5
-
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
 
         ////
         //// POST: /Notification/Delete/5
