@@ -17,17 +17,29 @@ namespace Mhotivo.Models
 
         public virtual Parent Tutor1 { get; set; }
         public virtual Parent Tutor2 { get; set; }
+        public virtual Benefactor Benefactor { get; set; }
     }
 
     public class DisplayStudentModel
     {
         public int StudentID { get; set; }
 
+        public ICollection<ContactInformation> Contacts { get; set; }
+
+        [Display(Name = "Nombres")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Apellidos")]
+        public string LastName { get; set; }
+
         [Display(Name = "Nombre Completo")]
         public string FullName { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
         public string BirthDate { get; set; }
+
+        [Display(Name = "Numero de Identidad")]
+        public string IDNumber { get; set; }
 
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
@@ -41,7 +53,7 @@ namespace Mhotivo.Models
         [Display(Name = "Estado")]
         public string State { get; set; }
 
-        [Display(Name = "Dirección")]
+        [Display(Name = "Dirección Principal")]
         public string Address { get; set; }
 
         [Display(Name = "Foto Perfil")]
@@ -65,14 +77,17 @@ namespace Mhotivo.Models
         [Display(Name = "Tutor o Padre")]
         public string Tutor1 { get; set; }
 
-        [Display(Name = "Segundo Tutor o Padre")]
+        [Display(Name = "Segundo Tutor o Madre")]
         public string Tutor2 { get; set; }
+
     }
 
     public class StudentEditModel
     {
         public int Id { get; set; }
 
+        public ICollection<ContactInformation> Contacts { get; set; }
+        
         public string FullName { get; set; }
 
         [Required]
@@ -143,6 +158,16 @@ namespace Mhotivo.Models
         [Required]
         [Display(Name = "Madre o Segundo Tutor")]
         public int Tutor2Id { get; set; }
+    }
+
+    public class StudentBenefactorEditModel
+    {
+        public int BenefactorID { get; set; }
+
+        public int OldID { get; set; }
+
+        [Display(Name = "Estudiante")]
+        public int NewID { get; set; }
     }
 
     public class StudentRegisterModel

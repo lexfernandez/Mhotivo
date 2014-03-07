@@ -13,7 +13,7 @@ namespace Mhotivo.App_Data.Repositories
         Student Create(Student itemToCreate);
         IQueryable<Student> Query(Expression<Func<Student, Student>> expression);
         IQueryable<Student> Filter(Expression<Func<Student, bool>> expression);
-        Student Update(Student itemToUpdate, bool Tutor1, bool Tutor2);
+        Student Update(Student itemToUpdate, bool Tutor1, bool Tutor2, bool Benefactor);
         Student Delete(long id);
         void SaveChanges();
     }
@@ -41,7 +41,7 @@ namespace Mhotivo.App_Data.Repositories
         public Student GetById(long id)
         {
             var student = _context.Students.Where(x => x.PeopleId == id);
-            return student.Count() != 0 ? student.Include(x => x.Tutor1).First() : null;
+            return student.Count() != 0 ? student.Include(x => x.Benefactor).First() : null;
         }
 
         public Student Create(Student itemToCreate)
@@ -71,7 +71,7 @@ namespace Mhotivo.App_Data.Repositories
             return myStudents.Count() != 0 ? myStudents.Include(x => x.Tutor1) : myStudents;
         }
 
-        public Student Update(Student itemToUpdate, bool Tutor1, bool Tutor2)
+        public Student Update(Student itemToUpdate, bool Tutor1, bool Tutor2, bool Benefactor)
         {
             if (itemToUpdate.Tutor2 != null && Tutor2)
             {
@@ -80,6 +80,10 @@ namespace Mhotivo.App_Data.Repositories
             if (itemToUpdate.Tutor1 != null && Tutor1)
             {
                 _context.Entry(itemToUpdate.Tutor1).State = EntityState.Modified;
+            }
+            if (Benefactor)
+            {
+                _context.Entry(itemToUpdate.Benefactor).State = EntityState.Modified;
             }
             _context.SaveChanges();
             return itemToUpdate;
@@ -116,7 +120,7 @@ namespace Mhotivo.App_Data.Repositories
                 updateTutor2 = true;
             }
 
-            return Update(student, updateTutor1, updateTutor2);
+            return Update(student, updateTutor1, updateTutor2, false);
 
         }
 

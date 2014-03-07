@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Mhotivo.Models;
+using System.Data.Entity;
 
 namespace Mhotivo.App_Data.Repositories
 {
@@ -20,8 +21,8 @@ namespace Mhotivo.App_Data.Repositories
     public class PeopleRepository : IPeopleRepository
     {
         private readonly MhotivoContext _context;
-        public const string MasculinoLabel = "Masculino";
-        public const string FemeninoLabel = "Femenino";
+        private const string MasculinoLabel = "Masculino";
+        private const string FemeninoLabel = "Femenino";
 
         private PeopleRepository(MhotivoContext ctx)
         {
@@ -85,6 +86,11 @@ namespace Mhotivo.App_Data.Repositories
 
             return Update(people);
             
+        }
+
+        public void Detach(People people)
+        {
+            _context.Entry(people).State = EntityState.Detached;
         }
 
         public People Delete(long id)

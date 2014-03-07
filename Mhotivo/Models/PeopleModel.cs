@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
@@ -23,6 +24,8 @@ namespace Mhotivo.Models
         public string Address { get; set; }
         public string UrlPicture { get; set; }
         public bool Gender { get; set; }
+
+        public virtual ICollection<ContactInformation> Contacts { get; set; }
     }
 
     public class PeopleRegisterModel
@@ -70,9 +73,6 @@ namespace Mhotivo.Models
         [Display(Name = "ID")]
         public int PeopleId { get; set; }
 
-        [Display(Name = "Identification")]
-        public String Identification { get; set; }
-
         [Display(Name = "Nombre Completo")]
         public string FullName { get; set; }
 
@@ -107,10 +107,6 @@ namespace Mhotivo.Models
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Identification")]
-        public string Identification { get; set; }
-
-        [Required]
         [Display(Name = "Apellido")]
         public string LastName { get; set; }
 
@@ -142,6 +138,6 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Sexo")]
-        public string Sexo { get; set; }        
+        public string Sexo { get; set; }
     }
 }

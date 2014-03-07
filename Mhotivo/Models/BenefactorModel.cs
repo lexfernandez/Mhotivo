@@ -7,17 +7,27 @@ using System.Web;
 
 namespace Mhotivo.Models
 {
-    [Table("Parent")]
-    public class Parent : People
+    [Table("Benefactor")]
+    public class Benefactor : People
     {
-        public string JustARandomColumn { get; set; }
+        public int Capacity { get; set; }
+
+        public virtual ICollection<Student> Students { get; set; }
     }
 
-    public class DisplayParentModel
+    public class DisplayBenefactorModel
     {
-        public int ParentID { get; set; }
+        public int BenefactorID { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
+
+        public ICollection<Student> Students { get; set; }
+
+        [Display(Name = "Capacidad")]
+        public int Capacity { get; set; }
+
+        [Display(Name = "Estudiantes")]
+        public int StudentsCount { get; set; }
 
         [Display(Name = "Nombres")]
         public string FirstName { get; set; }
@@ -56,13 +66,19 @@ namespace Mhotivo.Models
         public string Gender { get; set; }
     }
 
-    public class ParentEditModel
+    public class BenefactorEditModel
     {
         public int Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
         public string FullName { get; set; }
+
+        public int StudentsCount { get; set; }
+
+        [Required]
+        [Display(Name = "Capacidad")]
+        public int Capacity { get; set; }
 
         [Required]
         [Display(Name = "Nombres")]
@@ -111,9 +127,13 @@ namespace Mhotivo.Models
         public string Gender { get; set; }
     }
 
-    public class ParentRegisterModel
+    public class BenefactorRegisterModel
     {
         public string FullName { get; set; }
+
+        [Required]
+        [Display(Name = "Capacidad")]
+        public string Capacity { get; set; }
 
         [Required]
         [Display(Name = "Nombres")]

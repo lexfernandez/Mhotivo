@@ -17,13 +17,17 @@
 		<link href="~/Content/themes/ace/bootstrap-responsive.min.css" rel="stylesheet" />
 	    <link href="~/Content/themes/ace/font-awesome.min.css" rel="stylesheet" />
         
+        @if (IsSectionDefined("AddToHead"))
+        {
+            @RenderSection("AddToHead", required: false)
+        }
 
 	    @Scripts.Render("~/bundles/modernizr")
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryui")
         
         <link href="~/Content/fullcalendar.css" rel="stylesheet" />
-	    <script src="~/Scripts/fullcalendar.js"></script>
+        <script src="~/Scripts/fullcalendar.js"></script>
 
 	    <!--[if IE 7]>
 		  <link rel="stylesheet" href="~/Content/themes/ace/font-awesome-ie7.min.css" />
@@ -244,6 +248,45 @@ $(document).ready(function () {
         );
     }); //End of delete
 
+    //start Details
+    $(document).ready(function () {
+        $('.toDetails').on("click", function () {
+            var pathArray = location.pathname.split('/');
+            var appPath = "/";
+            for (var i = 1; i < pathArray.length - 1; i++) {
+                appPath += pathArray[i] + "/";
+            }
+            var id = appPath + $(this).attr('data-id');
+            id = id.replace("Student/Student/", "Student/");
+            id = id.replace("student/Student/", "Student/");
+            id = id.replace("Parent/Parent/", "Parent/");
+            id = id.replace("parent/Parent/", "Parent/");
+            id = id.replace("Benefactor/Benefactor/", "Benefactor/");
+            id = id.replace("benefactor/Benefactor/", "Benefactor/");
+            window.location = id;
+        })
+    });
+    //end details
+
+    //start Add
+    $(document).ready(function () {
+        $('.toAdd').on("click", function () {
+            var pathArray = location.pathname.split('/');
+            var appPath = "/";
+            for (var i = 1; i < pathArray.length - 1; i++) {
+                appPath += pathArray[i] + "/";
+            }
+            var id = appPath + $(this).attr('data-id');
+            id = id.replace("Student/Student/", "Student/");
+            id = id.replace("student/Student/", "Student/");
+            id = id.replace("Parent/Parent/", "Parent/");
+            id = id.replace("parent/Parent/", "Parent/");
+            id = id.replace("Benefactor/Benefactor/", "Benefactor/");
+            id = id.replace("benefactor/Benefactor/", "Benefactor/");
+            window.location = id;
+        })
+    });
+    //end Add
 
     $('#Form').on("submit",function (e) {
         alert(form.attr('action') + form.serialize());
