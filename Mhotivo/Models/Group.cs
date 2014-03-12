@@ -13,4 +13,10 @@ namespace Mhotivo.Models
         public virtual ICollection<User> Users { get; set; } 
 
     }
+
+    public class addGroup
+    {
+        public string Name { get; set; }
+        public string Users { get; set; }
+    }
 }
