@@ -147,6 +147,7 @@
     <Compile Include="Controllers\BenefactorController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ParentController.cs" />
@@ -178,9 +179,12 @@
     <Compile Include="Shared.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-tagsinput.css" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\fullcalendar.css" />
+    <Content Include="Content\summernote-bs3.css" />
+    <Content Include="Content\summernote.css" />
     <Content Include="Content\themes\ace\ace-ie.min.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -305,6 +309,7 @@
     <Content Include="Scripts\ace.min.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-tag.min.js" />
+    <Content Include="Scripts\bootstrap-tagsinput.min.js" />
     <Content Include="Scripts\bootstrap-wysiwyg.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\fullcalendar.js" />
@@ -317,6 +322,7 @@
     <Content Include="Scripts\jquery-ui-1.10.3.custom.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.autocomplete.js" />
     <Content Include="Scripts\jquery.colorbox-min.js" />
     <Content Include="Scripts\jquery.hotkeys.min.js" />
     <Content Include="Scripts\jquery.mobile.custom.min.js" />
@@ -329,6 +335,9 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\selectize.js" />
+    <Content Include="Scripts\summernote.min.js" />
+    <Content Include="Scripts\typeahead.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -434,6 +443,10 @@
     <Content Include="Views\Benefactor\Index.cshtml" />
     <Content Include="Views\Benefactor\StudentAdd.cshtml" />
     <Content Include="Views\Benefactor\StudentEdit.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
+    <Content Include="Views\Group\Add.cshtml" />
+    <Content Include="Views\Group\Edit.cshtml" />
+    <Content Include="Views\Notification\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
