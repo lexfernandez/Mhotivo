@@ -7,6 +7,9 @@ namespace Mhotivo.Models
     [Table("Course")]
     public class Course
     {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int CourseId { get; set; }
         public string Name { get; set; }
         public virtual Area Area { get; set; }
 
