@@ -8,6 +8,9 @@ namespace Mhotivo.Models
     [Table("Enroll")]
     public class Enroll
     {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public virtual AcademicYear AcademicYear { get; set; }
         public virtual Student Student { get; set; }
     }

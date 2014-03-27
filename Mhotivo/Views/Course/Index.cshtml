@@ -33,7 +33,7 @@ else
             @foreach (var item in Model) {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Area)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Area.Name)</td>
                     <td>
                         <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Course/Edit/@Html.DisplayFor(modelItem => item.CourseId)"  ><i class="icon-edit bigger-120"></i></a>
                         
@@ -41,7 +41,7 @@ else
                         @using (Html.BeginForm("Delete", "Course", new { id = Html.DisplayFor(modelItem => item.CourseId) }, FormMethod.Post,
                             new { id = "Form_" + Html.DisplayFor(modelItem => item.CourseId) + "_Val", style = "display: none" })) { }
                         <input type="hidden" id="@Html.DisplayFor(modelItem => item.CourseId)_Val_Message"
-                               value="¿Realmente desea eliminar el curso @Html.DisplayFor(modelItem => item.Name) - @Html.DisplayFor(modelItem => item.Area)?" />
+                               value="¿Realmente desea eliminar el curso @Html.DisplayFor(modelItem => item.Name) - @Html.DisplayFor(modelItem => item.Area.Name)?" />
                     </td>
                 </tr>
             }

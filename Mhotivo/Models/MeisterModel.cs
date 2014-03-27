@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Mhotivo.Models
 {
     [Table("Meister")]
-    public class Meister
+    public class Meister : People
     {
         public string Biography { get; set; }
         public DateTime StartDate { get; set; }
