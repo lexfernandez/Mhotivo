@@ -134,6 +134,7 @@
     <Compile Include="App_Data\Repositories\CourseRepository.cs" />
     <Compile Include="App_Data\Repositories\EventRepository.cs" />
     <Compile Include="App_Data\Repositories\DiaryEventRepository.cs" />
+    <Compile Include="App_Data\Repositories\MeisterRepository.cs" />
     <Compile Include="App_Data\Repositories\ParentRepository.cs" />
     <Compile Include="App_Data\Repositories\PeopleRepository.cs" />
     <Compile Include="App_Data\Repositories\RoleRepository.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MeisterController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ParentController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
@@ -461,6 +463,10 @@
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Course\Add.cshtml" />
+    <Content Include="Views\Meister\Create.cshtml" />
+    <Content Include="Views\Meister\Details.cshtml" />
+    <Content Include="Views\Meister\Edit.cshtml" />
+    <Content Include="Views\Meister\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
