@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +12,7 @@ namespace Mhotivo.Models
         public int Id { get; set; }
         public virtual Grade Grade { get; set; }
         public virtual Course Course { get; set; }
-        public DateTime Year { get; set; }
+        public int Year { get; set; }
         public char Section { get; set; }
         public virtual Meister Teacher { get; set; }
         public DateTime TeacherStartDate { get; set; }
@@ -22,5 +21,6 @@ namespace Mhotivo.Models
         public String Room { get; set; }
         public bool Approved { get; set; }
         public bool IsActive { get; set; }
+        public int StudentsLimit { get; set; }
     }
 }
