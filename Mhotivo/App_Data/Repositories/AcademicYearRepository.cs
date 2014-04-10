@@ -112,6 +112,7 @@ namespace Mhotivo.App_Data.Repositories
             ayear.TeacherEndDate = itemToUpdate.TeacherEndDate;
             ayear.TeacherStartDate = itemToUpdate.TeacherStartDate;
             ayear.Year = itemToUpdate.Year;
+            ayear.StudentsCount = itemToUpdate.StudentsCount;
 
             if (ayear.Course.CourseId != itemToUpdate.Course.CourseId)
             {

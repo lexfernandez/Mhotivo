@@ -12,7 +12,7 @@ namespace Mhotivo.Models
         public int Id { get; set; }
         public virtual Grade Grade { get; set; }
         public virtual Course Course { get; set; }
-        public int Year { get; set; }
+        public DateTime Year { get; set; }
         public char Section { get; set; }
         public virtual Meister Teacher { get; set; }
         public DateTime TeacherStartDate { get; set; }
@@ -22,5 +22,6 @@ namespace Mhotivo.Models
         public bool Approved { get; set; }
         public bool IsActive { get; set; }
         public int StudentsLimit { get; set; }
+        public int StudentsCount { get; set; }
     }
 }
