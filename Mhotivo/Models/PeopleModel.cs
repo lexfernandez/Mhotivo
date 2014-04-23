@@ -73,6 +73,9 @@ namespace Mhotivo.Models
         [Display(Name = "ID")]
         public int PeopleId { get; set; }
 
+        [Display(Name = "Identificacion")]
+        public string IDNumber { get; set; }
+
         [Display(Name = "Nombre Completo")]
         public string FullName { get; set; }
 
@@ -101,6 +104,9 @@ namespace Mhotivo.Models
     public class PeopleEditModel
     {
         public int PeopleId { get; set; }
+
+        [Display(Name = "Identificacion")]
+        public string IDNumber { get; set; }
 
         [Required]
         [Display(Name = "Nombre")]
