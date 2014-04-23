@@ -371,7 +371,7 @@ namespace Mhotivo.Controllers
         public ActionResult DeleteStudent(long id)
         {
             var myStudent = _studentRepo.GetById(id);
-            int ID = myStudent.Benefactor.PeopleId;
+            long ID = myStudent.Benefactor.PeopleId;
             myStudent.Benefactor = null;
             var student = _studentRepo.Update(myStudent, false, false, false);
 

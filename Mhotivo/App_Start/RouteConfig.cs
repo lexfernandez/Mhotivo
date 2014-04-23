@@ -14,6 +14,12 @@ namespace Mhotivo
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "AcademicYear_ChangeTeacher",
+                url: "AcademicYear/ChangeTeacher/{id}/{teacherId}",
+                defaults: new { controller = "AcademicYear", action = "ChangeTeacher" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

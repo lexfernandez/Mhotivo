@@ -41,7 +41,7 @@ namespace Mhotivo.Controllers
         public ActionResult Delete(long id, string control)
         {
             var myContactInformation = _contactRepo.GetById(id);
-            int ID = myContactInformation.People.PeopleId;
+            long ID = myContactInformation.People.PeopleId;
             var contactInformation = _contactRepo.Delete(id);
             const string title = "Informacion Eliminada";
             TempData["MessageInfo"] = new MessageModel

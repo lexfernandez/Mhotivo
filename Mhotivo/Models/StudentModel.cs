@@ -22,7 +22,7 @@ namespace Mhotivo.Models
 
     public class DisplayStudentModel
     {
-        public int StudentID { get; set; }
+        public long StudentID { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
@@ -84,7 +84,7 @@ namespace Mhotivo.Models
 
     public class StudentEditModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
         
@@ -153,16 +153,16 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Padre o Tutor")]
-        public int Tutor1Id { get; set; }
+        public long Tutor1Id { get; set; }
 
         [Required]
         [Display(Name = "Madre o Segundo Tutor")]
-        public int Tutor2Id { get; set; }
+        public long Tutor2Id { get; set; }
     }
 
     public class StudentBenefactorEditModel
     {
-        public int BenefactorID { get; set; }
+        public long BenefactorID { get; set; }
 
         public int OldID { get; set; }
 

@@ -27,6 +27,11 @@ namespace Mhotivo.App_Data.Repositories
             _context = ctx;
         }
 
+        public MhotivoContext GetContext()
+        {
+            return _context;
+        }
+
         public static AcademicYearRepository Instance
         {
             get { return new AcademicYearRepository(new MhotivoContext()); }
@@ -120,7 +125,7 @@ namespace Mhotivo.App_Data.Repositories
                 updateCourse = true;
             }
 
-            if (ayear.Grade.Id != itemToUpdate.Grade.Id)
+            if (ayear.Grade.GradeId != itemToUpdate.Grade.GradeId)
             {
                 ayear.Course = itemToUpdate.Course;
                 updateGrade = true;
@@ -151,6 +156,11 @@ namespace Mhotivo.App_Data.Repositories
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public void Detach(AcademicYear academicYear)
+        {
+            _context.Entry(academicYear).State = EntityState.Detached;
         }
     }
 }
