@@ -10,7 +10,56 @@ namespace Mhotivo.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string EducationLevel { get; set; }
+       public string Name { get; set; }
+       public string EducationLevel { get; set; }
     }
+
+    
+    public class DisplayGradeModel
+    {
+        public int GradeId { get; set; }
+
+        [Display(Name = "Nombre")]
+        public string Name { get; set; }
+
+        [Display(Name = "Nivel Educativo")]
+        public string EducationLevel { get; set; }
+
+
+        
+    }
+
+    public class GradeEditModel
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Nivel Educativo")]
+        public string EducationLevel { get; set; }
+
+      }
+
+    public class GradeRegisterModel
+    {
+       
+
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Nivel Educativo")]
+        public string EducationLevel { get; set; }
+
+       
+    }
+
+    
+
+
+
 }

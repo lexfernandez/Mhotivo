@@ -1,0 +1,59 @@
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<Mhotivo.Models.DisplayGradeModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("~/Views/Shared/_MessageArea.cshtml")
+
+<h2>Grados Registrados </h2>
+
+<a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Grade/Add/"><span class="btn btn-small btn-primary active">Agregar Grado</span></a>
+
+@if(!Model.Any())
+{
+    <div class="well well-large">
+		<h4 class="blue">Tabla Vacía</h4>
+		No hay ninguna cuenta de usuario a mostrar.
+	</div>
+}
+else
+{
+    <table class="table table-striped table-bordered table-hover" id="sample-table-1">
+	    <thead>
+		    <tr>
+												
+			    <th>@Html.DisplayNameFor(model => model.Name)</th>
+		        <th>@Html.DisplayNameFor(model => model.EducationLevel)</th>
+                <th></th>
+		    </tr>
+	    </thead>
+        <tbody>
+        
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EducationLevel)</td>
+                    <td>
+                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Grade/Edit/@Html.DisplayFor(modelItem => item.GradeId)"><i class="icon-edit bigger-120"></i></a>
+                        <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.GradeId)_Val"><i class="icon-trash bigger-120"></i></a>
+                        @using (Html.BeginForm("Delete", "Grade", new { id = Html.DisplayFor(modelItem => item.GradeId) }, FormMethod.Post,
+                            new { id = "Form_" + Html.DisplayFor(modelItem => item.GradeId) + "_Val", style = "display: none" })) { }
+                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.GradeId)_Val_Message"
+                               value="¿Realmente desea eliminar al Alumno @Html.DisplayFor(modelItem => item.Name)?" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>   
+    
+}
+
+<!-- Modal -->
+<div tabindex="-1" class="modal hide fade" id="EditModal" style="display: none;" aria-hidden="true">
+    <div id="body" class="modal-body">
+        
+    </div>
+</div>
