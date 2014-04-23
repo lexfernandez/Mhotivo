@@ -9,7 +9,7 @@ namespace Mhotivo.Models
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int GradeId { get; set; }
         public string Name { get; set; }
         public string EducationLevel { get; set; }
     }

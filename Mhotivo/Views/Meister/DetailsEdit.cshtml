@@ -1,0 +1,118 @@
+﻿@model Mhotivo.Models.MeisterEditModel
+
+@{
+    ViewBag.Title = "Editar " + @Html.DisplayFor(model => model.FullName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section AddToHead{
+    <STYLE type="text/css">
+        span.InputLabel {width: 567px; height: 15px; font-size: 10px; margin: 0 0 10px 0; vertical-align:text-top; font-weight: bold;}
+    </STYLE>
+}
+
+@Html.Partial("~/Views/Shared/_MessageArea.cshtml")
+
+@using (Html.BeginForm("DetailsEdit", "meister", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"})){
+<h2>Detalles de @Html.DisplayFor(model => model.FullName)</h2>
+
+<p>
+    <a href="../Details/@Html.DisplayFor(model => model.Id)" data-dismiss="modal" class="btn btn-small">
+        <i class="icon-remove"></i>
+        Cancel
+    </a>
+
+    <button type="submit" class="btn btn-small btn-primary">
+        <i class="icon-ok"></i>
+        Actualizar
+    </button>
+</p>
+
+@Html.HiddenFor(model => model.Id)
+
+<div id="address" style="width: 500px;">
+    <h3>Dirección</h3>
+    <div id="mainAddress">
+        @Html.EditorFor(model => model.Address)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Address)</span>
+    </div>
+    <br style="clear: left;" />
+    <div style="float: left; width: 200px;">
+        @Html.EditorFor(model => model.City)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.City)</span>
+    </div>
+    <div style="float: left; width: 100px;">
+        @Html.EditorFor(model => model.State)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.State)</span>
+    </div>
+    <div style="float: left; width: 200px;">
+        @Html.EditorFor(model => model.Country)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Country)</span>
+    </div>
+    <br style="clear: left;" />
+</div>
+
+    <div id="information" style="width: 500px;">
+        <h3>Información Personal</h3>
+        <div id="FirstName" style="float: left; width: 250px;">
+            @Html.EditorFor(model => model.FirstName)
+            <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.FirstName)</span>
+        </div>
+        <div style="float: left; width: 250px;">
+            @Html.EditorFor(model => model.LastName)
+            <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.LastName)</span>
+        </div>
+        <br style="clear: left;" />
+        <br style="clear: left;" />
+        <div style="float: left; width: 250px;">
+            @Html.EditorFor(model => model.IDNumber)
+            <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.IDNumber)</span>
+        </div>
+        <div style="float: left; width: 250px;">
+            @Html.EditorFor(model => model.BirthDate)
+            <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.BirthDate)</span>
+        </div>
+        <br style="clear: left;" />
+        <br style="clear: left;" />
+        <div style="float: left; width: 250px;">
+            @Html.EditorFor(model => model.Gender)
+            <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Gender)</span>
+        </div>
+        <div style="float: left; width: 250px;">
+            @Html.EditorFor(model => model.Nationality)
+            <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Nationality)</span>
+        </div>
+        <br style="clear: left;" />
+    </div>
+    
+    <div id="studentInformation" style="width: 500px;">
+    <h3>Información de Estudiante</h3>
+    <div id="accountNumber" style="float: left; width: 250px;">
+        @Html.EditorFor(model => model.StartDate)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.StartDate)</span>
+    </div>
+    <div style="float: left; width: 250px;">
+        @Html.EditorFor(model => model.EndDate)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.EndDate)</span>
+    </div>
+    <br style="clear: left;" />
+    <br style="clear: left;" />
+    <div style="float: left; width: 500px;">
+        @Html.TextAreaFor(model => model.Biography, new { style = "width: 400px; height: 200px;", @rows = 3 })
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Biography)</span>
+    </div>
+    <br style="clear: left;" />
+</div>
+    
+<p>
+    <a href="../Details/@Html.DisplayFor(model => model.Id)" data-dismiss="modal" class="btn btn-small">
+        <i class="icon-remove"></i>
+        Cancel
+    </a>
+
+    <button type="submit" class="btn btn-small btn-primary">
+        <i class="icon-ok"></i>
+        Actualizar
+    </button>
+</p>
+}
