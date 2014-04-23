@@ -1,0 +1,58 @@
+﻿@model Mhotivo.Models.EnrollRegisterModel
+
+@{
+    ViewBag.Title = "Matricula";
+    Layout = "";
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div id="body" class="modal-body" style="max-height: 500px;">
+@using (Html.BeginForm("Add", "Enroll", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"}))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Matricula</legend>
+        
+        <p class="text-error">
+            @Html.ValidationMessageFor(model => model.GradeId)
+            @Html.ValidationMessageFor(model => model.StudentId)
+        </p>
+        
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.StudentId)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("StudentId")
+            </div>
+        </div>
+        
+         <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.GradeId)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("GradeId")
+            </div>
+        </div>
+
+        <div class="space"></div>
+
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-small">
+                <i class="icon-remove"></i>
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-small btn-primary">
+                <i class="icon-ok"></i>
+                Crear
+            </button>
+        </div>
+    </fieldset>
+}
+
+</div>
