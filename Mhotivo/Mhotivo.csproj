@@ -132,6 +132,7 @@
     <Compile Include="App_Data\Repositories\BenefactorRepository.cs" />
     <Compile Include="App_Data\Repositories\ContactRepository.cs" />
     <Compile Include="App_Data\Repositories\AcademicYearRepository.cs" />
+    <Compile Include="App_Data\Repositories\ClassActivityRepository.cs" />
     <Compile Include="App_Data\Repositories\CourseRepository.cs" />
     <Compile Include="App_Data\Repositories\EventRepository.cs" />
     <Compile Include="App_Data\Repositories\DiaryEventRepository.cs" />
@@ -149,7 +150,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BenefactorController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
+    <Compile Include="Controllers\ClassActivityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\DisplayClassActivityModel.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -465,6 +468,9 @@
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\AcademicYear\Management.cshtml" />
+    <Content Include="Views\ClassActivity\Create.cshtml" />
+    <Content Include="Views\ClassActivity\Edit.cshtml" />
+    <Content Include="Views\ClassActivity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
