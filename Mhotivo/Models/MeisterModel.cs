@@ -16,7 +16,7 @@ namespace Mhotivo.Models
 
     public class DisplayMeisterModel
     {
-        public int MeisterID { get; set; }
+        public long MeisterID { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
@@ -68,7 +68,7 @@ namespace Mhotivo.Models
 
     public class MeisterEditModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 

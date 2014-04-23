@@ -22,7 +22,7 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private MeisterRepository(MhotivoContext ctx)
+        public MeisterRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }

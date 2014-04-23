@@ -11,7 +11,7 @@ namespace Mhotivo.Models
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int PeopleId { get; set; }
+        public long PeopleId { get; set; }
         public string IDNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -71,7 +71,7 @@ namespace Mhotivo.Models
     public class DisplayPeopleModel
     {
         [Display(Name = "ID")]
-        public int PeopleId { get; set; }
+        public long PeopleId { get; set; }
 
         [Display(Name = "Identificacion")]
         public string IDNumber { get; set; }
@@ -103,7 +103,7 @@ namespace Mhotivo.Models
 
     public class PeopleEditModel
     {
-        public int PeopleId { get; set; }
+        public long PeopleId { get; set; }
 
         [Display(Name = "Identificacion")]
         public string IDNumber { get; set; }

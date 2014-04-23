@@ -147,6 +147,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AcademicYearController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BenefactorController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
@@ -475,6 +476,7 @@
     <Content Include="Views\Meister\Edit.cshtml" />
     <Content Include="Views\Enroll\Index.cshtml" />
     <Content Include="Views\Enroll\Create.cshtml" />
+    <Content Include="Views\AcademicYear\SelectNewTeacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">

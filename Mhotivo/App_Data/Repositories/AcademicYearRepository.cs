@@ -27,6 +27,11 @@ namespace Mhotivo.App_Data.Repositories
             _context = ctx;
         }
 
+        public MhotivoContext GetContext()
+        {
+            return _context;
+        }
+
         public static AcademicYearRepository Instance
         {
             get { return new AcademicYearRepository(new MhotivoContext()); }

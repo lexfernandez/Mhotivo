@@ -92,7 +92,8 @@ else
                         @Html.DisplayFor(modelItem => item.Schedule)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Meister)
+                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/AcademicYear/SelectNewTeacher/@Html.DisplayFor(modelItem => item.Id)">@Html.DisplayFor(modelItem => item.Meister)</a>
+                        
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartDate)
@@ -121,3 +122,9 @@ else
 }
 
 
+<!-- Modal -->
+<div tabindex="-1" class="modal hide fade" id="EditModal" style="display: none;" aria-hidden="true">
+    <div id="body" class="modal-body">
+        
+    </div>
+</div>

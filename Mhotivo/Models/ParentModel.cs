@@ -15,7 +15,7 @@ namespace Mhotivo.Models
 
     public class DisplayParentModel
     {
-        public int ParentID { get; set; }
+        public long ParentID { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
@@ -58,7 +58,7 @@ namespace Mhotivo.Models
 
     public class ParentEditModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 

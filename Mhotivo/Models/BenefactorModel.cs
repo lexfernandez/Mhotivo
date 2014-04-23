@@ -17,7 +17,7 @@ namespace Mhotivo.Models
 
     public class DisplayBenefactorModel
     {
-        public int BenefactorID { get; set; }
+        public long BenefactorID { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
@@ -68,7 +68,7 @@ namespace Mhotivo.Models
 
     public class BenefactorEditModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
