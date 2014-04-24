@@ -11,7 +11,7 @@ namespace Mhotivo.Controllers
     public class ClassActivityController : Controller
     {
         private readonly ClassActivityRepository _classActivityRepo = ClassActivityRepository.Instance;
-        private readonly MhotivoContext _context;
+        private readonly AcademicYearRepository _academicYearRepo = AcademicYearRepository.Instance;
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -50,6 +50,8 @@ namespace Mhotivo.Controllers
                 Value = thisClassActivity.Value,
                 Id = thisClassActivity.Id
             };
+
+            ViewBag.AcademicYearId = new SelectList(_academicYearRepo.Query(x => x), "AcademicYearId", "Year", thisClassActivity.AcademicYear.Id);
 
             return View("Edit", classActivity);
         }
@@ -102,6 +104,7 @@ namespace Mhotivo.Controllers
             listTypes.Add("Homework");
             listTypes.Add("Classwork");
             ViewBag.Type = new SelectList(listTypes);
+            ViewBag.AcademicYearId = new SelectList(_academicYearRepo.Query(x => x), "AcademicYearId", "Year");
             return View("Create");
         }
 
