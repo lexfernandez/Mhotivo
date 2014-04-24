@@ -21,20 +21,21 @@ namespace Mhotivo.App_Data.Repositories
     public class AcademicYearRepository : IAcademicYearRepository
     {
         private readonly MhotivoContext _context;
+        private static AcademicYearRepository _academicYear;
+
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _academicYear = new AcademicYearRepository(ctx);
+        }
 
         private AcademicYearRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
-        public MhotivoContext GetContext()
-        {
-            return _context;
-        }
-
         public static AcademicYearRepository Instance
         {
-            get { return new AcademicYearRepository(new MhotivoContext()); }
+            get { return _academicYear ?? new AcademicYearRepository(new MhotivoContext()); }
         }
 
         public AcademicYear First(Expression<Func<AcademicYear, AcademicYear>> query)
@@ -62,7 +63,8 @@ namespace Mhotivo.App_Data.Repositories
             var ayear = _context.AcademicYears.Add(itemToCreate);
             _context.Entry(ayear.Course).State = EntityState.Modified;
             _context.Entry(ayear.Grade).State = EntityState.Modified;
-            _context.Entry(ayear.Teacher).State = EntityState.Modified;
+            if(ayear.Teacher != null)
+                _context.Entry(ayear.Teacher).State = EntityState.Modified;
             _context.SaveChanges();
             return ayear;
         }

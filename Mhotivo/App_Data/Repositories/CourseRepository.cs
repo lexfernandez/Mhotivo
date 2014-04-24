@@ -22,6 +22,7 @@ namespace Mhotivo.App_Data.Repositories
     public class CourseRepository : ICourseRepository
     {
         private readonly MhotivoContext _context;
+        private static CourseRepository _course;
 
         private CourseRepository(MhotivoContext ctx)
         {
@@ -29,9 +30,14 @@ namespace Mhotivo.App_Data.Repositories
            
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _course = new CourseRepository(ctx);    
+        }
+
         public static CourseRepository Instance
         {
-            get { return new CourseRepository(new MhotivoContext()); }
+            get { return _course ?? new CourseRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()

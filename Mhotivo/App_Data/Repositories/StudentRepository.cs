@@ -21,15 +21,21 @@ namespace Mhotivo.App_Data.Repositories
     public class StudentRepository : IStudentRepository
     {
         private readonly MhotivoContext _context;
+        private static StudentRepository _student;
 
         private StudentRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _student = new StudentRepository(ctx);
+        }
+
         public static StudentRepository Instance
         {
-            get { return new StudentRepository(new MhotivoContext()); }
+            get { return _student ?? new StudentRepository(new MhotivoContext()); }
         }
 
         public Student First(Expression<Func<Student, Student>> query)

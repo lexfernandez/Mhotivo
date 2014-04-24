@@ -27,9 +27,16 @@ namespace Mhotivo.App_Data.Repositories
             _context = ctx;
         }
 
+        private static BenefactorRepository _benefactor;
+
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _benefactor = new BenefactorRepository(ctx);
+        }
+
         public static BenefactorRepository Instance
         {
-            get { return new BenefactorRepository(new MhotivoContext()); }
+            get { return _benefactor ?? new BenefactorRepository(new MhotivoContext()); }
         }
 
         public Benefactor First(Expression<Func<Benefactor, Benefactor>> query)

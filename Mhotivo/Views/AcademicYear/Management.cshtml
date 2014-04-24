@@ -11,8 +11,8 @@
 
 @if (Model.CanGenerate)
 {
-    <a class="toDelete" role="button" id="GenerateYear_Val"><i class="icon-trash bigger-120"></i></a>
-    using (Html.BeginForm("Management", "AcademicYear", FormMethod.Post,
+    <a class="toQuestion" role="button" id="GenerateYear_Val"><span class="btn btn-small btn-primary active">Generar año académico</span></a>
+    using (Html.BeginForm("ManagementPost", "AcademicYear", FormMethod.Post,
         new { id = "Form_GenerateYear_Val", style = "display: none" })) { }
     <input type="hidden" id="GenerateYear_Val_Message"
            value="¿Realmente desea volver a generar el año académico (Se volverán a crear todas las secciones para éste año)?" />    
@@ -93,7 +93,6 @@ else
                     </td>
                     <td>
                         <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/AcademicYear/SelectNewTeacher/@Html.DisplayFor(modelItem => item.Id)">@Html.DisplayFor(modelItem => item.Meister)</a>
-                        
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartDate)
@@ -108,16 +107,12 @@ else
                         @Html.DisplayFor(modelItem => item.Approved)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id })
                     </td>
                 </tr>    
             }
             
         </tbody>
-
-
     </table>    
 }
 

@@ -21,15 +21,21 @@ namespace Mhotivo.App_Data.Repositories
     public class EnrollRepository : IEnrollRepository
     {
         private readonly MhotivoContext _context;
+        private static EnrollRepository _enroll;
 
         private EnrollRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _enroll = new EnrollRepository(ctx);
+        }
+
         public static EnrollRepository Instance
         {
-            get { return new EnrollRepository(new MhotivoContext()); }
+            get { return _enroll ?? new EnrollRepository(new MhotivoContext()); }
         }
 
         public Enroll First(Expression<Func<Enroll, Enroll>> query)

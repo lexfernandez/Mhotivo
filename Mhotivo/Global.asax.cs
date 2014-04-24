@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Mhotivo.App_Data;
+using Mhotivo.App_Data.Repositories;
+using Mhotivo.Models;
 
 namespace Mhotivo
 {
@@ -25,6 +27,27 @@ namespace Mhotivo
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            //REPOST INSTANCES
+            var ctx = new MhotivoContext();
+
+            AcademicYearRepository.SetInstance(ctx);
+            BenefactorRepository.SetInstance(ctx);
+            ContactInformationRepository.SetInstance(ctx);
+            CourseRepository.SetInstance(ctx);
+            AppointmentDiaryRepository.SetInstance(ctx);
+            EnrollRepository.SetInstance(ctx);
+            EventRepository.SetInstance(ctx);
+            GradeRepository.SetInstance(ctx);
+            MeisterRepository.SetInstance(ctx);
+            ParentRepository.SetInstance(ctx);
+            PensumRepository.SetInstance(ctx);
+            PeopleRepository.SetInstance(ctx);
+            RoleRepository.SetInstance(ctx);
+            StudentRepository.SetInstance(ctx);
+            UserRepository.SetInstance(ctx);
+
+
         }
     }
 }
