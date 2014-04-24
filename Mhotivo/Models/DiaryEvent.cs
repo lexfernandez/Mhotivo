@@ -33,7 +33,7 @@ namespace Mhotivo.Models
                 {
                     DiaryEvent rec = new DiaryEvent();
                     rec.DiaryEventId = item.AppointmentDiaryId;
-                    rec.SomeImportantKeyID = item.SomeImportantKey;
+                    //rec.SomeImportantKeyID = item.SomeImportantKey;
                     rec.StartDateString = item.DateTimeScheduled.ToString("s"); // "s" is a preset format that outputs as: "2009-02-27T12:12:22"
                     rec.EndDateString = item.DateTimeScheduled.AddMinutes(item.AppointmentLength).ToString("s"); // field AppointmentLength is in minutes
                     rec.Title = item.Title + " - " + item.AppointmentLength.ToString() + " mins";
@@ -58,21 +58,22 @@ namespace Mhotivo.Models
             var toDate = ConvertFromUnixTimestamp(end);
             using (AppointmentDiaryRepository ent = AppointmentDiaryRepository.Instance)
             {
-                var rslt = ent.Where(s => s.DateTimeScheduled >= fromDate && DbFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate)
-                                                        .GroupBy(s => DbFunctions.TruncateTime(s.DateTimeScheduled))
-                                                        .Select(x => new { DateTimeScheduled = x.Key, Count = x.Count() });
+                var rslt =
+                    ent.Where(
+                        s =>
+                            s.DateTimeScheduled >= fromDate &&
+                            DbFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
 
                 List<DiaryEvent> result = new List<DiaryEvent>();
                 int i = 0;
                 foreach (var item in rslt)
                 {
                     DiaryEvent rec = new DiaryEvent();
-                    rec.DiaryEventId = i; //we dont link this back to anything as its a group summary but the fullcalendar needs unique IDs for each event item (unless its a repeating event)
-                    rec.SomeImportantKeyID = -1;
+                    rec.DiaryEventId = i;
                     string StringDate = string.Format("{0:yyyy-MM-dd}", item.DateTimeScheduled);
                     rec.StartDateString = StringDate + "T00:00:00"; //ISO 8601 format
                     rec.EndDateString = StringDate + "T23:59:59";
-                    rec.Title = "Booked: " + item.Count.ToString();
+                    rec.Title = item.Title;
                     result.Add(rec);
                     i++;
                 }
@@ -111,7 +112,7 @@ namespace Mhotivo.Models
         }
 
 
-        public static bool CreateNewEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration)
+        public static bool CreateNewEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration, User creator)
         {
             try
             {
@@ -120,6 +121,7 @@ namespace Mhotivo.Models
                 rec.Title = Title;
                 rec.DateTimeScheduled = DateTime.ParseExact(NewEventDate + " " + NewEventTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
                 rec.AppointmentLength = Int32.Parse(NewEventDuration);
+                rec.Creator = creator;
                 ent.Create(rec);
                 ent.SaveChanges();
             }

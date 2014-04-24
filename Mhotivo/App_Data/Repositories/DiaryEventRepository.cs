@@ -85,7 +85,7 @@ namespace Mhotivo.App_Data.Repositories
             
             diaryEvent.AppointmentLength = itemToUpdate.AppointmentLength;
             diaryEvent.DateTimeScheduled = itemToUpdate.DateTimeScheduled;
-            diaryEvent.SomeImportantKey = itemToUpdate.SomeImportantKey;
+           // diaryEvent.SomeImportantKey = itemToUpdate.SomeImportantKey;
             diaryEvent.StatusENUM = itemToUpdate.StatusENUM;
             diaryEvent.Title = itemToUpdate.Title;
             return Update(diaryEvent);

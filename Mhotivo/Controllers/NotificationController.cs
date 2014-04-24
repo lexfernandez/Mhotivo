@@ -48,7 +48,6 @@ namespace Mhotivo.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var template = new Notification
                 {
                     EventName = eventNotification.EventName,
