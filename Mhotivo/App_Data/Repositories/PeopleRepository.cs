@@ -21,6 +21,7 @@ namespace Mhotivo.App_Data.Repositories
     public class PeopleRepository : IPeopleRepository
     {
         private readonly MhotivoContext _context;
+        private static PeopleRepository _people;
         private const string MasculinoLabel = "Masculino";
         private const string FemeninoLabel = "Femenino";
 
@@ -29,9 +30,14 @@ namespace Mhotivo.App_Data.Repositories
             _context = ctx;
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _people = new PeopleRepository(ctx);
+        }
+
         public static PeopleRepository Instance
         {
-            get { return new PeopleRepository(new MhotivoContext()); }
+            get { return _people ?? new PeopleRepository(new MhotivoContext()); }
         }
 
         public People First(Expression<Func<People, People>> query)

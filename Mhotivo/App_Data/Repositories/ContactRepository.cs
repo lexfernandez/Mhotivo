@@ -23,15 +23,21 @@ namespace Mhotivo.App_Data.Repositories
     public class ContactInformationRepository : IContactRepository
     {
         private readonly MhotivoContext _context;
+        private static ContactInformationRepository _contactInformation;
 
         private ContactInformationRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _contactInformation = new ContactInformationRepository(ctx);
+        }
+
         public static ContactInformationRepository Instance
         {
-            get { return new ContactInformationRepository(new MhotivoContext()); }
+            get { return _contactInformation ?? new ContactInformationRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()

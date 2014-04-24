@@ -138,6 +138,7 @@
     <Compile Include="App_Data\Repositories\DiaryEventRepository.cs" />
     <Compile Include="App_Data\Repositories\MeisterRepository.cs" />
     <Compile Include="App_Data\Repositories\ParentRepository.cs" />
+    <Compile Include="App_Data\Repositories\PensumRepository.cs" />
     <Compile Include="App_Data\Repositories\PeopleRepository.cs" />
     <Compile Include="App_Data\Repositories\RoleRepository.cs" />
     <Compile Include="App_Data\Repositories\StudentRepository.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logic\AcademicYearLogic.cs" />
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />

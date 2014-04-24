@@ -21,15 +21,21 @@ namespace Mhotivo.App_Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly MhotivoContext _context;
+        private static UserRepository _user;
 
         private UserRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _user = new UserRepository(ctx);
+        }
+
         public static UserRepository Instance
         {
-            get { return new UserRepository(new MhotivoContext()); }
+            get { return _user ?? new UserRepository(new MhotivoContext()); }
         }
 
         public User First(Expression<Func<User, User>> query)

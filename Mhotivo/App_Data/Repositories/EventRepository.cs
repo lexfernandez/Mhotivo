@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using System.ComponentModel;
 using System.Linq.Expressions;
 using Mhotivo.Models;
 
@@ -21,10 +20,21 @@ namespace Mhotivo.App_Data.Repositories
     public class EventRepository : IEventRepository
     {
         private readonly MhotivoContext _context;
+        private static EventRepository _event;
 
         public EventRepository(MhotivoContext context)
         {
             _context = context;
+        }
+
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _event = new EventRepository(ctx);
+        }
+
+        public static EventRepository Instance()
+        {
+            return _event ?? new EventRepository(new MhotivoContext());
         }
 
         public void SaveChanges()

@@ -21,15 +21,21 @@ namespace Mhotivo.App_Data.Repositories
     public class MeisterRepository : IMeisterRepository
     {
         private readonly MhotivoContext _context;
+        private static MeisterRepository _meister;
 
         public MeisterRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _meister = new MeisterRepository(ctx);
+        }
+
         public static MeisterRepository Instance
         {
-            get { return new MeisterRepository(new MhotivoContext()); }
+            get { return _meister ?? new MeisterRepository(new MhotivoContext()); }
         }
 
         public Meister First(Expression<Func<Meister, Meister>> query)

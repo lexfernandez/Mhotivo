@@ -21,15 +21,21 @@ namespace Mhotivo.App_Data.Repositories
     public class ParentRepository : IParentRepository
     {
         private readonly MhotivoContext _context;
+        private static ParentRepository _parent;
 
         private ParentRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _parent = new ParentRepository(ctx);
+        }
+
         public static ParentRepository Instance
         {
-            get { return new ParentRepository(new MhotivoContext()); }
+            get { return _parent ?? new ParentRepository(new MhotivoContext()); }
         }
 
         public Parent First(Expression<Func<Parent, Parent>> query)

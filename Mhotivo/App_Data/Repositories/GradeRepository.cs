@@ -21,16 +21,21 @@ namespace Mhotivo.App_Data.Repositories
     public class GradeRepository : IGradeRepository
     {
         private readonly MhotivoContext _context;
+        private static GradeRepository _grade;
 
         private GradeRepository(MhotivoContext ctx)
         {
-            _context = ctx;
-           
+            _context = ctx;  
+        }
+
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _grade = new GradeRepository(ctx);
         }
 
         public static GradeRepository Instance
         {
-            get { return new GradeRepository(new MhotivoContext()); }
+            get { return _grade ?? new GradeRepository(new MhotivoContext()); }
         }
 
         public Grade First(Expression<Func<Grade, Grade>> query)

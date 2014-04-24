@@ -21,16 +21,21 @@ namespace Mhotivo.App_Data.Repositories
     public class AppointmentDiaryRepository : IAppointmentDiaryRepository
     {
         private readonly MhotivoContext _context;
-        private static AppointmentDiaryRepository _instance;
+        private static AppointmentDiaryRepository _appointmentDiary;
 
         private AppointmentDiaryRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
+        public static void SetInstance(MhotivoContext ctx)
+        {
+            _appointmentDiary = new AppointmentDiaryRepository(ctx);
+        }
+
         public static AppointmentDiaryRepository Instance
         {
-            get { return new AppointmentDiaryRepository(new MhotivoContext()); }
+            get { return _appointmentDiary ?? new AppointmentDiaryRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()
