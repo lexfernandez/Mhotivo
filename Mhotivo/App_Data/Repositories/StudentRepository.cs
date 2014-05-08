@@ -22,7 +22,7 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private StudentRepository(MhotivoContext ctx)
+        public StudentRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
@@ -89,7 +89,7 @@ namespace Mhotivo.App_Data.Repositories
             return itemToUpdate;
         }
 
-        public Student UpdateNew(Student itemToUpdate)
+        public Student Update(Student itemToUpdate)
         {
             var student = GetById(itemToUpdate.PeopleId);
             var updateTutor1 = false;

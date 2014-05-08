@@ -27,11 +27,6 @@ namespace Mhotivo.App_Data.Repositories
             _context = ctx;
         }
 
-        public static MeisterRepository Instance
-        {
-            get { return new MeisterRepository(new MhotivoContext()); }
-        }
-
         public Meister First(Expression<Func<Meister, Meister>> query)
         {
             var meisters = _context.Meisters.Select(query);
@@ -66,27 +61,6 @@ namespace Mhotivo.App_Data.Repositories
         {
             _context.SaveChanges();
             return itemToUpdate;
-        }
-
-        public Meister UpdateNew(Meister itemToUpdate)
-        {
-            var meister = GetById(itemToUpdate.PeopleId);
-            meister.Address = itemToUpdate.Address;
-            meister.BirthDate = itemToUpdate.BirthDate;
-            meister.City = itemToUpdate.City;
-            meister.FirstName = itemToUpdate.FirstName;
-            meister.FullName = itemToUpdate.FullName;
-            meister.Gender = itemToUpdate.Gender;
-            meister.LastName = itemToUpdate.LastName;
-            meister.Nationality = itemToUpdate.Nationality;
-            meister.State = itemToUpdate.State;
-            meister.UrlPicture = itemToUpdate.UrlPicture;
-            meister.StartDate = itemToUpdate.StartDate;
-            meister.EndDate = itemToUpdate.EndDate;
-            meister.Biography = itemToUpdate.Biography;
-
-            return Update(meister);
-
         }
 
         public void Detach(Meister meister)

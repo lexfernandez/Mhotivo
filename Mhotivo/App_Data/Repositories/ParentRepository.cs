@@ -22,16 +22,11 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private ParentRepository(MhotivoContext ctx)
+        public ParentRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
-
-        public static ParentRepository Instance
-        {
-            get { return new ParentRepository(new MhotivoContext()); }
-        }
-
+        
         public Parent First(Expression<Func<Parent, Parent>> query)
         {
             var parent = _context.Parents.Select(query);
@@ -67,24 +62,6 @@ namespace Mhotivo.App_Data.Repositories
         {
             _context.SaveChanges();
             return itemToUpdate;
-        }
-
-        public Parent UpdateNew(Parent itemToUpdate)
-        {
-            var parent = GetById(itemToUpdate.PeopleId);
-            parent.FirstName = itemToUpdate.FirstName;
-            parent.LastName = itemToUpdate.LastName;
-            parent.FullName = itemToUpdate.FullName;
-            parent.BirthDate = itemToUpdate.BirthDate;
-            parent.Gender = itemToUpdate.Gender;
-            parent.Nationality = itemToUpdate.Nationality;
-            parent.State = itemToUpdate.State;
-            parent.City = itemToUpdate.City;
-            parent.Address = itemToUpdate.Address;
-            parent.Country = itemToUpdate.Country;
-
-            return Update(parent);
-
         }
 
         public Parent Delete(long id)

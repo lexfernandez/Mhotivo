@@ -22,14 +22,9 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private EnrollRepository(MhotivoContext ctx)
+        public EnrollRepository(MhotivoContext ctx)
         {
             _context = ctx;
-        }
-
-        public static EnrollRepository Instance
-        {
-            get { return new EnrollRepository(new MhotivoContext()); }
         }
 
         public Enroll First(Expression<Func<Enroll, Enroll>> query)
@@ -78,7 +73,7 @@ namespace Mhotivo.App_Data.Repositories
             return itemToUpdate;
         }
 
-        public Enroll UpdateNew(Enroll itemToUpdate)
+        public Enroll Update(Enroll itemToUpdate)
         {
             var enroll = GetById(itemToUpdate.Id);
             bool academicYear = false;

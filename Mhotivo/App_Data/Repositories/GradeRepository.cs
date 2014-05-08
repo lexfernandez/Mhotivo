@@ -22,17 +22,12 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private GradeRepository(MhotivoContext ctx)
+        public GradeRepository(MhotivoContext ctx)
         {
             _context = ctx;
            
         }
-
-        public static GradeRepository Instance
-        {
-            get { return new GradeRepository(new MhotivoContext()); }
-        }
-
+        
         public Grade First(Expression<Func<Grade, Grade>> query)
         {
             throw new NotImplementedException();

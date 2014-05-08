@@ -23,15 +23,10 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private CourseRepository(MhotivoContext ctx)
+        public CourseRepository(MhotivoContext ctx)
         {
             _context = ctx;
            
-        }
-
-        public static CourseRepository Instance
-        {
-            get { return new CourseRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()
@@ -74,15 +69,6 @@ namespace Mhotivo.App_Data.Repositories
             _context.Entry(itemToUpdate).State = EntityState.Modified;
             SaveChanges();
             return itemToUpdate;
-        }
-
-        public Course UpdateNew(Course itemToUpdate)
-        {
-            var role = GetById(itemToUpdate.CourseId);
-            role.Name = itemToUpdate.Name;
-            role.Area = itemToUpdate.Area;
-
-            return Update(role);
         }
 
         public void Delete(Course itemToDelete)

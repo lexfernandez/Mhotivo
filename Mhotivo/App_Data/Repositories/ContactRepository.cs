@@ -8,7 +8,7 @@ using Mhotivo.Models;
 
 namespace Mhotivo.App_Data.Repositories
 {
-    public interface IContactRepository : IDisposable
+    public interface IContactInformationRepository : IDisposable
     {
         ContactInformation First(Expression<Func<ContactInformation, ContactInformation>> query);
         ContactInformation GetById(long id);
@@ -20,18 +20,13 @@ namespace Mhotivo.App_Data.Repositories
         void SaveChanges();
     }
 
-    public class ContactInformationRepository : IContactRepository
+    public class ContactInformationRepository : IContactInformationRepository
     {
         private readonly MhotivoContext _context;
 
-        private ContactInformationRepository(MhotivoContext ctx)
+        public ContactInformationRepository(MhotivoContext ctx)
         {
             _context = ctx;
-        }
-
-        public static ContactInformationRepository Instance
-        {
-            get { return new ContactInformationRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()
@@ -75,15 +70,6 @@ namespace Mhotivo.App_Data.Repositories
             _context.Entry(itemToUpdate).State = EntityState.Modified;
             SaveChanges();
             return itemToUpdate;
-        }
-
-        public ContactInformation UpdateNew(ContactInformation itemToUpdate)
-        {
-            var contactInformation = GetById(itemToUpdate.ContactId);
-            contactInformation.Type = itemToUpdate.Type;
-            contactInformation.Value = itemToUpdate.Value;
-
-            return Update(contactInformation);
         }
 
         public ContactInformation Delete(long id)

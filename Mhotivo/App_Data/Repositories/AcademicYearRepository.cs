@@ -22,19 +22,9 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private AcademicYearRepository(MhotivoContext ctx)
+        public AcademicYearRepository(MhotivoContext ctx)
         {
             _context = ctx;
-        }
-
-        public MhotivoContext GetContext()
-        {
-            return _context;
-        }
-
-        public static AcademicYearRepository Instance
-        {
-            get { return new AcademicYearRepository(new MhotivoContext()); }
         }
 
         public AcademicYear First(Expression<Func<AcademicYear, AcademicYear>> query)
@@ -101,7 +91,7 @@ namespace Mhotivo.App_Data.Repositories
             return itemToUpdate;   
         }
 
-        public AcademicYear UpdateNew(AcademicYear itemToUpdate)
+        public AcademicYear Update(AcademicYear itemToUpdate)
         {
             var updateCourse = false;
             var updateGrade = false;
