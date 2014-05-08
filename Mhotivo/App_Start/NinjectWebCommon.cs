@@ -70,7 +70,7 @@ namespace Mhotivo.App_Start
 
             kernel.Bind<IAcademicYearRepository>().To<AcademicYearRepository>().InRequestScope();
             kernel.Bind<IBenefactorRepository>().To<BenefactorRepository>().InRequestScope();
-            kernel.Bind<IContactRepository>().To<IContactRepository>().InRequestScope();
+            kernel.Bind<IContactInformationRepository>().To<ContactInformationRepository>().InRequestScope();
             kernel.Bind<ICourseRepository>().To<CourseRepository>().InRequestScope();
             //TODO: There is no DiaryEvent Interface
             kernel.Bind<IEnrollRepository>().To<EnrollRepository>().InRequestScope();

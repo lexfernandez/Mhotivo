@@ -64,6 +64,7 @@ namespace Mhotivo.Models
 
         [Display(Name = "Sexo")]
         public string Gender { get; set; }
+
     }
 
     public class BenefactorEditModel
