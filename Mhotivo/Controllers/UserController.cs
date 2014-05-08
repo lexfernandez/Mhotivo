@@ -8,7 +8,12 @@ namespace Mhotivo.Controllers
     public class UserController : Controller
     {
         private readonly UserRepository _userRepo = UserRepository.Instance;
-        private readonly RoleRepository _roleRepo = RoleRepository.Instance;
+        private readonly IRoleRepository _roleRepository;
+
+        public UserController(IRoleRepository roleRepository)
+        {
+            _roleRepository = roleRepository;
+        }
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -48,7 +53,7 @@ namespace Mhotivo.Controllers
                 RoleId = thisUser.Role.RoleId
             };
             
-            ViewBag.RoleId = new SelectList(_roleRepo.Query(x => x), "RoleId", "Name", thisUser.Role.RoleId);
+            ViewBag.RoleId = new SelectList(_roleRepository.Query(x => x), "RoleId", "Name", thisUser.Role.RoleId);
 
             return View("Edit", user);
         }
@@ -64,7 +69,7 @@ namespace Mhotivo.Controllers
             myUser.Status = modelUser.Status;
             if (myUser.Role.RoleId != modelUser.RoleId)
             {
-                myUser.Role = _roleRepo.GetById(modelUser.RoleId);
+                myUser.Role = _roleRepository.GetById(modelUser.RoleId);
                 updateRole = true;
             }
             
@@ -100,7 +105,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            ViewBag.RoleId = new SelectList(_roleRepo.Query(x => x), "RoleId", "Name");
+            ViewBag.RoleId = new SelectList(_roleRepository.Query(x => x), "RoleId", "Name");
             return View("Create");
         }
 
@@ -112,7 +117,7 @@ namespace Mhotivo.Controllers
                 DisplayName = modelUser.DisplaName,
                 Email = modelUser.UserName,
                 Password = modelUser.Password,
-                Role = _roleRepo.GetById(modelUser.RoleId),
+                Role = _roleRepository.GetById(modelUser.RoleId),
                 Status = modelUser.Status
             };
 
