@@ -8,27 +8,22 @@ namespace Mhotivo.Logic
 {
     public class SessionLayer: ISessionManagement
     {
-        private static SessionLayer _instance;
-        private static readonly UserRepository UserRepo = UserRepository.Instance;
+        private readonly IUserRepository _userRepository;
         private readonly string _userNameIdentifier;
         private readonly string _userRoleIdentifier;
 
-        private SessionLayer()
+        public SessionLayer(IUserRepository userRepository)
         {
+            _userRepository = userRepository;
             _userNameIdentifier = "loggedUserName";
             _userRoleIdentifier = "loggedUserRole";
-        }
-
-        public static SessionLayer Instance
-        {
-            get { return _instance ?? (_instance = new SessionLayer()); }
         }
 
         public bool LogIn(string userName, string password, bool remember = false)
         {
             if (!ValidateUser(userName, password)) return false;
 
-            HttpContext.Current.Session[_userNameIdentifier] = userName;
+            HttpContext.Current.Session[_userNameIdentifier] = GetUserLoggedName(userName,password);
             HttpContext.Current.Session[_userRoleIdentifier] = GetUserRole(userName);
             FormsAuthentication.RedirectFromLoginPage(userName, true);
 
@@ -45,10 +40,11 @@ namespace Mhotivo.Logic
 
         }
 
-        public string GetUserLoggedName()
+        public string GetUserLoggedName(string userName, string password)
         {
-            var userName = HttpContext.Current.Session[_userNameIdentifier];
-            return userName != null ? userName.ToString() : "";
+            var myUsers =
+                _userRepository.Filter(x => x.Email.Equals(userName) && x.Password.Equals(password)).FirstOrDefault();
+            return myUsers.DisplayName;
         }
 
         public string GetUserLoggedRole()
@@ -57,15 +53,15 @@ namespace Mhotivo.Logic
             return userRole != null ? userRole.ToString() : null;
         }
 
-        private static bool ValidateUser(string userName, string password)
+        private bool ValidateUser(string userName, string password)
         {    
-            var myUsers = UserRepo.Filter(x => x.Email.Equals(userName) && x.Password.Equals(password));
+            var myUsers = _userRepository.Filter(x => x.Email.Equals(userName) && x.Password.Equals(password));
             return myUsers != null && myUsers.Count() == 1; 
         }
 
-        private static string GetUserRole(string userName)
+        private string GetUserRole(string userName)
         {
-            var users = UserRepo.Filter(x => x.Email.Equals(userName));
+            var users = _userRepository.Filter(x => x.Email.Equals(userName));
             if (users != null && users.Count() !=0)
                 return users.First().Role.Name;
             return "";
