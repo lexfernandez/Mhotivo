@@ -9,7 +9,12 @@ namespace Mhotivo.Controllers
 {
     public class PeopleController : Controller
     {
-        private readonly PeopleRepository _peopleRepo = PeopleRepository.Instance;
+        private readonly IPeopleRepository _peopleRepository;
+
+        public PeopleController(IPeopleRepository peopleRepository)
+        {
+            _peopleRepository = peopleRepository;
+        }
 
         public ActionResult Index()
         {
@@ -22,13 +27,13 @@ namespace Mhotivo.Controllers
                 ViewBag.MessageContent = message.MessageContent;
             }
 
-            return View(_peopleRepo.Query(x => x).ToList()
+            return View(_peopleRepository.Query(x => x).ToList()
                 .Select(x => new DisplayPeopleModel
                 {
                     Address = x.Address,
                     BirthDay = x.BirthDate.ToShortDateString(),
                     PeopleId = x.PeopleId,
-                    Sexo = _peopleRepo.SexLabel(x.Gender),
+                    Sexo = Utilities.GenderToString(x.Gender),
                     City = x.City,
                     Nationality = x.Nationality,
                     State = x.State,
@@ -40,7 +45,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long peopleId)
         {
-            var people = _peopleRepo.GetById(peopleId);
+            var people = _peopleRepository.GetById(peopleId);
 
             var editUser = new PeopleEditModel
             {
@@ -48,7 +53,7 @@ namespace Mhotivo.Controllers
                 LastName = people.LastName,
                 Address = people.Address,
                 PeopleId = people.PeopleId,
-                Sexo = _peopleRepo.SexLabel(people.Gender),
+                Sexo = Utilities.GenderToString(people.Gender),
                 BirthDay = people.BirthDate.ToShortDateString(),
                 City = people.City,
                 Nationality = people.Nationality,
@@ -62,19 +67,19 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(PeopleEditModel peopleModel)
         {
-            var people = _peopleRepo.GetById(peopleModel.PeopleId);
+            var people = _peopleRepository.GetById(peopleModel.PeopleId);
             people.Address = peopleModel.Address;
             people.BirthDate = new DateTime();
             people.City = peopleModel.City;
             people.FirstName = peopleModel.FirstName;
             people.FullName = peopleModel.FirstName + " " + peopleModel.LastName;
             people.LastName = peopleModel.LastName;
-            people.Gender = _peopleRepo.IsMasculino(peopleModel.Sexo);
+            people.Gender = Utilities.IsMasculino(peopleModel.Sexo);
             people.Nationality = peopleModel.Nationality;
             people.State = peopleModel.State;
             people.UrlPicture = peopleModel.UrlPicture;
 
-            var result = _peopleRepo.Update(people);
+            var result = _peopleRepository.Update(people);
             const string title = "Persona Actualizada";
             var content = "La persona " + result.FullName + " - " + result.PeopleId + " ha sido actualizada exitosamente.";
 

@@ -13,7 +13,12 @@ namespace Mhotivo.Controllers
     public class CourseController : Controller
     {
 
-        private readonly CourseRepository _courseRepository = CourseRepository.Instance;
+        private readonly ICourseRepository _courseRepository;
+
+        public CourseController(ICourseRepository courseRepository)
+        {
+            _courseRepository = courseRepository;
+        }
 
         //
         // GET: /Course/
@@ -102,7 +107,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(Course course)
         {
-            var role = _courseRepository.UpdateNew(course);
+            var role = _courseRepository.Update(course);
             const string title = "Curso Actualizado";
             var content = "El curso " + role.Name + " ha sido modificado exitosamente.";
             TempData["MessageInfo"] = new MessageModel

@@ -10,10 +10,18 @@ namespace Mhotivo.Controllers
 {
     public class BenefactorController : Controller
     {
-        private readonly BenefactorRepository _benefactorRepo = BenefactorRepository.Instance;
-        private readonly PeopleRepository _peopleRepo = PeopleRepository.Instance;
-        private readonly StudentRepository _studentRepo = StudentRepository.Instance;
-        private readonly ContactInformationRepository _contactRepo = ContactInformationRepository.Instance;
+        private readonly IBenefactorRepository _benefactorRepository;
+        private readonly IPeopleRepository _peopleRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IContactInformationRepository _contactInformationRepository;
+
+        public BenefactorController(IBenefactorRepository benefactorRepository, IPeopleRepository peopleRepository, IStudentRepository studentRepository, IContactInformationRepository contactInformationRepository)
+        {
+            _benefactorRepository = benefactorRepository;
+            _peopleRepository = peopleRepository;
+            _studentRepository = studentRepository;
+            _contactInformationRepository = contactInformationRepository;
+        }
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -27,7 +35,7 @@ namespace Mhotivo.Controllers
                 ViewBag.MessageContent = message.MessageContent;
             }
 
-            return View(_benefactorRepo.Query(x => x).ToList()
+            return View(_benefactorRepository.Query(x => x).ToList()
                 .Select(x => new DisplayBenefactorModel
                 {
                     BenefactorID = x.PeopleId,
@@ -40,7 +48,7 @@ namespace Mhotivo.Controllers
                     City = x.City,
                     State = x.State,
                     Country = x.Country,
-                    Gender = _peopleRepo.SexLabel(x.Gender),
+                    Gender = Utilities.GenderToString(x.Gender),
                     Contacts = x.Contacts,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
@@ -51,7 +59,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult ContactEdit(long id)
         {
-            var thisContactInformation = _contactRepo.GetById(id);
+            var thisContactInformation = _contactInformationRepository.GetById(id);
             var contactInformation = new ContactInformationEditModel
             {
                 Type = thisContactInformation.Type,
@@ -67,7 +75,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var thisBenefactor = _benefactorRepo.GetById(id);
+            var thisBenefactor = _benefactorRepository.GetById(id);
             var benefactor = new BenefactorEditModel
             {
                 FirstName = thisBenefactor.FirstName,
@@ -75,7 +83,7 @@ namespace Mhotivo.Controllers
                 FullName = (thisBenefactor.FirstName + " " + thisBenefactor.LastName).Trim(),
                 IDNumber = thisBenefactor.IDNumber,
                 BirthDate = thisBenefactor.BirthDate.ToShortDateString(),
-                Gender = _peopleRepo.SexLabel(thisBenefactor.Gender),
+                Gender = Utilities.GenderToString(thisBenefactor.Gender),
                 Nationality = thisBenefactor.Nationality,
                 Country = thisBenefactor.Country,
                 State = thisBenefactor.State,
@@ -91,7 +99,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(BenefactorEditModel modelBenefactor)
         {
-            var myBenefactor = _benefactorRepo.GetById(modelBenefactor.Id);
+            var myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
             if (modelBenefactor.Capacity < modelBenefactor.StudentsCount)
             {
                 string title = "Beneficiario No Puede Tener Menos de " + modelBenefactor.StudentsCount;
@@ -113,14 +121,14 @@ namespace Mhotivo.Controllers
                 myBenefactor.Country = modelBenefactor.Country;
                 myBenefactor.IDNumber = modelBenefactor.IDNumber;
                 myBenefactor.BirthDate = DateTime.Parse(modelBenefactor.BirthDate);
-                myBenefactor.Gender = _peopleRepo.IsMasculino(modelBenefactor.Gender);
+                myBenefactor.Gender = Utilities.IsMasculino(modelBenefactor.Gender);
                 myBenefactor.Nationality = modelBenefactor.Nationality;
                 myBenefactor.State = modelBenefactor.State;
                 myBenefactor.City = modelBenefactor.City;
                 myBenefactor.Address = modelBenefactor.Address;
                 myBenefactor.Capacity = modelBenefactor.Capacity;
 
-                var benefactor = _benefactorRepo.Update(myBenefactor);
+                var benefactor = _benefactorRepository.Update(myBenefactor);
                 const string title = "Beneficiario Actualizado";
                 var content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
 
@@ -137,7 +145,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-            var benefactor = _benefactorRepo.Delete(id);
+            var benefactor = _benefactorRepository.Delete(id);
 
             const string title = "Padre o Tutor Eliminado";
             var content = "El Padre o Tutor " + benefactor.FullName + " ha sido eliminado exitosamente.";
@@ -178,7 +186,7 @@ namespace Mhotivo.Controllers
                 FullName = (modelBenefactor.FirstName + " " + modelBenefactor.LastName).Trim(),
                 IDNumber = modelBenefactor.IDNumber,
                 BirthDate = DateTime.Parse(modelBenefactor.BirthDate),
-                Gender = _peopleRepo.IsMasculino(modelBenefactor.Gender),
+                Gender = Utilities.IsMasculino(modelBenefactor.Gender),
                 Nationality = modelBenefactor.Nationality,
                 State = modelBenefactor.State,
                 Country = modelBenefactor.Country,
@@ -187,7 +195,7 @@ namespace Mhotivo.Controllers
                 Capacity = int.Parse(modelBenefactor.Capacity)
             };
 
-            var benefactor = _benefactorRepo.Create(myBenefactor);
+            var benefactor = _benefactorRepository.Create(myBenefactor);
             const string title = "Padre o Tutor Agregado";
             var content = "El Padre o Tutor " + myBenefactor.FullName + "ha sido agregado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
@@ -203,7 +211,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Details(long id)
         {
-            var thisBenefactor = _benefactorRepo.GetById(id);
+            var thisBenefactor = _benefactorRepository.GetById(id);
             var benefactor = new DisplayBenefactorModel
             {
                 BenefactorID = thisBenefactor.PeopleId,
@@ -218,7 +226,7 @@ namespace Mhotivo.Controllers
                 City = thisBenefactor.City,
                 State = thisBenefactor.State,
                 Country = thisBenefactor.Country,
-                Gender = _peopleRepo.SexLabel(thisBenefactor.Gender),
+                Gender = Utilities.GenderToString(thisBenefactor.Gender),
                 Contacts = thisBenefactor.Contacts,
                 Capacity = thisBenefactor.Capacity,
                 StudentsCount = thisBenefactor.Students.Count,
@@ -231,7 +239,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult DetailsEdit(long id)
         {
-            var thisBenefactor = _benefactorRepo.GetById(id);
+            var thisBenefactor = _benefactorRepository.GetById(id);
             var benefactor = new BenefactorEditModel
             {
                 FirstName = thisBenefactor.FirstName,
@@ -239,7 +247,7 @@ namespace Mhotivo.Controllers
                 FullName = (thisBenefactor.FirstName + " " + thisBenefactor.LastName).Trim(),
                 IDNumber = thisBenefactor.IDNumber,
                 BirthDate = thisBenefactor.BirthDate.ToShortDateString(),
-                Gender = _peopleRepo.SexLabel(thisBenefactor.Gender),
+                Gender = Utilities.GenderToString(thisBenefactor.Gender),
                 Nationality = thisBenefactor.Nationality,
                 Country = thisBenefactor.Country,
                 State = thisBenefactor.State,
@@ -269,20 +277,20 @@ namespace Mhotivo.Controllers
             }
             else
             {
-                var myBenefactor = _benefactorRepo.GetById(modelBenefactor.Id);
+                var myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
                 myBenefactor.FirstName = modelBenefactor.FirstName;
                 myBenefactor.LastName = modelBenefactor.LastName;
                 myBenefactor.FullName = (modelBenefactor.FirstName + " " + modelBenefactor.LastName).Trim();
                 myBenefactor.IDNumber = modelBenefactor.IDNumber;
                 myBenefactor.BirthDate = DateTime.Parse(modelBenefactor.BirthDate);
-                myBenefactor.Gender = _peopleRepo.IsMasculino(modelBenefactor.Gender);
+                myBenefactor.Gender = Utilities.IsMasculino(modelBenefactor.Gender);
                 myBenefactor.Nationality = modelBenefactor.Nationality;
                 myBenefactor.State = modelBenefactor.State;
                 myBenefactor.City = modelBenefactor.City;
                 myBenefactor.Country = modelBenefactor.Country;
                 myBenefactor.Address = modelBenefactor.Address;
                 myBenefactor.Capacity = modelBenefactor.Capacity;
-                var benefactor = _benefactorRepo.Update(myBenefactor);
+                var benefactor = _benefactorRepository.Update(myBenefactor);
                 const string title = "Beneficiario Actualizado";
                 var content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
 
@@ -299,14 +307,14 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult StudentEdit(long id)
         {
-            var thisStudent = _studentRepo.GetById(id);
+            var thisStudent = _studentRepository.GetById(id);
             var student = new StudentBenefactorEditModel
             {
                 OldID = (int) id,
                 BenefactorID = thisStudent.Benefactor == null ? -1 : thisStudent.Benefactor.PeopleId
 
             };
-            ViewBag.NewID = new SelectList(_studentRepo.Query(x => x), "PeopleID", "FullName", student.OldID);
+            ViewBag.NewID = new SelectList(_studentRepository.Query(x => x), "PeopleID", "FullName", student.OldID);
             return View("StudentEdit", student);
         }
 
@@ -317,63 +325,74 @@ namespace Mhotivo.Controllers
             {
                 BenefactorID = (int)id
             };
-            ViewBag.NewID = new SelectList(_studentRepo.Query(x => x), "PeopleID", "FullName");
+            ViewBag.NewID = new SelectList(_studentRepository.Query(x => x), "PeopleID", "FullName");
             return View("StudentAdd", student);
         }
 
         [HttpPost]
         public ActionResult StudentAdd(StudentBenefactorEditModel modelStudent)
         {
-            var benefactor = _benefactorRepo.GetById(modelStudent.BenefactorID);
-            if (benefactor.Capacity > benefactor.Students.Count)
+            var benefactor = _benefactorRepository.GetById(modelStudent.BenefactorID);
+            if (benefactor != null)
             {
-                if (modelStudent.NewID > 0)
+                if (benefactor.Capacity > benefactor.Students.Count)
                 {
-                    var myStudent = _studentRepo.GetById(modelStudent.NewID);
-                    if (myStudent.Benefactor == null || myStudent.Benefactor.PeopleId != modelStudent.BenefactorID)
-                    {
-                        myStudent.Benefactor = _benefactorRepo.GetById(modelStudent.BenefactorID);
-                        _benefactorRepo.Detach(myStudent.Benefactor);
-                        var student = _studentRepo.Update(myStudent, false, false, true);
-                    }
+                    var myStudent = _studentRepository.GetById(modelStudent.NewID);
+                    myStudent.Benefactor = benefactor;
+                    _studentRepository.Update(myStudent, false, false, false);
                 }
             }
+
+            //var benefactor = _benefactorRepository.GetById(modelStudent.BenefactorID);
+            //if (benefactor.Capacity > benefactor.Students.Count)
+            //{
+            //    if (modelStudent.NewID > 0)
+            //    {
+            //        var myStudent = _studentRepository.GetById(modelStudent.NewID);
+            //        if (myStudent.Benefactor == null || myStudent.Benefactor.PeopleId != modelStudent.BenefactorID)
+            //        {
+            //            myStudent.Benefactor = _benefactorRepository.GetById(modelStudent.BenefactorID);
+            //            _benefactorRepository.Detach(myStudent.Benefactor);
+            //            var student = _studentRepository.Update(myStudent, false, false, true);
+            //        }
+            //    }
+            //}
             return RedirectToAction("Details/" + modelStudent.BenefactorID);
         }
 
         [HttpPost]
         public ActionResult StudentEdit(StudentBenefactorEditModel modelStudent)
         {
-            if (modelStudent.NewID <= 0)
-            {
-                var myStudent = _studentRepo.GetById(modelStudent.OldID);
-                myStudent.Benefactor = null;
-                var student = _studentRepo.Update(myStudent, false, false, false);
-                myStudent = _studentRepo.GetById(modelStudent.NewID);
-            }
-            else if (modelStudent.OldID != modelStudent.NewID)
-            {
-                var myStudent = _studentRepo.GetById(modelStudent.NewID);
-                if (myStudent.Benefactor == null || myStudent.Benefactor.PeopleId != modelStudent.BenefactorID)
-                {
-                    myStudent.Benefactor = _benefactorRepo.GetById(modelStudent.BenefactorID);
-                    _benefactorRepo.Detach(myStudent.Benefactor);
-                    var student = _studentRepo.Update(myStudent, false, false, true);
-                    myStudent = _studentRepo.GetById(modelStudent.OldID);
-                    myStudent.Benefactor = null;
-                    student = _studentRepo.Update(myStudent, false, false, false);
-                }
-            }
+            //if (modelStudent.NewID <= 0)
+            //{
+            //    var myStudent = _studentRepository.GetById(modelStudent.OldID);
+            //    myStudent.Benefactor = null;
+            //    var student = _studentRepository.Update(myStudent, false, false, false);
+            //    myStudent = _studentRepository.GetById(modelStudent.NewID);
+            //}
+            //else if (modelStudent.OldID != modelStudent.NewID)
+            //{
+            //    var myStudent = _studentRepository.GetById(modelStudent.NewID);
+            //    if (myStudent.Benefactor == null || myStudent.Benefactor.PeopleId != modelStudent.BenefactorID)
+            //    {
+            //        myStudent.Benefactor = _benefactorRepository.GetById(modelStudent.BenefactorID);
+            //        _benefactorRepository.Detach(myStudent.Benefactor);
+            //        var student = _studentRepository.Update(myStudent, false, false, true);
+            //        myStudent = _studentRepository.GetById(modelStudent.OldID);
+            //        myStudent.Benefactor = null;
+            //        student = _studentRepository.Update(myStudent, false, false, false);
+            //    }
+            //}
             return RedirectToAction("Details/" + modelStudent.BenefactorID);
         }
 
         [HttpPost]
         public ActionResult DeleteStudent(long id)
         {
-            var myStudent = _studentRepo.GetById(id);
+            var myStudent = _studentRepository.GetById(id);
             long ID = myStudent.Benefactor.PeopleId;
             myStudent.Benefactor = null;
-            var student = _studentRepo.Update(myStudent, false, false, false);
+            var student = _studentRepository.Update(myStudent, false, false, false);
 
             const string title = "Estudiante Eliminado";
             var content = "El estudiante " + myStudent.FullName + " ha sido eliminado exitosamente.";

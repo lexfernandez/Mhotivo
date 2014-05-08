@@ -10,9 +10,16 @@ namespace Mhotivo.Controllers
 {
     public class MeisterController : Controller
     {
-        private readonly MeisterRepository _meisterRepo = MeisterRepository.Instance;
-        private readonly PeopleRepository _peopleRepo = PeopleRepository.Instance;
-        private readonly ContactInformationRepository _contactRepo = ContactInformationRepository.Instance;
+        private readonly IMeisterRepository _meisterRepository;
+        private readonly IPeopleRepository _peopleRepository;
+        private readonly IContactInformationRepository _contactInformationRepository;
+
+        public MeisterController(IMeisterRepository meisterRepository, IPeopleRepository peopleRepository, IContactInformationRepository contactInformationRepository)
+        {
+            _meisterRepository = meisterRepository;
+            _peopleRepository = peopleRepository;
+            _contactInformationRepository = contactInformationRepository;
+        }
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -26,7 +33,7 @@ namespace Mhotivo.Controllers
                 ViewBag.MessageContent = message.MessageContent;
             }
 
-            return View(_meisterRepo.Query(x => x).ToList()
+            return View(_meisterRepository.Query(x => x).ToList()
                 .Select(x => new DisplayMeisterModel
                 {
                     MeisterID = x.PeopleId,
@@ -39,7 +46,7 @@ namespace Mhotivo.Controllers
                     City = x.City,
                     State = x.State,
                     Country = x.Country,
-                    Gender = _peopleRepo.SexLabel(x.Gender),
+                    Gender = Utilities.GenderToString(x.Gender),
                     Contacts = x.Contacts,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
@@ -53,7 +60,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult ContactEdit(long id)
         {
-            var thisContactInformation = _contactRepo.GetById(id);
+            var thisContactInformation = _contactInformationRepository.GetById(id);
             var contactInformation = new ContactInformationEditModel
             {
                 Type = thisContactInformation.Type,
@@ -69,7 +76,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var thisMeister = _meisterRepo.GetById(id);
+            var thisMeister = _meisterRepository.GetById(id);
             var meister = new MeisterEditModel
             {
                 FirstName = thisMeister.FirstName,
@@ -77,7 +84,7 @@ namespace Mhotivo.Controllers
                 FullName = (thisMeister.FirstName + " " + thisMeister.LastName).Trim(),
                 IDNumber = thisMeister.IDNumber,
                 BirthDate = thisMeister.BirthDate.ToShortDateString(),
-                Gender = _peopleRepo.SexLabel(thisMeister.Gender),
+                Gender = Utilities.GenderToString(thisMeister.Gender),
                 Nationality = thisMeister.Nationality,
                 Country = thisMeister.Country,
                 State = thisMeister.State,
@@ -95,7 +102,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(MeisterEditModel modelMeister)
         {
-            var myMeister = _meisterRepo.GetById(modelMeister.Id);
+            var myMeister = _meisterRepository.GetById(modelMeister.Id);
 
             myMeister.FirstName = modelMeister.FirstName;
             myMeister.LastName = modelMeister.LastName;
@@ -103,7 +110,7 @@ namespace Mhotivo.Controllers
             myMeister.Country = modelMeister.Country;
             myMeister.IDNumber = modelMeister.IDNumber;
             myMeister.BirthDate = DateTime.Parse(modelMeister.BirthDate);
-            myMeister.Gender = _peopleRepo.IsMasculino(modelMeister.Gender);
+            myMeister.Gender = Utilities.IsMasculino(modelMeister.Gender);
             myMeister.Nationality = modelMeister.Nationality;
             myMeister.State = modelMeister.State;
             myMeister.City = modelMeister.City;
@@ -112,7 +119,7 @@ namespace Mhotivo.Controllers
             myMeister.EndDate = DateTime.Parse(modelMeister.EndDate);
             myMeister.Biography = modelMeister.Biography;
 
-            var meister = _meisterRepo.Update(myMeister);
+            var meister = _meisterRepository.Update(myMeister);
             const string title = "Maestro Actualizado";
             var content = "El maestro " + myMeister.FullName + " ha sido actualizado exitosamente.";
 
@@ -129,7 +136,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-            var meister = _meisterRepo.Delete(id);
+            var meister = _meisterRepository.Delete(id);
 
             const string title = "Maestro Eliminado";
             var content = "El maestro " + meister.FullName + " ha sido eliminado exitosamente.";
@@ -170,7 +177,7 @@ namespace Mhotivo.Controllers
                 FullName = (modelMeister.FirstName + " " + modelMeister.LastName).Trim(),
                 IDNumber = modelMeister.IDNumber,
                 BirthDate = DateTime.Parse(modelMeister.BirthDate),
-                Gender = _peopleRepo.IsMasculino(modelMeister.Gender),
+                Gender = Utilities.IsMasculino(modelMeister.Gender),
                 Nationality = modelMeister.Nationality,
                 State = modelMeister.State,
                 Country = modelMeister.Country,
@@ -181,7 +188,7 @@ namespace Mhotivo.Controllers
                 Biography = modelMeister.Biography
             };
 
-            var meister = _meisterRepo.Create(myMeister);
+            var meister = _meisterRepository.Create(myMeister);
             const string title = "Maestro Agregado";
             var content = "El maestro " + myMeister.FullName + "ha sido agregado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
@@ -197,7 +204,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Details(long id)
         {
-            var thisMeister = _meisterRepo.GetById(id);
+            var thisMeister = _meisterRepository.GetById(id);
             var meister = new DisplayMeisterModel
             {
                 MeisterID = thisMeister.PeopleId,
@@ -212,7 +219,7 @@ namespace Mhotivo.Controllers
                 City = thisMeister.City,
                 State = thisMeister.State,
                 Country = thisMeister.Country,
-                Gender = _peopleRepo.SexLabel(thisMeister.Gender),
+                Gender = Utilities.GenderToString(thisMeister.Gender),
                 Contacts = thisMeister.Contacts,
                 StartDate = thisMeister.StartDate.ToShortDateString(),
                 EndDate = thisMeister.EndDate.ToShortDateString(),
@@ -225,7 +232,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult DetailsEdit(long id)
         {
-            var thisMeister = _meisterRepo.GetById(id);
+            var thisMeister = _meisterRepository.GetById(id);
             var meister = new MeisterEditModel
             {
                 FirstName = thisMeister.FirstName,
@@ -233,7 +240,7 @@ namespace Mhotivo.Controllers
                 FullName = (thisMeister.FirstName + " " + thisMeister.LastName).Trim(),
                 IDNumber = thisMeister.IDNumber,
                 BirthDate = thisMeister.BirthDate.ToShortDateString(),
-                Gender = _peopleRepo.SexLabel(thisMeister.Gender),
+                Gender = Utilities.GenderToString(thisMeister.Gender),
                 Nationality = thisMeister.Nationality,
                 Country = thisMeister.Country,
                 State = thisMeister.State,
@@ -250,13 +257,13 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult DetailsEdit(MeisterEditModel modelMeister)
         {
-            var myMeister = _meisterRepo.GetById(modelMeister.Id);
+            var myMeister = _meisterRepository.GetById(modelMeister.Id);
             myMeister.FirstName = modelMeister.FirstName;
             myMeister.LastName = modelMeister.LastName;
             myMeister.FullName = (modelMeister.FirstName + " " + modelMeister.LastName).Trim();
             myMeister.IDNumber = modelMeister.IDNumber;
             myMeister.BirthDate = DateTime.Parse(modelMeister.BirthDate);
-            myMeister.Gender = _peopleRepo.IsMasculino(modelMeister.Gender);
+            myMeister.Gender = Utilities.IsMasculino(modelMeister.Gender);
             myMeister.Nationality = modelMeister.Nationality;
             myMeister.State = modelMeister.State;
             myMeister.City = modelMeister.City;
@@ -266,7 +273,7 @@ namespace Mhotivo.Controllers
             myMeister.EndDate = DateTime.Parse(modelMeister.EndDate);
             myMeister.Biography = modelMeister.Biography;
 
-            var meister = _meisterRepo.Update(myMeister);
+            var meister = _meisterRepository.Update(myMeister);
             const string title = "Maestro Actualizado";
             var content = "El maestro " + myMeister.FullName + " ha sido actualizado exitosamente.";
 
