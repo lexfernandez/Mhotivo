@@ -1,5 +1,6 @@
 using Mhotivo.App_Data;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Mhotivo.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(Mhotivo.App_Start.NinjectWebCommon), "Stop")]
@@ -64,8 +65,23 @@ namespace Mhotivo.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<MhotivoContext>().ToSelf().InRequestScope();     
+            kernel.Bind<MhotivoContext>().ToSelf().InRequestScope();
+            kernel.Bind<ISessionManagement>().To<SessionLayer>().InRequestScope();    
+
+            kernel.Bind<IAcademicYearRepository>().To<AcademicYearRepository>().InRequestScope();
+            kernel.Bind<IBenefactorRepository>().To<BenefactorRepository>().InRequestScope();
+            kernel.Bind<IContactRepository>().To<IContactRepository>().InRequestScope();
+            kernel.Bind<ICourseRepository>().To<CourseRepository>().InRequestScope();
+            //TODO: There is no DiaryEvent Interface
+            kernel.Bind<IEnrollRepository>().To<EnrollRepository>().InRequestScope();
+            kernel.Bind<IEventRepository>().To<EventRepository>().InRequestScope();
+            kernel.Bind<IGradeRepository>().To<GradeRepository>().InRequestScope();
+            kernel.Bind<IMeisterRepository>().To<MeisterRepository>().InRequestScope();
+            kernel.Bind<IParentRepository>().To<ParentRepository>().InRequestScope();
+            kernel.Bind<IPeopleRepository>().To<PeopleRepository>().InRequestScope();
             kernel.Bind<IRoleRepository>().To<RoleRepository>().InRequestScope();
+            kernel.Bind<IStudentRepository>().To<StudentRepository>().InRequestScope();
+            kernel.Bind<IUserRepository>().To<UserRepository>().InRequestScope();    
         }        
     }
 }

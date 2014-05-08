@@ -22,14 +22,9 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private UserRepository(MhotivoContext ctx)
+        public UserRepository(MhotivoContext ctx)
         {
             _context = ctx;
-        }
-
-        public static UserRepository Instance
-        {
-            get { return new UserRepository(new MhotivoContext()); }
         }
 
         public User First(Expression<Func<User, User>> query)
@@ -73,25 +68,6 @@ namespace Mhotivo.App_Data.Repositories
             return itemToUpdate;   
         }
 
-        public User UpdateNew(User itemToUpdate)
-        {
-            var updateRole = false;
-            var user = GetById(itemToUpdate.UserId);
-            user.DisplayName = itemToUpdate.DisplayName;
-            user.Email = itemToUpdate.Email;
-            user.Password = itemToUpdate.Password;
-            user.Status = itemToUpdate.Status;
-
-            if (user.Role.RoleId != itemToUpdate.Role.RoleId)
-            {
-                user.Role = itemToUpdate.Role;
-                updateRole = true;
-            }
-
-            return Update(user, updateRole);
-            
-        }
-
         public User Delete(long id)
         {
             var itemToDelete = GetById(id);
@@ -103,11 +79,6 @@ namespace Mhotivo.App_Data.Repositories
         public void SaveChanges()
         {
             _context.SaveChanges();
-        }
-
-        public String ActiveUserDisplaytext(bool active)
-        {
-            return active ? "Activo" : "Inactivo";
         }
 
         public void Dispose()

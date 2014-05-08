@@ -10,8 +10,12 @@ namespace Mhotivo.Controllers
     public class AccountController : Controller
     {
 
-        private readonly  ISessionManagement _session = SessionLayer.Instance;
+        private readonly  ISessionManagement _sessionManagement;
 
+        public AccountController(ISessionManagement sessionManagement)
+        {
+            _sessionManagement = sessionManagement;
+        }
         
         // GET: /Account/Login
         [AllowAnonymous]
@@ -28,7 +32,7 @@ namespace Mhotivo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && _session.LogIn(model.UserEmail, model.Password, model.RememberMe))
+            if (ModelState.IsValid && _sessionManagement.LogIn(model.UserEmail, model.Password, model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -41,7 +45,7 @@ namespace Mhotivo.Controllers
         // GET: /Account/Logout
         public ActionResult Logout(string returnUrl)
         {
-            _session.LogOut();
+            _sessionManagement.LogOut();
 
             return RedirectToAction("Index", "Home");
         }
@@ -52,7 +56,7 @@ namespace Mhotivo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Logout()
         {
-            _session.LogOut();
+            _sessionManagement.LogOut();
 
             return RedirectToAction("Index", "Home");
         }
