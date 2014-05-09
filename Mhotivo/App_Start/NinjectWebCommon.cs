@@ -72,7 +72,7 @@ namespace Mhotivo.App_Start
             kernel.Bind<IBenefactorRepository>().To<BenefactorRepository>().InRequestScope();
             kernel.Bind<IContactInformationRepository>().To<ContactInformationRepository>().InRequestScope();
             kernel.Bind<ICourseRepository>().To<CourseRepository>().InRequestScope();
-            //TODO: There is no DiaryEvent Interface
+            kernel.Bind<IAppointmentDiaryRepository>().To<AppointmentDiaryRepository>().InRequestScope();
             kernel.Bind<IEnrollRepository>().To<EnrollRepository>().InRequestScope();
             kernel.Bind<IEventRepository>().To<EventRepository>().InRequestScope();
             kernel.Bind<IGradeRepository>().To<GradeRepository>().InRequestScope();
@@ -81,7 +81,7 @@ namespace Mhotivo.App_Start
             kernel.Bind<IPeopleRepository>().To<PeopleRepository>().InRequestScope();
             kernel.Bind<IRoleRepository>().To<RoleRepository>().InRequestScope();
             kernel.Bind<IStudentRepository>().To<StudentRepository>().InRequestScope();
-            kernel.Bind<IUserRepository>().To<UserRepository>().InRequestScope();    
+            kernel.Bind<IUserRepository>().To<UserRepository>().InRequestScope();
         }        
     }
 }
