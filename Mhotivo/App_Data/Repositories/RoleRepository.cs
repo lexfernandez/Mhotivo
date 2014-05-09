@@ -22,15 +22,10 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private RoleRepository(MhotivoContext ctx)
+        public RoleRepository(MhotivoContext ctx)
         {
             _context = ctx;
            
-        }
-
-        public static RoleRepository Instance
-        {
-            get { return new RoleRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()
@@ -73,15 +68,6 @@ namespace Mhotivo.App_Data.Repositories
             _context.Entry(itemToUpdate).State = EntityState.Modified;
             SaveChanges();
             return itemToUpdate;
-        }
-
-        public Role UpdateNew(Role itemToUpdate)
-        {
-            var role = GetById(itemToUpdate.RoleId);
-            role.Name = itemToUpdate.Name;
-            role.Description = itemToUpdate.Description;
-
-            return Update(role);
         }
 
         public void Delete(Role itemToDelete)

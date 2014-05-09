@@ -10,9 +10,14 @@ namespace Mhotivo.Controllers
 {
     public class ParentController : Controller
     {
-        private readonly ParentRepository _parentRepo = ParentRepository.Instance;
-        private readonly PeopleRepository _peopleRepo = PeopleRepository.Instance;
-        private readonly ContactInformationRepository _contactRepo = ContactInformationRepository.Instance;
+        private readonly IParentRepository _parentRepository;
+        private readonly IContactInformationRepository _contactInformationRepository;
+
+        public ParentController(IParentRepository parentRepository, IContactInformationRepository contactInformationRepository)
+        {
+            _parentRepository = parentRepository;
+            _contactInformationRepository = contactInformationRepository;
+        }
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -26,7 +31,7 @@ namespace Mhotivo.Controllers
                 ViewBag.MessageContent = message.MessageContent;
             }
 
-            return View(_parentRepo.Query(x => x).ToList()
+            return View(_parentRepository.Query(x => x).ToList()
                 .Select(x => new DisplayParentModel
                 {
                     ParentID = x.PeopleId,
@@ -39,7 +44,7 @@ namespace Mhotivo.Controllers
                     City = x.City,
                     State = x.State,
                     Country = x.Country,
-                    Gender = _peopleRepo.SexLabel(x.Gender),
+                    Gender = Utilities.GenderToString(x.Gender),
                     Contacts = x.Contacts,
                     FirstName = x.FirstName,
                     LastName = x.LastName
@@ -49,7 +54,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult ContactEdit(long id)
         {
-            var thisContactInformation = _contactRepo.GetById(id);
+            var thisContactInformation = _contactInformationRepository.GetById(id);
             var contactInformation = new ContactInformationEditModel
             {
                 Type = thisContactInformation.Type,
@@ -65,7 +70,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var thisParent = _parentRepo.GetById(id);
+            var thisParent = _parentRepository.GetById(id);
             var parent = new ParentEditModel
             {
                 FirstName = thisParent.FirstName,
@@ -73,7 +78,7 @@ namespace Mhotivo.Controllers
                 FullName = (thisParent.FirstName + " " + thisParent.LastName).Trim(),
                 IDNumber = thisParent.IDNumber,
                 BirthDate = thisParent.BirthDate.ToShortDateString(),
-                Gender = _peopleRepo.SexLabel(thisParent.Gender),
+                Gender = Utilities.GenderToString(thisParent.Gender),
                 Nationality = thisParent.Nationality,
                 Country = thisParent.Country,
                 State = thisParent.State,
@@ -88,7 +93,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(ParentEditModel modelParent)
         {
-            var myParent = _parentRepo.GetById(modelParent.Id);
+            var myParent = _parentRepository.GetById(modelParent.Id);
 
             myParent.FirstName = modelParent.FirstName;
             myParent.LastName = modelParent.LastName;
@@ -96,13 +101,13 @@ namespace Mhotivo.Controllers
             myParent.Country = modelParent.Country;
             myParent.IDNumber = modelParent.IDNumber;
             myParent.BirthDate = DateTime.Parse(modelParent.BirthDate);
-            myParent.Gender = _peopleRepo.IsMasculino(modelParent.Gender);
+            myParent.Gender = Utilities.IsMasculino(modelParent.Gender);
             myParent.Nationality = modelParent.Nationality;
             myParent.State = modelParent.State;
             myParent.City = modelParent.City;
             myParent.Address = modelParent.Address;
 
-            var parent = _parentRepo.Update(myParent);
+            var parent = _parentRepository.Update(myParent);
             const string title = "Padre o Tutor Actualizado";
             var content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";
 
@@ -119,7 +124,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-            var parent = _parentRepo.Delete(id);
+            var parent = _parentRepository.Delete(id);
 
             const string title = "Padre o Tutor Eliminado";
             var content = "El Padre o Tutor " + parent.FullName + " ha sido eliminado exitosamente.";
@@ -160,7 +165,7 @@ namespace Mhotivo.Controllers
                 FullName = (modelParent.FirstName + " " + modelParent.LastName).Trim(),
                 IDNumber = modelParent.IDNumber,
                 BirthDate = DateTime.Parse(modelParent.BirthDate),
-                Gender = _peopleRepo.IsMasculino(modelParent.Gender),
+                Gender = Utilities.IsMasculino(modelParent.Gender),
                 Nationality = modelParent.Nationality,
                 State = modelParent.State,
                 Country = modelParent.Country,
@@ -168,7 +173,7 @@ namespace Mhotivo.Controllers
                 Address = modelParent.Address
             };
 
-            var parent = _parentRepo.Create(myParent);
+            var parent = _parentRepository.Create(myParent);
             const string title = "Padre o Tutor Agregado";
             var content = "El Padre o Tutor " + myParent.FullName + "ha sido agregado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
@@ -184,7 +189,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Details(long id)
         {
-            var thisParent = _parentRepo.GetById(id);
+            var thisParent = _parentRepository.GetById(id);
             var parent = new DisplayParentModel
             {
                 ParentID = thisParent.PeopleId,
@@ -199,7 +204,7 @@ namespace Mhotivo.Controllers
                 City = thisParent.City,
                 State = thisParent.State,
                 Country = thisParent.Country,
-                Gender = _peopleRepo.SexLabel(thisParent.Gender),
+                Gender = Utilities.GenderToString(thisParent.Gender),
                 Contacts = thisParent.Contacts
             };
 
@@ -209,7 +214,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult DetailsEdit(long id)
         {
-            var thisParent = _parentRepo.GetById(id);
+            var thisParent = _parentRepository.GetById(id);
             var parent = new ParentEditModel
             {
                 FirstName = thisParent.FirstName,
@@ -217,7 +222,7 @@ namespace Mhotivo.Controllers
                 FullName = (thisParent.FirstName + " " + thisParent.LastName).Trim(),
                 IDNumber = thisParent.IDNumber,
                 BirthDate = thisParent.BirthDate.ToShortDateString(),
-                Gender = _peopleRepo.SexLabel(thisParent.Gender),
+                Gender = Utilities.GenderToString(thisParent.Gender),
                 Nationality = thisParent.Nationality,
                 Country = thisParent.Country,
                 State = thisParent.State,
@@ -231,19 +236,19 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult DetailsEdit(ParentEditModel modelParent)
         {
-            var myParent = _parentRepo.GetById(modelParent.Id);
+            var myParent = _parentRepository.GetById(modelParent.Id);
             myParent.FirstName = modelParent.FirstName;
             myParent.LastName = modelParent.LastName;
             myParent.FullName = (modelParent.FirstName + " " + modelParent.LastName).Trim();
             myParent.IDNumber = modelParent.IDNumber;
             myParent.BirthDate = DateTime.Parse(modelParent.BirthDate);
-            myParent.Gender = _peopleRepo.IsMasculino(modelParent.Gender);
+            myParent.Gender = Utilities.IsMasculino(modelParent.Gender);
             myParent.Nationality = modelParent.Nationality;
             myParent.State = modelParent.State;
             myParent.City = modelParent.City;
             myParent.Country = modelParent.Country;
             myParent.Address = modelParent.Address;
-            var parent = _parentRepo.Update(myParent);
+            var parent = _parentRepository.Update(myParent);
             const string title = "Padre o Tutor Actualizado";
             var content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";
 

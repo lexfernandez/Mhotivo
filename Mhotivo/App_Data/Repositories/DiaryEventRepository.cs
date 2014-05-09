@@ -12,6 +12,7 @@ namespace Mhotivo.App_Data.Repositories
         AppointmentDiary GetById(long id);
         AppointmentDiary Create(AppointmentDiary itemToCreate);
         IQueryable<TResult> Query<TResult>(Expression<Func<AppointmentDiary, TResult>> expression);
+        IQueryable<AppointmentDiary> Where(Expression<Func<AppointmentDiary, bool>> expression);
         IQueryable<AppointmentDiary> Filter(Expression<Func<AppointmentDiary, bool>> expression);
         AppointmentDiary Update(AppointmentDiary itemToUpdate);
         void Delete(AppointmentDiary itemToDelete);
@@ -23,14 +24,9 @@ namespace Mhotivo.App_Data.Repositories
         private readonly MhotivoContext _context;
         private static AppointmentDiaryRepository _instance;
 
-        private AppointmentDiaryRepository(MhotivoContext ctx)
+        public AppointmentDiaryRepository(MhotivoContext ctx)
         {
             _context = ctx;
-        }
-
-        public static AppointmentDiaryRepository Instance
-        {
-            get { return new AppointmentDiaryRepository(new MhotivoContext()); }
         }
 
         public void SaveChanges()
@@ -77,18 +73,6 @@ namespace Mhotivo.App_Data.Repositories
             _context.Entry(itemToUpdate).State = EntityState.Modified;
             _context.SaveChanges();
             return itemToUpdate;
-        }
-
-        public AppointmentDiary UpdateNew(AppointmentDiary itemToUpdate)
-        {
-            var diaryEvent = GetById(itemToUpdate.AppointmentDiaryId);
-            
-            diaryEvent.AppointmentLength = itemToUpdate.AppointmentLength;
-            diaryEvent.DateTimeScheduled = itemToUpdate.DateTimeScheduled;
-            diaryEvent.SomeImportantKey = itemToUpdate.SomeImportantKey;
-            diaryEvent.StatusENUM = itemToUpdate.StatusENUM;
-            diaryEvent.Title = itemToUpdate.Title;
-            return Update(diaryEvent);
         }
 
         public void Delete(AppointmentDiary itemToDelete)

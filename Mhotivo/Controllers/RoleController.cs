@@ -6,7 +6,12 @@ namespace Mhotivo.Controllers
 {
     public class RoleController : Controller
     {
-        private readonly RoleRepository _roleRepo = RoleRepository.Instance;
+        private readonly IRoleRepository _roleRepository;
+
+        public RoleController(IRoleRepository roleRepository)
+        {
+            _roleRepository = roleRepository;
+        }
                 //
         // GET: /Role/
 
@@ -21,7 +26,7 @@ namespace Mhotivo.Controllers
                 ViewBag.MessageContent = message.MessageContent;
             }
 
-            return View(_roleRepo.Query(x => x));
+            return View(_roleRepository.Query(x => x));
         }
 
         //
@@ -30,7 +35,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var r = _roleRepo.GetById(id);
+            var r = _roleRepository.GetById(id);
             var role = new RoleEditModel
                    {
                        RoleId = r.RoleId,
@@ -44,7 +49,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(Role modelRole)
         {
-            var role = _roleRepo.UpdateNew(modelRole);
+            var role = _roleRepository.Update(modelRole);
             const string title = "Role Actualizado";
             var content = "El role " + role.Name + " ha sido modificado exitosamente.";
             TempData["MessageInfo"] = new MessageModel

@@ -13,8 +13,15 @@ namespace Mhotivo.Controllers
 {
     public class AcademicYearController : Controller
     {
-        private AcademicYearRepository _academicYearRepository = AcademicYearRepository.Instance;
-        private MeisterRepository _meisterRepository =  MeisterRepository.Instance;
+        private readonly IAcademicYearRepository _academicYearRepository;
+        private readonly IMeisterRepository _meisterRepository;
+
+        public AcademicYearController(IAcademicYearRepository academicYearRepository, IMeisterRepository meisterRepository)
+        {
+            _academicYearRepository = academicYearRepository;
+            _meisterRepository = meisterRepository;
+        }
+
         public ActionResult Management()
         {
             //Nota: Agregar esto al momento de mostrar el nombre del teacher para que se pueda mostrar la vista.
@@ -59,15 +66,11 @@ namespace Mhotivo.Controllers
         public ActionResult ChangeTeacher(long id,long teacherId)
         {
             var academicYear = _academicYearRepository.GetById(id);
-            _meisterRepository=new MeisterRepository(_academicYearRepository.GetContext());
             var meister = _meisterRepository.GetById(teacherId);
             academicYear.Teacher = meister;
-            _academicYearRepository.Update(academicYear);
+            _academicYearRepository.Update(academicYear,false,false,false);
             _academicYearRepository.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
-
-
-
     }
 }

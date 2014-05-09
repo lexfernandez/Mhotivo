@@ -21,19 +21,12 @@ namespace Mhotivo.App_Data.Repositories
     public class PeopleRepository : IPeopleRepository
     {
         private readonly MhotivoContext _context;
-        private const string MasculinoLabel = "Masculino";
-        private const string FemeninoLabel = "Femenino";
 
-        private PeopleRepository(MhotivoContext ctx)
+        public PeopleRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
-
-        public static PeopleRepository Instance
-        {
-            get { return new PeopleRepository(new MhotivoContext()); }
-        }
-
+        
         public People First(Expression<Func<People, People>> query)
         {
             var peoples = _context.Peoples.Select(query);
@@ -69,25 +62,7 @@ namespace Mhotivo.App_Data.Repositories
             _context.SaveChanges();
             return itemToUpdate;   
         }
-
-        public People UpdateNew(People itemToUpdate)
-        {
-            var people = GetById(itemToUpdate.PeopleId);
-            people.Address = itemToUpdate.Address;
-            people.BirthDate = itemToUpdate.BirthDate;
-            people.City = itemToUpdate.City;
-            people.FirstName = itemToUpdate.FirstName;
-            people.FullName = itemToUpdate.FullName;
-            people.Gender = itemToUpdate.Gender;
-            people.LastName = itemToUpdate.LastName;
-            people.Nationality = itemToUpdate.Nationality;
-            people.State = itemToUpdate.State;
-            people.UrlPicture = itemToUpdate.UrlPicture;
-
-            return Update(people);
-            
-        }
-
+        
         public void Detach(People people)
         {
             _context.Entry(people).State = EntityState.Detached;
@@ -104,16 +79,6 @@ namespace Mhotivo.App_Data.Repositories
         public void SaveChanges()
         {
             _context.SaveChanges();
-        }
-
-        public string SexLabel(bool masculino)
-        {
-            return masculino ? MasculinoLabel : FemeninoLabel;
-        }
-
-        public bool IsMasculino(string sex)
-        {
-            return sex.Equals(MasculinoLabel);
         }
 
         public void Dispose()

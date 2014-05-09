@@ -22,14 +22,9 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private BenefactorRepository(MhotivoContext ctx)
+        public BenefactorRepository(MhotivoContext ctx)
         {
             _context = ctx;
-        }
-
-        public static BenefactorRepository Instance
-        {
-            get { return new BenefactorRepository(new MhotivoContext()); }
         }
 
         public Benefactor First(Expression<Func<Benefactor, Benefactor>> query)
@@ -67,24 +62,6 @@ namespace Mhotivo.App_Data.Repositories
         {
             _context.SaveChanges();
             return itemToUpdate;
-        }
-
-        public Benefactor UpdateNew(Benefactor itemToUpdate)
-        {
-            var benefactor = GetById(itemToUpdate.PeopleId);
-            benefactor.FirstName = itemToUpdate.FirstName;
-            benefactor.LastName = itemToUpdate.LastName;
-            benefactor.FullName = itemToUpdate.FullName;
-            benefactor.BirthDate = itemToUpdate.BirthDate;
-            benefactor.Gender = itemToUpdate.Gender;
-            benefactor.Nationality = itemToUpdate.Nationality;
-            benefactor.State = itemToUpdate.State;
-            benefactor.City = itemToUpdate.City;
-            benefactor.Address = itemToUpdate.Address;
-            benefactor.Country = itemToUpdate.Country;
-
-            return Update(benefactor);
-
         }
 
         public Benefactor Delete(long id)

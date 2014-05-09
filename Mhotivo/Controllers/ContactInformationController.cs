@@ -10,9 +10,14 @@ namespace Mhotivo.Controllers
 {
     public class ContactInformationController : Controller
     {
-        private readonly ContactInformationRepository _contactRepo = ContactInformationRepository.Instance;
-        private readonly StudentRepository _studentRepo = StudentRepository.Instance;
-        private readonly PeopleRepository _peopleRepo = PeopleRepository.Instance;
+        private readonly IContactInformationRepository _contactInformationRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IPeopleRepository _peopleRepository;
+
+        public ContactInformationController(IContactInformationRepository contactInformationRepository, IStudentRepository studentRepository,IPeopleRepository peopleRepository)
+        {
+            
+        }
 
         [AllowAnonymous]
         
@@ -20,12 +25,12 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(ContactInformationEditModel modelContactInformation)
         {
-            var myContactInformation = _contactRepo.GetById(modelContactInformation.Id);
+            var myContactInformation = _contactInformationRepository.GetById(modelContactInformation.Id);
 
             myContactInformation.Type = modelContactInformation.Type;
             myContactInformation.Value = modelContactInformation.Value;
 
-            var contactInformation = _contactRepo.Update(myContactInformation);
+            var contactInformation = _contactInformationRepository.Update(myContactInformation);
             const string title = "Contacto Actualizado";
 
             TempData["MessageInfo"] = new MessageModel
@@ -40,9 +45,9 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id, string control)
         {
-            var myContactInformation = _contactRepo.GetById(id);
+            var myContactInformation = _contactInformationRepository.GetById(id);
             long ID = myContactInformation.People.PeopleId;
-            var contactInformation = _contactRepo.Delete(id);
+            var contactInformation = _contactInformationRepository.Delete(id);
             const string title = "Informacion Eliminada";
             TempData["MessageInfo"] = new MessageModel
             {
@@ -70,10 +75,10 @@ namespace Mhotivo.Controllers
             {
                 Type = modelContactInformation.Type,
                 Value = modelContactInformation.Value,
-                People = _peopleRepo.GetById(modelContactInformation.PeopleId)
+                People = _peopleRepository.GetById(modelContactInformation.PeopleId)
             };
-            _peopleRepo.Detach(myContactInformation.People);
-            var contactInformation = _contactRepo.Create(myContactInformation);
+            //_peopleRepository.Detach(myContactInformation.People);
+            var contactInformation = _contactInformationRepository.Create(myContactInformation);
             
             const string title = "Informacion Agregada";
             TempData["MessageInfo"] = new MessageModel
