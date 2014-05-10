@@ -152,6 +152,7 @@
     <Compile Include="App_Data\Repositories\DiaryEventRepository.cs" />
     <Compile Include="App_Data\Repositories\MeisterRepository.cs" />
     <Compile Include="App_Data\Repositories\ParentRepository.cs" />
+    <Compile Include="App_Data\Repositories\PensumRepository.cs" />
     <Compile Include="App_Data\Repositories\PeopleRepository.cs" />
     <Compile Include="App_Data\Repositories\RoleRepository.cs" />
     <Compile Include="App_Data\Repositories\StudentRepository.cs" />
