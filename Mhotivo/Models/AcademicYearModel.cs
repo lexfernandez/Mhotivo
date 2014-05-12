@@ -16,9 +16,9 @@ namespace Mhotivo.Models
         public DateTime Year { get; set; }
         public char Section { get; set; }
         public virtual Meister Teacher { get; set; }
-        public DateTime TeacherStartDate { get; set; }
-        public DateTime TeacherEndDate { get; set; }
-        public DateTime Schedule { get; set; }
+        public DateTime? TeacherStartDate { get; set; }
+        public DateTime? TeacherEndDate { get; set; }
+        public DateTime? Schedule { get; set; }
         public String Room { get; set; }
         public bool Approved { get; set; }
         public bool IsActive { get; set; }
@@ -36,31 +36,31 @@ namespace Mhotivo.Models
         [Display(Name = "Course")]
         public string Course { get; set; }
 
-        [Display (Name = "Year")]
+        [Display(Name = "Year")]
         public int Year { get; set; }
 
-        [Display (Name = "Section")]
+        [Display(Name = "Section")]
         public char Section { get; set; }
 
-        [Display (Name = "Teacher")]
+        [Display(Name = "Teacher")]
         public string Meister { get; set; }
 
-        [Display (Name = "Teacher Start Date")]
+        [Display(Name = "Teacher Start Date")]
         public string StartDate { get; set; }
 
-        [Display (Name = "Teacher End Date")]
+        [Display(Name = "Teacher End Date")]
         public string EndDate { get; set; }
 
-        [Display (Name = "Schedule")]
+        [Display(Name = "Schedule")]
         public string Schedule { get; set; }
 
-        [Display (Name = "Classroom")]
+        [Display(Name = "Classroom")]
         public string Room { get; set; }
 
-        [Display (Name = "Approved")]
+        [Display(Name = "Approved")]
         public String Approved { get; set; }
 
-        [Display (Name = "Students Limit")]
+        [Display(Name = "Students Limit")]
         public int Limit { get; set; }
 
     }

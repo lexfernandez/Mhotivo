@@ -17,6 +17,7 @@
 @Html.Partial("~/Views/Shared/_MessageArea.cshtml")
 
 @using (Html.BeginForm("Add", "meister", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"})){
+    @Html.ValidationSummary(true)
 <h2>Agregar Padre o Tutor</h2>
 
 <p>
@@ -36,19 +37,23 @@
     <div id="mainAddress">
         @Html.EditorFor(model => model.Address)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Address)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.Address)</p>
     </div>
     <br style="clear: left;" />
     <div style="float: left; width: 200px;">
         @Html.EditorFor(model => model.City)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.City)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.City)</p>
     </div>
     <div style="float: left; width: 100px;">
         @Html.EditorFor(model => model.State)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.State)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.State)</p>
     </div>
     <div style="float: left; width: 200px;">
         @Html.EditorFor(model => model.Country)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Country)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.Country)</p>
     </div>
     <br style="clear: left;" />
 </div>
@@ -58,30 +63,36 @@
     <div id="FirstName" style="float: left; width: 250px;">
         @Html.EditorFor(model => model.FirstName)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.FirstName)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.FirstName)</p>
     </div>
     <div style="float: left; width: 250px;">
         @Html.EditorFor(model => model.LastName)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.LastName)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.LastName)</p>
     </div>
     <br style="clear: left;" />
     <br style="clear: left;" />
     <div style="float: left; width: 250px;">
         @Html.EditorFor(model => model.IDNumber)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.IDNumber)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.IDNumber)</p>
     </div>
     <div style="float: left; width: 250px;">
         @Html.EditorFor(model => model.BirthDate)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.BirthDate)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.BirthDate)</p>
     </div>
     <br style="clear: left;" />
     <br style="clear: left;" />
     <div style="float: left; width: 250px;">
         @Html.EditorFor(model => model.Gender)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Gender)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.Gender)</p>
     </div>
     <div style="float: left; width: 250px;">
         @Html.EditorFor(model => model.Nationality)
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Nationality)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.Nationality)</p>
     </div>
     <br style="clear: left;" />
 </div>
@@ -91,15 +102,18 @@
         <div style="float: left; width: 250px;">
             @Html.EditorFor(model => model.StartDate)
             <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.StartDate)</span>
+            <p class="text-error">@Html.ValidationMessageFor(model => model.StartDate)</p>
         </div>
         <div style="float: left; width: 250px;">
             @Html.EditorFor(model => model.EndDate)
             <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.EndDate)</span>
+            <p class="text-error">@Html.ValidationMessageFor(model => model.EndDate)</p>
         </div>
         <br style="clear: left;" />
         <div style="float: left; width: 500px;">
             @Html.TextAreaFor(model => model.Biography, new { style = "width: 400px; height: 200px;", @rows = 3 })
             <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Biography)</span>
+            <p class="text-error">@Html.ValidationMessageFor(model => model.Biography)</p>
         </div>
         <br style="clear: left;" />
     </div>

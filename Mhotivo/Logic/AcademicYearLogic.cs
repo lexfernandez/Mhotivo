@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Mhotivo.App_Data.Repositories;
 using Mhotivo.Models;
 
@@ -9,19 +7,44 @@ namespace Mhotivo.Logic
 {
     public class AcademicYearLogic
     {
-        private readonly ICourseRepository _courseRepo = CourseRepository.Instance;
-        private readonly IPensumRepository _pensumRepo = PensumRepository.Instance;
+        private readonly ICourseRepository _courseRepo;
+        private readonly IPensumRepository _pensumRepo;
+        private readonly IAcademicYearRepository _academicYearRepo;
 
-        public void GenerateSectionForGrades(IEnumerable<Grade> grades )
+        public AcademicYearLogic(ICourseRepository courseRepo, IPensumRepository pensumRepo, IAcademicYearRepository academicYearRepo)
         {
-            var courses = _courseRepo.Query(x => x);
+            _courseRepo = courseRepo;
+            _pensumRepo = pensumRepo;
+            _academicYearRepo = academicYearRepo;
+        }
 
-            foreach (var c in courses)
+        public void GenerateSectionForGrades()
+        {
+            var courses = _courseRepo.Query(x => x).ToList();
+
+            foreach (var currentCourse in courses)
             {
-                var pensums = _pensumRepo.Filter(x => x.Course.CourseId == c.CourseId);
+                Course course = currentCourse;
+                var pensums = _pensumRepo.Filter(x => x.Course.CourseId == course.CourseId).ToList();
                 foreach (var pensum in pensums)
                 {
-                    
+                    var academicYear = new AcademicYear
+                    {
+                        Teacher = null,
+                        Approved = false,
+                        Course = currentCourse,
+                        Grade = pensum.Grade,
+                        IsActive = true,
+                        Room = "",
+                        Section = 'A',
+                        StudentsCount = 0,
+                        StudentsLimit = 25,
+                        Year = DateTime.Now,
+                        Schedule = null,
+                        TeacherEndDate = null,
+                        TeacherStartDate = null
+                    };
+                    _academicYearRepo.Create(academicYear);
                 }
             }
         }

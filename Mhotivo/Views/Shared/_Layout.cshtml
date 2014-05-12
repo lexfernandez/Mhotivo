@@ -254,6 +254,29 @@
     	            );
     	        }); //End of delete
 
+    	        //start Question
+    	        $("a.toQuestion").on("click", function () {
+    	            var uri = $(this).attr("id");
+    	            var idMessage = "input[id*='" + uri + "_Message']";
+    	            var idForm = "#Form_" + uri;
+    	            var message = $(idMessage).val();
+    	            bootbox.dialog(message,
+                        [
+                           {
+                               "label": "No",
+                               "class": "btn-small"
+                           },
+                           {
+                               "label": "Si",
+                               "class": "btn-small btn-info",
+                               "callback": function () {
+                                   $(idForm).submit();
+                               }
+                           }
+                        ]
+                    );
+    	        }); //End of Question
+
     	        //start Details
     	        $(document).ready(function () {
     	            $('.toDetails').on("click", function () {
