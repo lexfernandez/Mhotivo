@@ -39,12 +39,14 @@ else
                 <tr>
                     <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.StudentID)" class="toDetails">
                         <a href="~/@Html.DisplayNameFor(model => model.UrlPicture)" data-rel="colorbox">
-							<img alt="150x150" src="~/@Html.DisplayNameFor(model => model.UrlPicture)" />
-							<div class="text">
-							</div>
-						</a>
+                            <img alt="150x150" src="~/@Html.DisplayNameFor(model => model.UrlPicture)" />
+                            <div class="text">
+                            </div>
+                        </a>
                     </td>
-				    <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.StudentID)" class="toDetails">@Html.DisplayFor(modelItem => item.FullName)</td>
+                    
+
+                    <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.StudentID)" class="toDetails">@Html.DisplayFor(modelItem => item.FullName)</td>
 			        <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.StudentID)" class="toDetails">@Html.DisplayFor(modelItem => item.StartDate)</td>
                     <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.StudentID)" class="toDetails">@Html.DisplayFor(modelItem => item.BloodType)</td>
                     <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.StudentID)" class="toDetails">@Html.DisplayFor(modelItem => item.AccountNumber)</td>

@@ -42,7 +42,7 @@ namespace Mhotivo.Controllers
                     IDNumber = x.IDNumber,
                     UrlPicture = x.UrlPicture,
                     FullName = x.FullName,
-                    BirthDate = x.BirthDate.ToShortDateString(),
+                    BirthDate = x.BirthDate,//x.BirthDate.ToShortDateString(),
                     Nationality = x.Nationality,
                     Address = x.Address,
                     City = x.City,
@@ -82,7 +82,7 @@ namespace Mhotivo.Controllers
                 LastName = thisBenefactor.LastName,
                 FullName = (thisBenefactor.FirstName + " " + thisBenefactor.LastName).Trim(),
                 IDNumber = thisBenefactor.IDNumber,
-                BirthDate = thisBenefactor.BirthDate.ToShortDateString(),
+                BirthDate = thisBenefactor.BirthDate,//thisBenefactor.BirthDate.ToShortDateString(),
                 Gender = Utilities.GenderToString(thisBenefactor.Gender),
                 Nationality = thisBenefactor.Nationality,
                 Country = thisBenefactor.Country,
@@ -120,7 +120,7 @@ namespace Mhotivo.Controllers
                 myBenefactor.FullName = (modelBenefactor.FirstName + " " + modelBenefactor.LastName).Trim();
                 myBenefactor.Country = modelBenefactor.Country;
                 myBenefactor.IDNumber = modelBenefactor.IDNumber;
-                myBenefactor.BirthDate = DateTime.Parse(modelBenefactor.BirthDate);
+                myBenefactor.BirthDate = modelBenefactor.BirthDate;//DateTime.Parse(modelBenefactor.BirthDate);
                 myBenefactor.Gender = Utilities.IsMasculino(modelBenefactor.Gender);
                 myBenefactor.Nationality = modelBenefactor.Nationality;
                 myBenefactor.State = modelBenefactor.State;
@@ -185,7 +185,7 @@ namespace Mhotivo.Controllers
                 LastName = modelBenefactor.LastName,
                 FullName = (modelBenefactor.FirstName + " " + modelBenefactor.LastName).Trim(),
                 IDNumber = modelBenefactor.IDNumber,
-                BirthDate = DateTime.Parse(modelBenefactor.BirthDate),
+                BirthDate =modelBenefactor.BirthDate, //DateTime.Parse(modelBenefactor.BirthDate),
                 Gender = Utilities.IsMasculino(modelBenefactor.Gender),
                 Nationality = modelBenefactor.Nationality,
                 State = modelBenefactor.State,
@@ -220,7 +220,7 @@ namespace Mhotivo.Controllers
                 FirstName = thisBenefactor.FirstName,
                 LastName = thisBenefactor.LastName,
                 FullName = thisBenefactor.FullName,
-                BirthDate = thisBenefactor.BirthDate.ToShortDateString(),
+                BirthDate = thisBenefactor.BirthDate,//thisBenefactor.BirthDate.ToShortDateString(),
                 Nationality = thisBenefactor.Nationality,
                 Address = thisBenefactor.Address,
                 City = thisBenefactor.City,
@@ -246,7 +246,7 @@ namespace Mhotivo.Controllers
                 LastName = thisBenefactor.LastName,
                 FullName = (thisBenefactor.FirstName + " " + thisBenefactor.LastName).Trim(),
                 IDNumber = thisBenefactor.IDNumber,
-                BirthDate = thisBenefactor.BirthDate.ToShortDateString(),
+                BirthDate = thisBenefactor.BirthDate,//thisBenefactor.BirthDate.ToShortDateString(),
                 Gender = Utilities.GenderToString(thisBenefactor.Gender),
                 Nationality = thisBenefactor.Nationality,
                 Country = thisBenefactor.Country,
@@ -282,7 +282,7 @@ namespace Mhotivo.Controllers
                 myBenefactor.LastName = modelBenefactor.LastName;
                 myBenefactor.FullName = (modelBenefactor.FirstName + " " + modelBenefactor.LastName).Trim();
                 myBenefactor.IDNumber = modelBenefactor.IDNumber;
-                myBenefactor.BirthDate = DateTime.Parse(modelBenefactor.BirthDate);
+                myBenefactor.BirthDate = modelBenefactor.BirthDate;// DateTime.Parse(modelBenefactor.BirthDate);
                 myBenefactor.Gender = Utilities.IsMasculino(modelBenefactor.Gender);
                 myBenefactor.Nationality = modelBenefactor.Nationality;
                 myBenefactor.State = modelBenefactor.State;
