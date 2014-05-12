@@ -9,16 +9,15 @@ namespace Mhotivo.Controllers
 {
     public class ClassActivityController : Controller
     {
-        private readonly IClassActivityRepository _classActivityRepo;
-        private readonly IAcademicYearRepository _academicYearRepo;
+        private readonly IClassActivityRepository _classActivityRepository;
+        private readonly IAcademicYearRepository _academicYearRepository;
 
         public ClassActivityController(IClassActivityRepository classActivityRepository, IAcademicYearRepository academicYearRepository)
         {
-            _classActivityRepo = classActivityRepository;
-            _academicYearRepo = academicYearRepository;
+            _classActivityRepository = classActivityRepository;
+            _academicYearRepository = academicYearRepository;
         }
 
-        [AllowAnonymous]
         public ActionResult Index()
         {
             var message = (MessageModel)TempData["MessageInfo"];
@@ -30,7 +29,7 @@ namespace Mhotivo.Controllers
                 ViewBag.MessageContent = message.MessageContent;
             }
 
-            return View(_classActivityRepo.Query(x => x).ToList()
+            return View(_classActivityRepository.Query(x => x).ToList()
                 .Select(x => new DisplayClassActivityModel
                 {
                     AcademicYear = Convert.ToString(x.AcademicYear.Year.Year),
@@ -38,14 +37,14 @@ namespace Mhotivo.Controllers
                     Type = x.Type,
                     Description = x.Description,
                     Value = Convert.ToString(x.Value),
-                    ClassActivityId = x.Id
+                    Id = x.Id
                 }));   
         }
 
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var thisClassActivity = _classActivityRepo.GetById(id);
+            var thisClassActivity = _classActivityRepository.GetById(id);
             var classActivity = new ClassActivityEditModel
             {
                 AcademicYearId = thisClassActivity.AcademicYear.Id,
@@ -56,7 +55,7 @@ namespace Mhotivo.Controllers
                 Id = thisClassActivity.Id
             };
 
-            ViewBag.AcademicYearId = new SelectList(_academicYearRepo.Query(x => x), "AcademicYearId", "Year", thisClassActivity.AcademicYear.Id);
+            ViewBag.AcademicYearId = new SelectList(_academicYearRepository.Query(x => x), "AcademicYearId", "Year", thisClassActivity.AcademicYear.Id);
 
             return View("Edit", classActivity);
         }
@@ -64,14 +63,14 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(ClassActivityEditModel modelClassActivity)
         {
-            var myClassActivity = _classActivityRepo.GetById(modelClassActivity.Id);
+            var myClassActivity = _classActivityRepository.GetById(modelClassActivity.Id);
             myClassActivity.Name = modelClassActivity.DisplayName;
             myClassActivity.Type = modelClassActivity.Type;
             myClassActivity.Description = modelClassActivity.Description;
             myClassActivity.Value = modelClassActivity.Value;
-            myClassActivity.AcademicYear = _classActivityRepo.GetByIdAY(modelClassActivity.AcademicYearId);
+            myClassActivity.AcademicYear = _academicYearRepository.GetById(modelClassActivity.AcademicYearId);
 
-            var classactivity = _classActivityRepo.Update(myClassActivity,true);
+            var classactivity = _classActivityRepository.Update(myClassActivity,true);
             const string title = "Actividad Actualizada";
             var content = "La actividad --" + classactivity.Name + "-- ha sido actualizado exitosamente.";
 
@@ -88,7 +87,8 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-            var classactivity = _classActivityRepo.Delete(id);
+
+            var classactivity = _classActivityRepository.Delete(_classActivityRepository.GetById(id));
 
             const string title = "Actividad Eliminada";
             var content = "La activdad --" + classactivity.Name + "-- ha sido eliminado exitosamente.";
@@ -109,7 +109,7 @@ namespace Mhotivo.Controllers
             listTypes.Add("Homework");
             listTypes.Add("Classwork");
             ViewBag.Type = new SelectList(listTypes);
-            ViewBag.AcademicYearId = new SelectList(_academicYearRepo.Query(x => x), "AcademicYearId", "Year");
+            ViewBag.AcademicYearId = new SelectList(_academicYearRepository.Query(x => x), "AcademicYearId", "Year");
             return View("Create");
         }
 
@@ -122,10 +122,10 @@ namespace Mhotivo.Controllers
                 Type = modelClassActivity.Type,
                 Description = modelClassActivity.Description,
                 Value = modelClassActivity.Value,
-                AcademicYear = _classActivityRepo.GetByIdAY(modelClassActivity.AcademicYearId)
+                AcademicYear = _academicYearRepository.GetById(modelClassActivity.AcademicYearId)
             };
 
-            var classactivity = _classActivityRepo.Create(myClassActivity);
+            var classactivity = _classActivityRepository.Create(myClassActivity);
             const string title = "Actividad Agregada";
             var content = "La Actividad --" + classactivity.Name + "-- ha sido agregada exitosamente.";
             TempData["MessageInfo"] = new MessageModel

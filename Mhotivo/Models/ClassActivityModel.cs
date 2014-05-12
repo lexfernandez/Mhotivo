@@ -21,7 +21,7 @@ namespace Mhotivo.Models
     public class DisplayClassActivityModel
     {
 
-        public int ClassActivityId { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Año Académico")]
         public string AcademicYear { get; set; }

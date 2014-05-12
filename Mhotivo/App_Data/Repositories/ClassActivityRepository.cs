@@ -14,9 +14,8 @@ namespace Mhotivo.App_Data.Repositories
         IQueryable<ClassActivity> Query(Expression<Func<ClassActivity, ClassActivity>> expression);
         IQueryable<ClassActivity> Filter(Expression<Func<ClassActivity, bool>> expression);
         ClassActivity Update(ClassActivity itemToUpdate, bool updateRole);
-        ClassActivity Delete(long id);
+        ClassActivity Delete(ClassActivity itemToDelete);
         void SaveChanges();
-        AcademicYear GetByIdAY(long id);
     }
 
     public class ClassActivityRepository : IClassActivityRepository
@@ -28,28 +27,23 @@ namespace Mhotivo.App_Data.Repositories
             _context = ctx;
         }
 
-        public static ClassActivityRepository Instance
-        {
-            get { return new ClassActivityRepository(new MhotivoContext()); }
-        }
-
         public ClassActivity First(Expression<Func<ClassActivity, ClassActivity>> query)
         {
             var classactivities = _context.ClassActivities.Select(query);
-            return classactivities.Count() != 0 ? classactivities.First() : null;
+            return classactivities.First();
         }
 
         public ClassActivity GetById(long id)
         {
             var classactivities = _context.ClassActivities.Where(x => x.Id == id);
-            return classactivities.Count() != 0 ? classactivities.First() : null;
+            return classactivities.First();
         }
 
         public ClassActivity Create(ClassActivity itemToCreate)
         {
             var classactivity = _context.ClassActivities.Add(itemToCreate);
             _context.Entry(classactivity.AcademicYear).State = EntityState.Modified;
-            _context.SaveChanges();
+            SaveChanges();
             return classactivity;
         }
 
@@ -68,34 +62,21 @@ namespace Mhotivo.App_Data.Repositories
         public ClassActivity Update(ClassActivity itemToUpdate, bool updateRole)
         {
             _context.Entry(itemToUpdate).State = EntityState.Modified;
-            _context.SaveChanges();
+            SaveChanges();
             return itemToUpdate;
         }
 
         public ClassActivity Update(ClassActivity itemToUpdate)
         {
             _context.Entry(itemToUpdate).State = EntityState.Modified;
-            _context.SaveChanges();
+            SaveChanges();
             return itemToUpdate;   
         }
 
-        public ClassActivity UpdateNew(ClassActivity itemToUpdate)
+        public ClassActivity Delete(ClassActivity itemToDelete)
         {
-            var classactivity = GetById(itemToUpdate.Id);
-            classactivity.Name = itemToUpdate.Name;
-            classactivity.Description = itemToUpdate.Description;
-            classactivity.Type = itemToUpdate.Type;
-            classactivity.Value = itemToUpdate.Value;
-
-            return Update(classactivity);
-            
-        }
-
-        public ClassActivity Delete(long id)
-        {
-            var itemToDelete = GetById(id);
             _context.ClassActivities.Remove(itemToDelete);
-            _context.SaveChanges();
+            SaveChanges();
             return itemToDelete;
         }
 
@@ -114,10 +95,5 @@ namespace Mhotivo.App_Data.Repositories
             _context.Dispose();
         }
 
-        public AcademicYear GetByIdAY(long id)
-        {
-            var academicyears = _context.AcademicYears.Where(x => x.Id == id);
-            return academicyears.Count() != 0 ? academicyears.First() : null;
-        }
     }
 }

@@ -41,11 +41,11 @@ else
                     <td>@Html.DisplayFor(modelItem => item.Description)</td>
                     <td>@Html.DisplayFor(modelItem => item.Value)</td>
                     <td>
-                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/ClassActivity/Edit/@Html.DisplayFor(modelItem => item.ClassActivityId)"><i class="icon-edit bigger-120"></i></a>
-                        <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.ClassActivityId)_Val"><i class="icon-trash bigger-120"></i></a>
-                        @using (Html.BeginForm("Delete", "ClassActivity", new { id = Html.DisplayFor(modelItem => item.ClassActivityId) }, FormMethod.Post,
-                            new { id = "Form_" + Html.DisplayFor(modelItem => item.ClassActivityId) + "_Val", style = "display: none" })) { }
-                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.ClassActivityId)_Val_Message"
+                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/ClassActivity/Edit/@Html.DisplayFor(modelItem => item.Id)"><i class="icon-edit bigger-120"></i></a>
+                        <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.Id)_Val"><i class="icon-trash bigger-120"></i></a>
+                        @using (Html.BeginForm("Delete", "ClassActivity", new { id = Html.DisplayFor(modelItem => item.Id) }, FormMethod.Post,
+                            new { id = "Form_" + Html.DisplayFor(modelItem => item.Id) + "_Val", style = "display: none" })) { }
+                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.Id)_Val_Message"
                                value="¿Realmente desea eliminar la actividad @Html.DisplayFor(modelItem => item.DisplayName) ?" />
                     </td>
                 </tr>
