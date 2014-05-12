@@ -190,18 +190,6 @@
     <Compile Include="Migrations\201405080651412_DatabaseInitializer.Designer.cs">
       <DependentUpon>201405080651412_DatabaseInitializer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201405120410133_StudentModel.cs" />
-    <Compile Include="Migrations\201405120410133_StudentModel.Designer.cs">
-      <DependentUpon>201405120410133_StudentModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201405120414267_BenefactorModel.cs" />
-    <Compile Include="Migrations\201405120414267_BenefactorModel.Designer.cs">
-      <DependentUpon>201405120414267_BenefactorModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201405120414525_ParentModel.cs" />
-    <Compile Include="Migrations\201405120414525_ParentModel.Designer.cs">
-      <DependentUpon>201405120414525_ParentModel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
     <Compile Include="Models\AppointmentDiary.cs" />
@@ -525,15 +513,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201405080651412_DatabaseInitializer.resx">
       <DependentUpon>201405080651412_DatabaseInitializer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201405120410133_StudentModel.resx">
-      <DependentUpon>201405120410133_StudentModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201405120414267_BenefactorModel.resx">
-      <DependentUpon>201405120414267_BenefactorModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201405120414525_ParentModel.resx">
-      <DependentUpon>201405120414525_ParentModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
