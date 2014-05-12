@@ -70,7 +70,8 @@ namespace Mhotivo.Controllers
             myClassActivity.Value = modelClassActivity.Value;
             myClassActivity.AcademicYear = _academicYearRepository.GetById(modelClassActivity.AcademicYearId);
 
-            var classactivity = _classActivityRepository.Update(myClassActivity,true);
+            var classactivity = _classActivityRepository.Update(myClassActivity);
+            _classActivityRepository.SaveChanges();
             const string title = "Actividad Actualizada";
             var content = "La actividad --" + classactivity.Name + "-- ha sido actualizado exitosamente.";
 
@@ -89,6 +90,7 @@ namespace Mhotivo.Controllers
         {
 
             var classactivity = _classActivityRepository.Delete(_classActivityRepository.GetById(id));
+            _classActivityRepository.SaveChanges();
 
             const string title = "Actividad Eliminada";
             var content = "La activdad --" + classactivity.Name + "-- ha sido eliminado exitosamente.";
@@ -126,6 +128,7 @@ namespace Mhotivo.Controllers
             };
 
             var classactivity = _classActivityRepository.Create(myClassActivity);
+            _classActivityRepository.SaveChanges();
             const string title = "Actividad Agregada";
             var content = "La Actividad --" + classactivity.Name + "-- ha sido agregada exitosamente.";
             TempData["MessageInfo"] = new MessageModel

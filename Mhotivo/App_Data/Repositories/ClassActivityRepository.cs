@@ -13,7 +13,7 @@ namespace Mhotivo.App_Data.Repositories
         ClassActivity Create(ClassActivity itemToCreate);
         IQueryable<ClassActivity> Query(Expression<Func<ClassActivity, ClassActivity>> expression);
         IQueryable<ClassActivity> Filter(Expression<Func<ClassActivity, bool>> expression);
-        ClassActivity Update(ClassActivity itemToUpdate, bool updateRole);
+        ClassActivity Update(ClassActivity itemToUpdate);
         ClassActivity Delete(ClassActivity itemToDelete);
         void SaveChanges();
     }
@@ -43,7 +43,6 @@ namespace Mhotivo.App_Data.Repositories
         {
             var classactivity = _context.ClassActivities.Add(itemToCreate);
             _context.Entry(classactivity.AcademicYear).State = EntityState.Modified;
-            SaveChanges();
             return classactivity;
         }
 
@@ -59,24 +58,16 @@ namespace Mhotivo.App_Data.Repositories
             return myClassActivities.Count() != 0 ? myClassActivities.Include(x => x.AcademicYear) : myClassActivities;
         }
 
-        public ClassActivity Update(ClassActivity itemToUpdate, bool updateRole)
-        {
-            _context.Entry(itemToUpdate).State = EntityState.Modified;
-            SaveChanges();
-            return itemToUpdate;
-        }
 
         public ClassActivity Update(ClassActivity itemToUpdate)
         {
             _context.Entry(itemToUpdate).State = EntityState.Modified;
-            SaveChanges();
             return itemToUpdate;   
         }
 
         public ClassActivity Delete(ClassActivity itemToDelete)
         {
             _context.ClassActivities.Remove(itemToDelete);
-            SaveChanges();
             return itemToDelete;
         }
 
