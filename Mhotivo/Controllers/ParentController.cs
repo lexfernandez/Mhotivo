@@ -38,7 +38,7 @@ namespace Mhotivo.Controllers
                     IDNumber = x.IDNumber,
                     UrlPicture = x.UrlPicture,
                     FullName = x.FullName,
-                    BirthDate = x.BirthDate.ToShortDateString(),
+                    BirthDate = x.BirthDate,//x.BirthDate.ToShortDateString(),
                     Nationality = x.Nationality,
                     Address = x.Address,
                     City = x.City,
@@ -77,7 +77,7 @@ namespace Mhotivo.Controllers
                 LastName = thisParent.LastName,
                 FullName = (thisParent.FirstName + " " + thisParent.LastName).Trim(),
                 IDNumber = thisParent.IDNumber,
-                BirthDate = thisParent.BirthDate.ToShortDateString(),
+                BirthDate = thisParent.BirthDate,//thisParent.BirthDate.ToShortDateString(),
                 Gender = Utilities.GenderToString(thisParent.Gender),
                 Nationality = thisParent.Nationality,
                 Country = thisParent.Country,
@@ -100,7 +100,7 @@ namespace Mhotivo.Controllers
             myParent.FullName = (modelParent.FirstName + " " + modelParent.LastName).Trim();
             myParent.Country = modelParent.Country;
             myParent.IDNumber = modelParent.IDNumber;
-            myParent.BirthDate = DateTime.Parse(modelParent.BirthDate);
+            myParent.BirthDate = modelParent.BirthDate;//DateTime.Parse(modelParent.BirthDate);
             myParent.Gender = Utilities.IsMasculino(modelParent.Gender);
             myParent.Nationality = modelParent.Nationality;
             myParent.State = modelParent.State;
@@ -164,7 +164,7 @@ namespace Mhotivo.Controllers
                 LastName = modelParent.LastName,
                 FullName = (modelParent.FirstName + " " + modelParent.LastName).Trim(),
                 IDNumber = modelParent.IDNumber,
-                BirthDate = DateTime.Parse(modelParent.BirthDate),
+                BirthDate = modelParent.BirthDate,//DateTime.Parse(modelParent.BirthDate),
                 Gender = Utilities.IsMasculino(modelParent.Gender),
                 Nationality = modelParent.Nationality,
                 State = modelParent.State,
@@ -198,7 +198,7 @@ namespace Mhotivo.Controllers
                 FirstName = thisParent.FirstName,
                 LastName = thisParent.LastName,
                 FullName = thisParent.FullName,
-                BirthDate = thisParent.BirthDate.ToShortDateString(),
+                BirthDate = thisParent.BirthDate,//thisParent.BirthDate.ToShortDateString(),
                 Nationality = thisParent.Nationality,
                 Address = thisParent.Address,
                 City = thisParent.City,
@@ -221,7 +221,7 @@ namespace Mhotivo.Controllers
                 LastName = thisParent.LastName,
                 FullName = (thisParent.FirstName + " " + thisParent.LastName).Trim(),
                 IDNumber = thisParent.IDNumber,
-                BirthDate = thisParent.BirthDate.ToShortDateString(),
+                BirthDate = thisParent.BirthDate,//thisParent.BirthDate.ToShortDateString(),
                 Gender = Utilities.GenderToString(thisParent.Gender),
                 Nationality = thisParent.Nationality,
                 Country = thisParent.Country,
@@ -241,7 +241,7 @@ namespace Mhotivo.Controllers
             myParent.LastName = modelParent.LastName;
             myParent.FullName = (modelParent.FirstName + " " + modelParent.LastName).Trim();
             myParent.IDNumber = modelParent.IDNumber;
-            myParent.BirthDate = DateTime.Parse(modelParent.BirthDate);
+            myParent.BirthDate = modelParent.BirthDate;//DateTime.Parse(modelParent.BirthDate);
             myParent.Gender = Utilities.IsMasculino(modelParent.Gender);
             myParent.Nationality = modelParent.Nationality;
             myParent.State = modelParent.State;

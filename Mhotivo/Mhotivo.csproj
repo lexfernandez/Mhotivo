@@ -190,6 +190,18 @@
     <Compile Include="Migrations\201405080651412_DatabaseInitializer.Designer.cs">
       <DependentUpon>201405080651412_DatabaseInitializer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201405120410133_StudentModel.cs" />
+    <Compile Include="Migrations\201405120410133_StudentModel.Designer.cs">
+      <DependentUpon>201405120410133_StudentModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405120414267_BenefactorModel.cs" />
+    <Compile Include="Migrations\201405120414267_BenefactorModel.Designer.cs">
+      <DependentUpon>201405120414267_BenefactorModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201405120414525_ParentModel.cs" />
+    <Compile Include="Migrations\201405120414525_ParentModel.Designer.cs">
+      <DependentUpon>201405120414525_ParentModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
     <Compile Include="Models\AppointmentDiary.cs" />
@@ -347,6 +359,7 @@
     <Content Include="Scripts\ace-elements.min.js" />
     <Content Include="Scripts\ace.min.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap-tag.min.js" />
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
     <Content Include="Scripts\bootstrap-wysiwyg.min.js" />
@@ -364,6 +377,7 @@
     <Content Include="Scripts\jquery.autocomplete.js" />
     <Content Include="Scripts\jquery.colorbox-min.js" />
     <Content Include="Scripts\jquery.hotkeys.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.mobile.custom.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -511,6 +525,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201405080651412_DatabaseInitializer.resx">
       <DependentUpon>201405080651412_DatabaseInitializer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405120410133_StudentModel.resx">
+      <DependentUpon>201405120410133_StudentModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405120414267_BenefactorModel.resx">
+      <DependentUpon>201405120414267_BenefactorModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201405120414525_ParentModel.resx">
+      <DependentUpon>201405120414525_ParentModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

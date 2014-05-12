@@ -39,7 +39,7 @@ namespace Mhotivo.Models
         public string FullName { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Display(Name = "Numero de Identidad")]
         public string IDNumber { get; set; }
@@ -95,7 +95,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Fecha de Nacimiento")]
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Required]
         [Display(Name = "Nacionalidad")]
@@ -150,7 +150,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Fecha de Nacimiento")]
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         [Required]
         [Display(Name = "Nacionalidad")]
