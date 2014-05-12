@@ -145,6 +145,7 @@
     <Compile Include="App_Data\IRepository.cs" />
     <Compile Include="App_Data\Repositories\AcademicYearRepository.cs" />
     <Compile Include="App_Data\Repositories\BenefactorRepository.cs" />
+    <Compile Include="App_Data\Repositories\ClassActivityRepository.cs" />
     <Compile Include="App_Data\Repositories\ContactRepository.cs" />
     <Compile Include="App_Data\Repositories\CourseRepository.cs" />
     <Compile Include="App_Data\Repositories\EnrollRepository.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Controllers\AcademicYearController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BenefactorController.cs" />
+    <Compile Include="Controllers\ClassActivityController.cs" />
     <Compile Include="Controllers\ContactInformationController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\EnrollController.cs" />
@@ -187,9 +189,9 @@
     </Compile>
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
-    <Compile Include="Migrations\201405120049428_TM.cs" />
-    <Compile Include="Migrations\201405120049428_TM.Designer.cs">
-      <DependentUpon>201405120049428_TM.cs</DependentUpon>
+    <Compile Include="Migrations\201405120255216_TEST.cs" />
+    <Compile Include="Migrations\201405120255216_TEST.Designer.cs">
+      <DependentUpon>201405120255216_TEST.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
@@ -499,6 +501,9 @@
     <Content Include="Views\Enroll\Index.cshtml" />
     <Content Include="Views\Enroll\Create.cshtml" />
     <Content Include="Views\AcademicYear\SelectNewTeacher.cshtml" />
+    <Content Include="Views\ClassActivity\Create.cshtml" />
+    <Content Include="Views\ClassActivity\Edit.cshtml" />
+    <Content Include="Views\ClassActivity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
@@ -510,8 +515,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201405120049428_TM.resx">
-      <DependentUpon>201405120049428_TM.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201405120255216_TEST.resx">
+      <DependentUpon>201405120255216_TEST.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
