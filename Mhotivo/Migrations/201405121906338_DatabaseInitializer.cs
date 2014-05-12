@@ -103,12 +103,49 @@ namespace Mhotivo.Migrations
                     {
                         AppointmentDiaryId = c.Int(nullable: false, identity: true),
                         Title = c.String(),
-                        SomeImportantKey = c.Int(nullable: false),
                         DateTimeScheduled = c.DateTime(nullable: false),
                         AppointmentLength = c.Int(nullable: false),
                         StatusENUM = c.Int(nullable: false),
+                        IsActive = c.Boolean(nullable: false),
+                        Creator_UserId = c.Int(),
                     })
-                .PrimaryKey(t => t.AppointmentDiaryId);
+                .PrimaryKey(t => t.AppointmentDiaryId)
+                .ForeignKey("dbo.User", t => t.Creator_UserId)
+                .Index(t => t.Creator_UserId);
+            
+            CreateTable(
+                "dbo.User",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false, identity: true),
+                        Email = c.String(),
+                        DisplayName = c.String(),
+                        Password = c.String(),
+                        Status = c.Boolean(nullable: false),
+                        Role_RoleId = c.Int(),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.Role", t => t.Role_RoleId)
+                .Index(t => t.Role_RoleId);
+            
+            CreateTable(
+                "dbo.Groups",
+                c => new
+                    {
+                        Id = c.Long(nullable: false, identity: true),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Role",
+                c => new
+                    {
+                        RoleId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Description = c.String(),
+                    })
+                .PrimaryKey(t => t.RoleId);
             
             CreateTable(
                 "dbo.ClassActivity",
@@ -166,42 +203,11 @@ namespace Mhotivo.Migrations
                         EndDateTime = c.DateTime(nullable: false),
                         Description = c.String(),
                         IsActive = c.Boolean(nullable: false),
+                        Creator_UserId = c.Int(),
                     })
-                .PrimaryKey(t => t.EventId);
-            
-            CreateTable(
-                "dbo.Groups",
-                c => new
-                    {
-                        Id = c.Long(nullable: false, identity: true),
-                        Name = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.User",
-                c => new
-                    {
-                        UserId = c.Int(nullable: false, identity: true),
-                        Email = c.String(),
-                        DisplayName = c.String(),
-                        Password = c.String(),
-                        Status = c.Boolean(nullable: false),
-                        Role_RoleId = c.Int(),
-                    })
-                .PrimaryKey(t => t.UserId)
-                .ForeignKey("dbo.Role", t => t.Role_RoleId)
-                .Index(t => t.Role_RoleId);
-            
-            CreateTable(
-                "dbo.Role",
-                c => new
-                    {
-                        RoleId = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Description = c.String(),
-                    })
-                .PrimaryKey(t => t.RoleId);
+                .PrimaryKey(t => t.EventId)
+                .ForeignKey("dbo.User", t => t.Creator_UserId)
+                .Index(t => t.Creator_UserId);
             
             CreateTable(
                 "dbo.Notifications",
@@ -234,17 +240,17 @@ namespace Mhotivo.Migrations
                 .Index(t => t.Grade_Id);
             
             CreateTable(
-                "dbo.UserGroups",
+                "dbo.GroupUsers",
                 c => new
                     {
-                        User_UserId = c.Int(nullable: false),
                         Group_Id = c.Long(nullable: false),
+                        User_UserId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.User_UserId, t.Group_Id })
-                .ForeignKey("dbo.User", t => t.User_UserId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.Group_Id, t.User_UserId })
                 .ForeignKey("dbo.Groups", t => t.Group_Id, cascadeDelete: true)
-                .Index(t => t.User_UserId)
-                .Index(t => t.Group_Id);
+                .ForeignKey("dbo.User", t => t.User_UserId, cascadeDelete: true)
+                .Index(t => t.Group_Id)
+                .Index(t => t.User_UserId);
             
             CreateTable(
                 "dbo.Benefactor",
@@ -317,14 +323,16 @@ namespace Mhotivo.Migrations
             DropForeignKey("dbo.Benefactor", "PeopleId", "dbo.People");
             DropForeignKey("dbo.Pensum", "Grade_Id", "dbo.Grade");
             DropForeignKey("dbo.Pensum", "Course_CourseId", "dbo.Course");
-            DropForeignKey("dbo.User", "Role_RoleId", "dbo.Role");
-            DropForeignKey("dbo.UserGroups", "Group_Id", "dbo.Groups");
-            DropForeignKey("dbo.UserGroups", "User_UserId", "dbo.User");
+            DropForeignKey("dbo.Event", "Creator_UserId", "dbo.User");
             DropForeignKey("dbo.Enroll", "Student_PeopleId", "dbo.Student");
             DropForeignKey("dbo.Enroll", "AcademicYear_Id", "dbo.AcademicYear");
             DropForeignKey("dbo.ClassActivityGrading", "Student_PeopleId", "dbo.Student");
             DropForeignKey("dbo.ClassActivityGrading", "ClassActivity_Id", "dbo.ClassActivity");
             DropForeignKey("dbo.ClassActivity", "AcademicYear_Id", "dbo.AcademicYear");
+            DropForeignKey("dbo.AppointmentDiaries", "Creator_UserId", "dbo.User");
+            DropForeignKey("dbo.User", "Role_RoleId", "dbo.Role");
+            DropForeignKey("dbo.GroupUsers", "User_UserId", "dbo.User");
+            DropForeignKey("dbo.GroupUsers", "Group_Id", "dbo.Groups");
             DropForeignKey("dbo.AcademicYear", "Teacher_PeopleId", "dbo.Meister");
             DropForeignKey("dbo.ContactInformation", "People_PeopleId", "dbo.People");
             DropForeignKey("dbo.AcademicYear", "Grade_Id", "dbo.Grade");
@@ -337,16 +345,18 @@ namespace Mhotivo.Migrations
             DropIndex("dbo.Parent", new[] { "PeopleId" });
             DropIndex("dbo.Meister", new[] { "PeopleId" });
             DropIndex("dbo.Benefactor", new[] { "PeopleId" });
-            DropIndex("dbo.UserGroups", new[] { "Group_Id" });
-            DropIndex("dbo.UserGroups", new[] { "User_UserId" });
+            DropIndex("dbo.GroupUsers", new[] { "User_UserId" });
+            DropIndex("dbo.GroupUsers", new[] { "Group_Id" });
             DropIndex("dbo.Pensum", new[] { "Grade_Id" });
             DropIndex("dbo.Pensum", new[] { "Course_CourseId" });
-            DropIndex("dbo.User", new[] { "Role_RoleId" });
+            DropIndex("dbo.Event", new[] { "Creator_UserId" });
             DropIndex("dbo.Enroll", new[] { "Student_PeopleId" });
             DropIndex("dbo.Enroll", new[] { "AcademicYear_Id" });
             DropIndex("dbo.ClassActivityGrading", new[] { "Student_PeopleId" });
             DropIndex("dbo.ClassActivityGrading", new[] { "ClassActivity_Id" });
             DropIndex("dbo.ClassActivity", new[] { "AcademicYear_Id" });
+            DropIndex("dbo.User", new[] { "Role_RoleId" });
+            DropIndex("dbo.AppointmentDiaries", new[] { "Creator_UserId" });
             DropIndex("dbo.ContactInformation", new[] { "People_PeopleId" });
             DropIndex("dbo.Course", new[] { "Area_Id" });
             DropIndex("dbo.AcademicYear", new[] { "Teacher_PeopleId" });
@@ -356,16 +366,16 @@ namespace Mhotivo.Migrations
             DropTable("dbo.Parent");
             DropTable("dbo.Meister");
             DropTable("dbo.Benefactor");
-            DropTable("dbo.UserGroups");
+            DropTable("dbo.GroupUsers");
             DropTable("dbo.Pensum");
             DropTable("dbo.Notifications");
-            DropTable("dbo.Role");
-            DropTable("dbo.User");
-            DropTable("dbo.Groups");
             DropTable("dbo.Event");
             DropTable("dbo.Enroll");
             DropTable("dbo.ClassActivityGrading");
             DropTable("dbo.ClassActivity");
+            DropTable("dbo.Role");
+            DropTable("dbo.Groups");
+            DropTable("dbo.User");
             DropTable("dbo.AppointmentDiaries");
             DropTable("dbo.ContactInformation");
             DropTable("dbo.People");

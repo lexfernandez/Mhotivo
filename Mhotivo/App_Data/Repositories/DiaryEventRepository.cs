@@ -75,6 +75,18 @@ namespace Mhotivo.App_Data.Repositories
             return itemToUpdate;
         }
 
+        public AppointmentDiary UpdateNew(AppointmentDiary itemToUpdate)
+        {
+            var diaryEvent = GetById(itemToUpdate.AppointmentDiaryId);
+            
+            diaryEvent.AppointmentLength = itemToUpdate.AppointmentLength;
+            diaryEvent.DateTimeScheduled = itemToUpdate.DateTimeScheduled;
+           // diaryEvent.SomeImportantKey = itemToUpdate.SomeImportantKey;
+            diaryEvent.StatusENUM = itemToUpdate.StatusENUM;
+            diaryEvent.Title = itemToUpdate.Title;
+            return Update(diaryEvent);
+        }
+
         public void Delete(AppointmentDiary itemToDelete)
         {
             _context.AppointmentDiary.Remove(itemToDelete);

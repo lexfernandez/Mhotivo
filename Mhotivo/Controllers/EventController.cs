@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -21,11 +22,25 @@ namespace Mhotivo.Controllers
 
         //
         // GET: /Event/
+        private readonly UserRepository _userRepo = UserRepository.Instance;
 
         public ActionResult Index()
         {
             return View();
         }
+        /*
+        public ActionResult Approve()
+        {
+            ISessionManagement s = SessionLayer.Instance;
+            if (s.GetUserLoggedRole() != "principal")
+            {
+                RedirectToAction("Index");
+            }
+
+
+
+            return View();
+        }*/
 
         public void UpdateEvent(int id, string NewEventStart, string NewEventEnd)
         {
@@ -35,7 +50,10 @@ namespace Mhotivo.Controllers
 
         public bool SaveEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration)
         {
-            return CreateNewEvent(Title, NewEventDate, NewEventTime, NewEventDuration);
+            ISessionManagement s = SessionLayer.Instance;
+            var username = s.GetUserLoggedName();
+            var creator = _userRepo.First(x => x.Email == username);
+            return DiaryEvent.CreateNewEvent(Title, NewEventDate, NewEventTime, NewEventDuration, creator);
         }
 
         public JsonResult GetDiarySummary(double start, double end)

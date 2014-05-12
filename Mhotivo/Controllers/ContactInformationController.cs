@@ -11,15 +11,14 @@ namespace Mhotivo.Controllers
     public class ContactInformationController : Controller
     {
         private readonly IContactInformationRepository _contactInformationRepository;
-        private readonly IStudentRepository _studentRepository;
         private readonly IPeopleRepository _peopleRepository;
 
-        public ContactInformationController(IContactInformationRepository contactInformationRepository, IStudentRepository studentRepository,IPeopleRepository peopleRepository)
+        public ContactInformationController(IContactInformationRepository contactInformationRepository,IPeopleRepository peopleRepository)
         {
-            
-        }
+            _contactInformationRepository = contactInformationRepository;
+            _peopleRepository = peopleRepository;
 
-        [AllowAnonymous]
+        }
         
 
         [HttpPost]

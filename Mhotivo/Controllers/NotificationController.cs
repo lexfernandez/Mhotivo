@@ -48,7 +48,6 @@ namespace Mhotivo.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var template = new Notification
                 {
                     EventName = eventNotification.EventName,
@@ -122,7 +121,7 @@ namespace Mhotivo.Controllers
 
                 
             }
-            catch (Exception e)
+            catch
             {
                 TempData["MessageInfo"] = new MessageModel
                 {

@@ -8,7 +8,7 @@ namespace Mhotivo.App_Data.Repositories
 {
     public interface IUserRepository : IDisposable
     {
-        User First(Expression<Func<User, User>> query);
+        User First(Expression<Func<User, bool>> query);
         User GetById(long id);
         User Create(User itemToCreate);
         IQueryable<User> Query(Expression<Func<User, User>> expression);
@@ -27,10 +27,10 @@ namespace Mhotivo.App_Data.Repositories
             _context = ctx;
         }
 
-        public User First(Expression<Func<User, User>> query)
+        public User First(Expression<Func<User, bool>> query)
         {
-            var users = _context.Users.Select(query);
-            return users.Count() != 0 ? users.Include(x => x.Role).First() : null;
+            var users = _context.Users.First(query);
+            return users;
         }
 
         public User GetById(long id)

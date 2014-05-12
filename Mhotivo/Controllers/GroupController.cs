@@ -82,7 +82,7 @@ namespace Mhotivo.Controllers
                 }
                 
             }
-            catch (Exception exception)
+            catch
             {
                 TempData["MessageInfo"] = new MessageModel
                 {
@@ -189,7 +189,7 @@ namespace Mhotivo.Controllers
                 db.Database.ExecuteSqlCommand("Delete From UserGroups where User_UserId=" + id + " and Group_Id=" + groupId);
                 return true;
             }
-            catch(Exception e)
+            catch
             {
                 return false;
             }

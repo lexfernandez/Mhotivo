@@ -78,7 +78,7 @@ namespace Mhotivo.Controllers
                 }
 
             }
-            catch (Exception exception)
+            catch
             {
                 TempData["MessageInfo"] = new MessageModel
                 {

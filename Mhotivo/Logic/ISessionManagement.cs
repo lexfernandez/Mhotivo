@@ -7,7 +7,9 @@ namespace Mhotivo.Logic
 
         void LogOut(bool redirect = false);
 
-        string GetUserLoggedName(string userName, string password);
+        string GetUserLoggedName();
+
+        string GetUserLoggedEmail();
 
         string GetUserLoggedRole();
 

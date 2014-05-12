@@ -11,21 +11,24 @@ namespace Mhotivo.Logic
         private readonly IUserRepository _userRepository;
         private readonly string _userNameIdentifier;
         private readonly string _userRoleIdentifier;
+        private readonly string _userEmailIdentifier;
 
         public SessionLayer(IUserRepository userRepository)
         {
             _userRepository = userRepository;
             _userNameIdentifier = "loggedUserName";
+            _userEmailIdentifier = "loggedUserEmail";
             _userRoleIdentifier = "loggedUserRole";
         }
 
-        public bool LogIn(string userName, string password, bool remember = false)
+        public bool LogIn(string userEmail, string password, bool remember = false)
         {
-            if (!ValidateUser(userName, password)) return false;
+            if (!ValidateUser(userEmail, password)) return false;
 
-            HttpContext.Current.Session[_userNameIdentifier] = GetUserLoggedName(userName,password);
-            HttpContext.Current.Session[_userRoleIdentifier] = GetUserRole(userName);
-            FormsAuthentication.RedirectFromLoginPage(userName, true);
+            HttpContext.Current.Session[_userEmailIdentifier] = userEmail;
+            HttpContext.Current.Session[_userNameIdentifier] = GetUserName(userEmail,password);
+            HttpContext.Current.Session[_userRoleIdentifier] = GetUserRole(userEmail);
+            FormsAuthentication.RedirectFromLoginPage(userEmail, true);
 
             return true;
         }
@@ -40,11 +43,21 @@ namespace Mhotivo.Logic
 
         }
 
-        public string GetUserLoggedName(string userName, string password)
+        private string GetUserName(string userEmail ,string password )
         {
             var myUsers =
-                _userRepository.Filter(x => x.Email.Equals(userName) && x.Password.Equals(password)).FirstOrDefault();
+                _userRepository.Filter(x => x.Email.Equals(userEmail) && x.Password.Equals(password)).FirstOrDefault();
             return myUsers.DisplayName;
+        }
+
+        public string GetUserLoggedName()
+        {
+            return HttpContext.Current.Session[_userNameIdentifier].ToString();
+        }
+
+        public string GetUserLoggedEmail()
+        {
+            return HttpContext.Current.Session[_userEmailIdentifier].ToString();
         }
 
         public string GetUserLoggedRole()
