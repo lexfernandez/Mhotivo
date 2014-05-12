@@ -14,34 +14,25 @@ namespace Mhotivo.Controllers
     public class EventController : Controller
     {
         private readonly IAppointmentDiaryRepository _appointmentDiaryRepository;
+        private readonly ISessionManagement _sessionManagement;
+        private readonly IUserRepository _userRepository;
 
-        public EventController(IAppointmentDiaryRepository appointmentDiaryRepository)
+        public EventController(IAppointmentDiaryRepository appointmentDiaryRepository,ISessionManagement sessionManagement,IUserRepository userRepository)
         {
             _appointmentDiaryRepository = appointmentDiaryRepository;
+            _sessionManagement = sessionManagement;
+            _userRepository = userRepository;
         }
 
         //
         // GET: /Event/
-        private readonly UserRepository _userRepo = UserRepository.Instance;
+       
 
         public ActionResult Index()
         {
             return View();
         }
-        /*
-        public ActionResult Approve()
-        {
-            ISessionManagement s = SessionLayer.Instance;
-            if (s.GetUserLoggedRole() != "principal")
-            {
-                RedirectToAction("Index");
-            }
-
-
-
-            return View();
-        }*/
-
+        
         public void UpdateEvent(int id, string NewEventStart, string NewEventEnd)
         {
             UpdateDiaryEvent(id, NewEventStart, NewEventEnd);
@@ -50,16 +41,15 @@ namespace Mhotivo.Controllers
 
         public bool SaveEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration)
         {
-            ISessionManagement s = SessionLayer.Instance;
-            var username = s.GetUserLoggedName();
-            var creator = _userRepo.First(x => x.Email == username);
-            return DiaryEvent.CreateNewEvent(Title, NewEventDate, NewEventTime, NewEventDuration, creator);
+            var userEmail = _sessionManagement.GetUserLoggedEmail();
+            var creator = _userRepository.First(x => x.Email == userEmail);
+            return CreateNewEvent(Title, NewEventDate, NewEventTime, NewEventDuration, creator);
         }
 
         public JsonResult GetDiarySummary(double start, double end)
         {
-            var ApptListForDate = LoadAppointmentSummaryInDateRange(start, end);
-            var eventList = from e in ApptListForDate
+            var apptListForDate = LoadAppointmentSummaryInDateRange(start, end);
+            var eventList = from e in apptListForDate
                             select new
                             {
                                 id = e.DiaryEventId,
@@ -75,8 +65,8 @@ namespace Mhotivo.Controllers
 
         public JsonResult GetDiaryEvents(double start, double end)
         {
-            var ApptListForDate = LoadAllAppointmentsInDateRange(start, end);
-            var eventList = from e in ApptListForDate
+            var apptListForDate = LoadAllAppointmentsInDateRange(start, end);
+            var eventList = from e in apptListForDate
                             select new
                             {
                                 id = e.DiaryEventId,
@@ -103,17 +93,17 @@ namespace Mhotivo.Controllers
                 var result = new List<DiaryEvent>();
                 foreach (var item in rslt)
                 {
-                    DiaryEvent rec = new DiaryEvent();
+                    var rec = new DiaryEvent();
                     rec.DiaryEventId = item.AppointmentDiaryId;
-                    rec.SomeImportantKeyId = item.SomeImportantKey;
+                    //rec.SomeImportantKeyID = item.SomeImportantKey;
                     rec.StartDateString = item.DateTimeScheduled.ToString("s"); // "s" is a preset format that outputs as: "2009-02-27T12:12:22"
                     rec.EndDateString = item.DateTimeScheduled.AddMinutes(item.AppointmentLength).ToString("s"); // field AppointmentLength is in minutes
                     rec.Title = item.Title + " - " + item.AppointmentLength.ToString() + " mins";
                     rec.StatusString = Enums.GetName<AppointmentStatus>((AppointmentStatus)item.StatusENUM);
                     rec.StatusColor = Enums.GetEnumDescription<AppointmentStatus>(rec.StatusString);
-                    string ColorCode = rec.StatusColor.Substring(0, rec.StatusColor.IndexOf(":"));
-                    rec.ClassName = rec.StatusColor.Substring(rec.StatusColor.IndexOf(":") + 1, rec.StatusColor.Length - ColorCode.Length - 1);
-                    rec.StatusColor = ColorCode;
+                    string colorCode = rec.StatusColor.Substring(0, rec.StatusColor.IndexOf(":"));
+                    rec.ClassName = rec.StatusColor.Substring(rec.StatusColor.IndexOf(":") + 1, rec.StatusColor.Length - colorCode.Length - 1);
+                    rec.StatusColor = colorCode;
                     result.Add(rec);
                 }
 
@@ -130,21 +120,21 @@ namespace Mhotivo.Controllers
             var toDate = ConvertFromUnixTimestamp(end);
             using (_appointmentDiaryRepository)
             {
-                var rslt = _appointmentDiaryRepository.Where(s => s.DateTimeScheduled >= fromDate && DbFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate)
-                                                        .GroupBy(s => DbFunctions.TruncateTime(s.DateTimeScheduled))
-                                                        .Select(x => new { DateTimeScheduled = x.Key, Count = x.Count() });
+                var rslt =
+                    _appointmentDiaryRepository.Where(
+                        s =>
+                            s.DateTimeScheduled >= fromDate &&
+                            DbFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
 
                 List<DiaryEvent> result = new List<DiaryEvent>();
                 int i = 0;
                 foreach (var item in rslt)
                 {
-                    DiaryEvent rec = new DiaryEvent();
-                    rec.DiaryEventId = i; //we dont link this back to anything as its a group summary but the fullcalendar needs unique IDs for each event item (unless its a repeating event)
-                    rec.SomeImportantKeyId = -1;
-                    string StringDate = string.Format("{0:yyyy-MM-dd}", item.DateTimeScheduled);
-                    rec.StartDateString = StringDate + "T00:00:00"; //ISO 8601 format
-                    rec.EndDateString = StringDate + "T23:59:59";
-                    rec.Title = "Booked: " + item.Count.ToString();
+                    var rec = new DiaryEvent {DiaryEventId = i};
+                    string stringDate = string.Format("{0:yyyy-MM-dd}", item.DateTimeScheduled);
+                    rec.StartDateString = stringDate + "T00:00:00"; //ISO 8601 format
+                    rec.EndDateString = stringDate + "T23:59:59";
+                    rec.Title = item.Title;
                     result.Add(rec);
                     i++;
                 }
@@ -162,11 +152,11 @@ namespace Mhotivo.Controllers
                 var rec = _appointmentDiaryRepository.First(s => s.AppointmentDiaryId == id);
                 if (rec != null)
                 {
-                    DateTime DateTimeStart = DateTime.Parse(NewEventStart, null, DateTimeStyles.RoundtripKind).ToLocalTime(); // and convert offset to localtime
-                    rec.DateTimeScheduled = DateTimeStart;
+                    DateTime dateTimeStart = DateTime.Parse(NewEventStart, null, DateTimeStyles.RoundtripKind).ToLocalTime(); // and convert offset to localtime
+                    rec.DateTimeScheduled = dateTimeStart;
                     if (!String.IsNullOrEmpty(NewEventEnd))
                     {
-                        TimeSpan span = DateTime.Parse(NewEventEnd, null, DateTimeStyles.RoundtripKind).ToLocalTime() - DateTimeStart;
+                        TimeSpan span = DateTime.Parse(NewEventEnd, null, DateTimeStyles.RoundtripKind).ToLocalTime() - dateTimeStart;
                         rec.AppointmentLength = Convert.ToInt32(span.TotalMinutes);
                     }
                     _appointmentDiaryRepository.SaveChanges();
@@ -183,22 +173,23 @@ namespace Mhotivo.Controllers
         }
 
 
-        public bool CreateNewEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration)
+        public bool CreateNewEvent(string title, string newEventDate, string newEventTime, string newEventDuration, User creator)
         {
             try
             {
-                AppointmentDiary rec = new AppointmentDiary();
-                rec.Title = Title;
-                rec.DateTimeScheduled = DateTime.ParseExact(NewEventDate + " " + NewEventTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
-                rec.AppointmentLength = Int32.Parse(NewEventDuration);
+                var rec = new AppointmentDiary();
+                rec.Title = title;
+                rec.DateTimeScheduled = DateTime.ParseExact(newEventDate + " " + newEventTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                rec.AppointmentLength = Int32.Parse(newEventDuration);
+                rec.Creator = creator;
                 _appointmentDiaryRepository.Create(rec);
                 _appointmentDiaryRepository.SaveChanges();
+                return true;
             }
-            catch (Exception c)
+            catch 
             {
                 return false;
             }
-            return true;
         }
 
     }

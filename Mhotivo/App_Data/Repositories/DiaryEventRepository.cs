@@ -11,7 +11,7 @@ namespace Mhotivo.App_Data.Repositories
         AppointmentDiary First(Expression<Func<AppointmentDiary, bool>> query);
         AppointmentDiary GetById(long id);
         AppointmentDiary Create(AppointmentDiary itemToCreate);
-        IQueryable<TResult> Query<TResult>(Expression<Func<AppointmentDiary, TResult>> expression);
+        IQueryable<AppointmentDiary> Query(Expression<Func<AppointmentDiary, AppointmentDiary>> expression);
         IQueryable<AppointmentDiary> Where(Expression<Func<AppointmentDiary, bool>> expression);
         IQueryable<AppointmentDiary> Filter(Expression<Func<AppointmentDiary, bool>> expression);
         AppointmentDiary Update(AppointmentDiary itemToUpdate);
@@ -22,7 +22,6 @@ namespace Mhotivo.App_Data.Repositories
     public class AppointmentDiaryRepository : IAppointmentDiaryRepository
     {
         private readonly MhotivoContext _context;
-        private static AppointmentDiaryRepository _instance;
 
         public AppointmentDiaryRepository(MhotivoContext ctx)
         {
@@ -49,15 +48,14 @@ namespace Mhotivo.App_Data.Repositories
         public AppointmentDiary Create(AppointmentDiary itemToCreate)
         {
             var diaryEvent = _context.AppointmentDiary.Add(itemToCreate);
-            _context.SaveChanges();
             return diaryEvent;
         }
 
-        public IQueryable<TResult> Query<TResult>(Expression<Func<AppointmentDiary, TResult>> expression)
+        public IQueryable<AppointmentDiary> Query(Expression<Func<AppointmentDiary, AppointmentDiary>> expression)
         {
             return _context.AppointmentDiary.Select(expression);
         }
-
+        
         public IQueryable<AppointmentDiary> Where(Expression<Func<AppointmentDiary, bool>> expression)
         {
             return _context.AppointmentDiary.Where(expression);
@@ -71,20 +69,7 @@ namespace Mhotivo.App_Data.Repositories
         public AppointmentDiary Update(AppointmentDiary itemToUpdate)
         {
             _context.Entry(itemToUpdate).State = EntityState.Modified;
-            _context.SaveChanges();
             return itemToUpdate;
-        }
-
-        public AppointmentDiary UpdateNew(AppointmentDiary itemToUpdate)
-        {
-            var diaryEvent = GetById(itemToUpdate.AppointmentDiaryId);
-            
-            diaryEvent.AppointmentLength = itemToUpdate.AppointmentLength;
-            diaryEvent.DateTimeScheduled = itemToUpdate.DateTimeScheduled;
-           // diaryEvent.SomeImportantKey = itemToUpdate.SomeImportantKey;
-            diaryEvent.StatusENUM = itemToUpdate.StatusENUM;
-            diaryEvent.Title = itemToUpdate.Title;
-            return Update(diaryEvent);
         }
 
         public void Delete(AppointmentDiary itemToDelete)
