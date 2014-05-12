@@ -13,7 +13,7 @@ namespace Mhotivo.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201405080651412_DatabaseInitializer"; }
+            get { return "201405120504259_DatabaseInitializer"; }
         }
         
         string IMigrationMetadata.Source

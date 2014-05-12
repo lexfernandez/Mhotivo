@@ -86,7 +86,7 @@ namespace Mhotivo.App_Data.Repositories
                 updateCourse = true;
             }
 
-            if (pensum.Grade.GradeId != itemToUpdate.Grade.GradeId)
+            if (pensum.Grade.Id != itemToUpdate.Grade.Id)
             {
                 pensum.Grade = itemToUpdate.Grade;
                 updateGrade = true;

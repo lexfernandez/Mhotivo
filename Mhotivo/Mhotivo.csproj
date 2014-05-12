@@ -171,6 +171,7 @@
     <Compile Include="Controllers\EnrollController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="App_Data\Repositories\GradeRepository.cs" />
+    <Compile Include="Controllers\GradeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MeisterController.cs" />
@@ -187,9 +188,9 @@
     </Compile>
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
-    <Compile Include="Migrations\201405080651412_DatabaseInitializer.cs" />
-    <Compile Include="Migrations\201405080651412_DatabaseInitializer.Designer.cs">
-      <DependentUpon>201405080651412_DatabaseInitializer.cs</DependentUpon>
+    <Compile Include="Migrations\201405120504259_DatabaseInitializer.cs" />
+    <Compile Include="Migrations\201405120504259_DatabaseInitializer.Designer.cs">
+      <DependentUpon>201405120504259_DatabaseInitializer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
@@ -501,6 +502,11 @@
     <Content Include="Views\Enroll\Index.cshtml" />
     <Content Include="Views\Enroll\Create.cshtml" />
     <Content Include="Views\AcademicYear\SelectNewTeacher.cshtml" />
+    <Content Include="Views\Grade\Create.cshtml" />
+    <Content Include="Views\Grade\Details.cshtml" />
+    <Content Include="Views\Grade\DetailsEdit.cshtml" />
+    <Content Include="Views\Grade\Edit.cshtml" />
+    <Content Include="Views\Grade\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
@@ -512,8 +518,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201405080651412_DatabaseInitializer.resx">
-      <DependentUpon>201405080651412_DatabaseInitializer.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201405120504259_DatabaseInitializer.resx">
+      <DependentUpon>201405120504259_DatabaseInitializer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -107,7 +107,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Add(EnrollRegisterModel modelEnroll)
         {
-            var Collection = _academicYearRepository.Filter(x => x.Grade.GradeId == modelEnroll.GradeId).ToList();
+            var Collection = _academicYearRepository.Filter(x => x.Grade.Id == modelEnroll.GradeId).ToList();
             var student = _studentRepository.GetById(modelEnroll.StudentId);
             if (Collection.Count > 0)
             {
