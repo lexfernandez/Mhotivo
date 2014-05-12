@@ -78,6 +78,7 @@ namespace Mhotivo.Models
         public int StudentsCount { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "La Capacidad debe ser un número entero.")]
         [Display(Name = "Capacidad")]
         public int Capacity { get; set; }
 
@@ -134,6 +135,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Capacidad")]
+        [Range(0, int.MaxValue, ErrorMessage = "La Capacidad debe ser un número entero.")]
         public string Capacity { get; set; }
 
         [Required]

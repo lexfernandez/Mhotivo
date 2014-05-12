@@ -22,15 +22,11 @@ namespace Mhotivo.App_Data.Repositories
     {
         private readonly MhotivoContext _context;
 
-        private PensumRepository(MhotivoContext ctx)
+        public PensumRepository(MhotivoContext ctx)
         {
             _context = ctx;
         }
 
-        public static PensumRepository Instance
-        {
-            get { return new PensumRepository(new MhotivoContext()); }
-        }
 
         public Pensum First(Expression<Func<Pensum, Pensum>> query)
         {

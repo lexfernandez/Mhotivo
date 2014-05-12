@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Mhotivo.App_Data;
+using System.Web.WebPages;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic;
 using Mhotivo.Models;
-using Microsoft.Ajax.Utilities;
 
 namespace Mhotivo.Controllers
 {
@@ -15,43 +12,40 @@ namespace Mhotivo.Controllers
     {
         private readonly IAcademicYearRepository _academicYearRepository;
         private readonly IMeisterRepository _meisterRepository;
+        private readonly AcademicYearLogic _academicYearLogic;
 
-        public AcademicYearController(IAcademicYearRepository academicYearRepository, IMeisterRepository meisterRepository)
+        public AcademicYearController(IAcademicYearRepository academicYearRepository, IMeisterRepository meisterRepository, AcademicYearLogic academicYearLogic)
         {
             _academicYearRepository = academicYearRepository;
             _meisterRepository = meisterRepository;
+            _academicYearLogic = academicYearLogic;
         }
 
         public ActionResult Management()
         {
-            //Nota: Agregar esto al momento de mostrar el nombre del teacher para que se pueda mostrar la vista.
-            //<a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/AcademicYear/SelectNewTeacher/@Html.DisplayFor(modelItem => item.Id)">@Html.DisplayFor(modelItem => item.Meister)</a>
+            var elements = new AcademicYearViewManagement
+            {
+                Elements = _academicYearRepository.Filter(x => x.IsActive).ToList().Select(x => new AcademicYearViewData
+                {
+                    Approved = x.Approved ? "Active" : "Inactive",
+                    Course = x.Course.Name,
+                    Grade = x.Grade.Name,
+                    Id = x.Id,
+                    EndDate = (x.TeacherEndDate == null ? "Sin Maestro Asignado" : x.TeacherEndDate.Value.ToShortDateString()),
+                    Limit = x.StudentsLimit,
+                    Meister = x.Teacher == null ? "Sin Maestro Asignado" : x.Teacher.FullName,
+                    Room = x.Room.IsEmpty() ? "Sin Aula Asignada" : x.Room,
+                    Schedule = x.Schedule == null ? "Sin Maestro Asignado" : x.Schedule.Value.ToShortTimeString(),
+                    Section = x.Section,
+                    StartDate = x.TeacherStartDate == null ? "Sin Maestro Asignado" : x.TeacherStartDate.Value.ToShortDateString(),
+                    Year = x.Year.Year
+                }),
+                CurrentYear = DateTime.Now.Year,
+                CanGenerate = true
+            };
 
+            return View(elements);
 
-            //solo para probar el codigo
-            //var academicYear=new AcademicYearViewManagement();
-            //academicYear.CanGenerate = true;
-            //academicYear.CurrentYear = 2014;
-            //var year = _academicYearRepository.GetById(6);
-            //academicYear.Elements = new List<AcademicYearViewData>
-            //                        {new AcademicYearViewData
-            //                         {
-            //                        Approved = year.Approved.ToString(),
-            //                        Meister = year.Teacher.ToString(),
-            //                        Course = year.Course.ToString(),
-            //                        EndDate = year.TeacherEndDate.ToString(),
-            //                        Grade = year.Grade.ToString(),
-            //                        Id=year.Id,
-            //                        Limit = year.StudentsLimit,
-            //                        Room = year.Room.ToString(),
-            //                        Schedule = year.Schedule.ToString(),
-            //                        Section = year.Section,
-            //                        StartDate = year.TeacherStartDate.ToString(),
-            //                        Year = 2014
-            //                         }};
-            
-
-            return View();
         }
 
         [HttpGet]
@@ -71,6 +65,14 @@ namespace Mhotivo.Controllers
             _academicYearRepository.Update(academicYear,false,false,false);
             _academicYearRepository.SaveChanges();
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult ManagementPost()
+        {
+            _academicYearLogic.GenerateSectionForGrades();
+
+            return RedirectToAction("Management");
         }
     }
 }

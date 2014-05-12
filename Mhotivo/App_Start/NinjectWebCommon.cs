@@ -83,6 +83,8 @@ namespace Mhotivo.App_Start
             kernel.Bind<IRoleRepository>().To<RoleRepository>().InRequestScope();
             kernel.Bind<IStudentRepository>().To<StudentRepository>().InRequestScope();
             kernel.Bind<IUserRepository>().To<UserRepository>().InRequestScope();
+            kernel.Bind<IPensumRepository>().To<PensumRepository>().InRequestScope();
+            kernel.Bind<AcademicYearLogic>().ToSelf().InRequestScope();
         }        
     }
 }
