@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using Mhotivo.Models;
@@ -11,7 +12,7 @@ namespace Mhotivo.App_Data.Repositories
         Grade First(Expression<Func<Grade, Grade>> query);
         Grade GetById(long id);
         Grade Create(Grade itemToCreate);
-        IQueryable<TResult> Query<TResult>(Expression<Func<Grade, TResult>> expression);
+        IQueryable<Grade> Query(Expression<Func<Grade, Grade>> expression);
         IQueryable<Grade> Filter(Expression<Func<Grade, bool>> expression);
         Grade Update(Grade itemToUpdate);
         void Delete(Grade itemToDelete);
@@ -30,43 +31,44 @@ namespace Mhotivo.App_Data.Repositories
         
         public Grade First(Expression<Func<Grade, Grade>> query)
         {
-            throw new NotImplementedException();
+            return _context.Grades.Select(query).FirstOrDefault();
         }
 
         public Grade GetById(long id)
         {
-            var grade = _context.Grades.Where(x => x.GradeId == id);
-            return grade.Count() != 0 ? grade.First() : null;
+
+            return _context.Grades.FirstOrDefault(x => x.Id == id);
         }
 
         public Grade Create(Grade itemToCreate)
         {
-            throw new NotImplementedException();
+            return _context.Grades.Add(itemToCreate);
         }
 
-        public IQueryable<TResult> Query<TResult>(Expression<Func<Grade, TResult>> expression)
+        public IQueryable<Grade> Query(Expression<Func<Grade, Grade>> expression)
         {
             return _context.Grades.Select(expression);
         }
 
         public IQueryable<Grade> Filter(Expression<Func<Grade, bool>> expression)
         {
-            throw new NotImplementedException();
+            return _context.Grades.Where(expression);
         }
 
         public Grade Update(Grade itemToUpdate)
         {
-            throw new NotImplementedException();
+            _context.Entry(itemToUpdate).State = EntityState.Modified;
+            return itemToUpdate;
         }
 
         public void Delete(Grade itemToDelete)
         {
-            throw new NotImplementedException();
+            _context.Grades.Remove(itemToDelete);
         }
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }

@@ -22,15 +22,15 @@ namespace Mhotivo.Migrations
                         StudentsLimit = c.Int(nullable: false),
                         StudentsCount = c.Int(nullable: false),
                         Course_CourseId = c.Int(),
-                        Grade_GradeId = c.Int(),
+                        Grade_Id = c.Int(),
                         Teacher_PeopleId = c.Long(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Course", t => t.Course_CourseId)
-                .ForeignKey("dbo.Grade", t => t.Grade_GradeId)
+                .ForeignKey("dbo.Grade", t => t.Grade_Id)
                 .ForeignKey("dbo.Meister", t => t.Teacher_PeopleId)
                 .Index(t => t.Course_CourseId)
-                .Index(t => t.Grade_GradeId)
+                .Index(t => t.Grade_Id)
                 .Index(t => t.Teacher_PeopleId);
             
             CreateTable(
@@ -58,11 +58,11 @@ namespace Mhotivo.Migrations
                 "dbo.Grade",
                 c => new
                     {
-                        GradeId = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         EducationLevel = c.String(),
                     })
-                .PrimaryKey(t => t.GradeId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.People",
@@ -225,13 +225,13 @@ namespace Mhotivo.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Course_CourseId = c.Int(),
-                        Grade_GradeId = c.Int(),
+                        Grade_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Course", t => t.Course_CourseId)
-                .ForeignKey("dbo.Grade", t => t.Grade_GradeId)
+                .ForeignKey("dbo.Grade", t => t.Grade_Id)
                 .Index(t => t.Course_CourseId)
-                .Index(t => t.Grade_GradeId);
+                .Index(t => t.Grade_Id);
             
             CreateTable(
                 "dbo.UserGroups",
@@ -315,7 +315,7 @@ namespace Mhotivo.Migrations
             DropForeignKey("dbo.Parent", "PeopleId", "dbo.People");
             DropForeignKey("dbo.Meister", "PeopleId", "dbo.People");
             DropForeignKey("dbo.Benefactor", "PeopleId", "dbo.People");
-            DropForeignKey("dbo.Pensum", "Grade_GradeId", "dbo.Grade");
+            DropForeignKey("dbo.Pensum", "Grade_Id", "dbo.Grade");
             DropForeignKey("dbo.Pensum", "Course_CourseId", "dbo.Course");
             DropForeignKey("dbo.User", "Role_RoleId", "dbo.Role");
             DropForeignKey("dbo.UserGroups", "Group_Id", "dbo.Groups");
@@ -327,7 +327,7 @@ namespace Mhotivo.Migrations
             DropForeignKey("dbo.ClassActivity", "AcademicYear_Id", "dbo.AcademicYear");
             DropForeignKey("dbo.AcademicYear", "Teacher_PeopleId", "dbo.Meister");
             DropForeignKey("dbo.ContactInformation", "People_PeopleId", "dbo.People");
-            DropForeignKey("dbo.AcademicYear", "Grade_GradeId", "dbo.Grade");
+            DropForeignKey("dbo.AcademicYear", "Grade_Id", "dbo.Grade");
             DropForeignKey("dbo.AcademicYear", "Course_CourseId", "dbo.Course");
             DropForeignKey("dbo.Course", "Area_Id", "dbo.Area");
             DropIndex("dbo.Student", new[] { "Tutor2_PeopleId" });
@@ -339,7 +339,7 @@ namespace Mhotivo.Migrations
             DropIndex("dbo.Benefactor", new[] { "PeopleId" });
             DropIndex("dbo.UserGroups", new[] { "Group_Id" });
             DropIndex("dbo.UserGroups", new[] { "User_UserId" });
-            DropIndex("dbo.Pensum", new[] { "Grade_GradeId" });
+            DropIndex("dbo.Pensum", new[] { "Grade_Id" });
             DropIndex("dbo.Pensum", new[] { "Course_CourseId" });
             DropIndex("dbo.User", new[] { "Role_RoleId" });
             DropIndex("dbo.Enroll", new[] { "Student_PeopleId" });
@@ -350,7 +350,7 @@ namespace Mhotivo.Migrations
             DropIndex("dbo.ContactInformation", new[] { "People_PeopleId" });
             DropIndex("dbo.Course", new[] { "Area_Id" });
             DropIndex("dbo.AcademicYear", new[] { "Teacher_PeopleId" });
-            DropIndex("dbo.AcademicYear", new[] { "Grade_GradeId" });
+            DropIndex("dbo.AcademicYear", new[] { "Grade_Id" });
             DropIndex("dbo.AcademicYear", new[] { "Course_CourseId" });
             DropTable("dbo.Student");
             DropTable("dbo.Parent");

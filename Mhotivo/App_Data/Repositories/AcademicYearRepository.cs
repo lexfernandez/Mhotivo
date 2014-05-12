@@ -115,7 +115,7 @@ namespace Mhotivo.App_Data.Repositories
                 updateCourse = true;
             }
 
-            if (ayear.Grade.GradeId != itemToUpdate.Grade.GradeId)
+            if (ayear.Grade.Id != itemToUpdate.Grade.Id)
             {
                 ayear.Course = itemToUpdate.Course;
                 updateGrade = true;
