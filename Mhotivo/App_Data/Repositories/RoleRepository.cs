@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -16,6 +17,7 @@ namespace Mhotivo.App_Data.Repositories
         Role Update(Role itemToUpdate);
         void Delete(Role itemToDelete);
         void SaveChanges();
+        IEnumerable<Role> GetAllRoles();
     }
 
     public class RoleRepository : IRoleRepository
@@ -25,12 +27,16 @@ namespace Mhotivo.App_Data.Repositories
         public RoleRepository(MhotivoContext ctx)
         {
             _context = ctx;
-           
         }
 
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public IEnumerable<Role> GetAllRoles()
+        {
+            return Query(x => x);
         }
 
         public Role First(Expression<Func<Role, Role>> query)

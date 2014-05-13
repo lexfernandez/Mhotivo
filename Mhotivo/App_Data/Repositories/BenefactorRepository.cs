@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,6 +16,11 @@ namespace Mhotivo.App_Data.Repositories
         IQueryable<Benefactor> Filter(Expression<Func<Benefactor, bool>> expression);
         Benefactor Update(Benefactor itemToUpdate);
         Benefactor Delete(long id);
+        IEnumerable<DisplayBenefactorModel> GettAllBenefactors();
+        Benefactor GenerateBenefactorFromRegisterModel(BenefactorRegisterModel benefactorRegisterModel);
+        BenefactorEditModel GetBenefactorEditModelById(long id);
+        DisplayBenefactorModel GetBenefactorDisplayModelById(long id);
+        Benefactor UpdateBenefactorFromBenefactorEditModel(BenefactorEditModel editModel, Benefactor benefactorModel);
         void SaveChanges();
     }
 
@@ -70,6 +76,110 @@ namespace Mhotivo.App_Data.Repositories
             _context.Benefactors.Remove(itemToDelete);
             _context.SaveChanges();
             return itemToDelete;
+        }
+
+        public IEnumerable<DisplayBenefactorModel> GettAllBenefactors()
+        {
+            return Query(x => x).ToList().Select(x => new DisplayBenefactorModel
+            {
+                BenefactorID = x.PeopleId,
+                IDNumber = x.IDNumber,
+                UrlPicture = x.UrlPicture,
+                FullName = x.FullName,
+                BirthDate = x.BirthDate,
+                Nationality = x.Nationality,
+                Address = x.Address,
+                City = x.City,
+                State = x.State,
+                Country = x.Country,
+                Gender = Utilities.GenderToString(x.Gender),
+                Contacts = x.Contacts,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Capacity = x.Capacity
+            });
+        }
+
+        public DisplayBenefactorModel GetBenefactorDisplayModelById(long id)
+        {
+            var benefactor = GetById(id);
+            return new DisplayBenefactorModel
+            {
+                BenefactorID = benefactor.PeopleId,
+                IDNumber = benefactor.IDNumber,
+                UrlPicture = benefactor.UrlPicture,
+                FirstName = benefactor.FirstName,
+                LastName = benefactor.LastName,
+                FullName = benefactor.FullName,
+                BirthDate = benefactor.BirthDate,
+                Nationality = benefactor.Nationality,
+                Address = benefactor.Address,
+                City = benefactor.City,
+                State = benefactor.State,
+                Country = benefactor.Country,
+                Gender = Utilities.GenderToString(benefactor.Gender),
+                Contacts = benefactor.Contacts,
+                Capacity = benefactor.Capacity,
+                StudentsCount = benefactor.Students.Count,
+                Students = benefactor.Students
+            };
+        }
+
+        public Benefactor UpdateBenefactorFromBenefactorEditModel(BenefactorEditModel editModel, Benefactor benefactorModel)
+        {
+            benefactorModel.FirstName = editModel.FirstName;
+            benefactorModel.LastName = editModel.LastName;
+            benefactorModel.FullName = (editModel.FirstName + " " + editModel.LastName).Trim();
+            benefactorModel.Country = editModel.Country;
+            benefactorModel.IDNumber = editModel.IDNumber;
+            benefactorModel.BirthDate = editModel.BirthDate;
+            benefactorModel.Gender = Utilities.IsMasculino(editModel.Gender);
+            benefactorModel.Nationality = editModel.Nationality;
+            benefactorModel.State = editModel.State;
+            benefactorModel.City = editModel.City;
+            benefactorModel.Address = editModel.Address;
+            benefactorModel.Capacity = editModel.Capacity;
+            return Update(benefactorModel);
+        }
+
+        public Benefactor GenerateBenefactorFromRegisterModel(BenefactorRegisterModel benefactorRegisterModel)
+        {
+            return new Benefactor
+            {
+                FirstName = benefactorRegisterModel.FirstName,
+                LastName = benefactorRegisterModel.LastName,
+                FullName = (benefactorRegisterModel.FirstName + " " + benefactorRegisterModel.LastName).Trim(),
+                IDNumber = benefactorRegisterModel.IDNumber,
+                BirthDate = benefactorRegisterModel.BirthDate,
+                Gender = Utilities.IsMasculino(benefactorRegisterModel.Gender),
+                Nationality = benefactorRegisterModel.Nationality,
+                State = benefactorRegisterModel.State,
+                Country = benefactorRegisterModel.Country,
+                City = benefactorRegisterModel.City,
+                Address = benefactorRegisterModel.Address,
+                Capacity = int.Parse(benefactorRegisterModel.Capacity)
+            };
+        }
+
+        public BenefactorEditModel GetBenefactorEditModelById(long id)
+        {
+            var benefactor = GetById(id);
+            return new BenefactorEditModel
+            {
+                FirstName = benefactor.FirstName,
+                LastName = benefactor.LastName,
+                FullName = (benefactor.FirstName + " " + benefactor.LastName).Trim(),
+                IDNumber = benefactor.IDNumber,
+                BirthDate = benefactor.BirthDate,
+                Gender = Utilities.GenderToString(benefactor.Gender),
+                Nationality = benefactor.Nationality,
+                Country = benefactor.Country,
+                State = benefactor.State,
+                City = benefactor.City,
+                Address = benefactor.Address,
+                Id = benefactor.PeopleId,
+                StudentsCount = benefactor.Students.Count
+            };
         }
 
         public void SaveChanges()

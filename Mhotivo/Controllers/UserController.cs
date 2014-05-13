@@ -28,15 +28,7 @@ namespace Mhotivo.Controllers
                 ViewBag.MessageContent = message.MessageContent;
             }
 
-            return View(_userRepository.Query(x => x).ToList()
-                .Select(x => new DisplayUserModel
-                {
-                    DisplayName = x.DisplayName,
-                    Email = x.Email,
-                    Role = x.Role.Name,
-                    Status = x.Status ? "Activo" : "Inactivo",
-                    UserId = x.UserId
-                }));   
+            return View(_userRepository.GetAllUsers());
         }
 
         [HttpGet]

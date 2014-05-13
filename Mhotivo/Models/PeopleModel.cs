@@ -51,6 +51,10 @@ namespace Mhotivo.Models
         public string City { get; set; }
 
         [Required]
+        [Display(Name = "Pais")]
+        public string Country { get; set; }
+
+        [Required]
         [Display(Name = "Estado")]
         public string State { get; set; }
 
@@ -62,6 +66,10 @@ namespace Mhotivo.Models
         [Required]
         [Display(Name = "Foto Perfil")]
         public HttpPostedFileBase FilePicture { get; set; }
+
+        [Required]
+        [Display(Name = "Identificacion")]
+        public string IDNumber { get; set; }
 
         [Required]
         [Display(Name = "Sexo")]
@@ -117,6 +125,10 @@ namespace Mhotivo.Models
         public string LastName { get; set; }
 
         [Required]
+        [Display(Name = "Nombre Completo")]
+        public string FullName { get; set; }
+
+        [Required]
         [Display(Name = "Fecha de Nacimiento")]
         public string BirthDay { get; set; }
 
@@ -127,6 +139,10 @@ namespace Mhotivo.Models
         [Required]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
+
+        [Required]
+        [Display(Name = "Pais")]
+        public string Country { get; set; }
 
         [Required]
         [Display(Name = "Estado")]

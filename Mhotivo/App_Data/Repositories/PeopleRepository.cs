@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Mhotivo.Models;
@@ -15,7 +16,12 @@ namespace Mhotivo.App_Data.Repositories
         IQueryable<People> Filter(Expression<Func<People, bool>> expression);
         People Update(People itemToUpdate);
         People Delete(long id);
+        People GeneratePeopleFromRegisterModel(PeopleRegisterModel peopleRegisterModel);
+        PeopleEditModel GetPeopleEditModelById(long id);
+        DisplayPeopleModel GetPeopleDisplayModelById(long id);
+        People UpdatePeopleFromPeopleEditModel(PeopleEditModel peopleEditModel, People people);
         void SaveChanges();
+        IEnumerable<DisplayPeopleModel> GetAllPeople();
     }
 
     public class PeopleRepository : IPeopleRepository
@@ -76,9 +82,97 @@ namespace Mhotivo.App_Data.Repositories
             return itemToDelete;
         }
 
+        public DisplayPeopleModel GetPeopleDisplayModelById(long id)
+        {
+            var people = GetById(id);
+            return new DisplayPeopleModel
+            {
+                PeopleId = people.PeopleId,
+                IDNumber = people.IDNumber,
+                UrlPicture = people.UrlPicture,
+                FullName = people.FullName,
+                BirthDay = people.BirthDate.ToShortDateString(),
+                Nationality = people.Nationality,
+                Address = people.Address,
+                City = people.City,
+                State = people.State,
+                Sexo = Utilities.GenderToString(people.Gender),
+            };
+        }
+
+        public People UpdatePeopleFromPeopleEditModel(PeopleEditModel peopleEditModel, People people)
+        {
+            people.FirstName = peopleEditModel.FirstName;
+            people.LastName = peopleEditModel.LastName;
+            people.FullName = (peopleEditModel.FirstName + " " + peopleEditModel.LastName).Trim();
+            people.Country = peopleEditModel.Country;
+            people.IDNumber = peopleEditModel.IDNumber;
+            people.BirthDate = DateTime.Parse(peopleEditModel.BirthDay);
+            people.Gender = Utilities.IsMasculino(peopleEditModel.Sexo);
+            people.Nationality = peopleEditModel.Nationality;
+            people.State = peopleEditModel.State;
+            people.City = peopleEditModel.City;
+            people.Address = peopleEditModel.Address;
+            return Update(people);
+        }
+
+        public People GeneratePeopleFromRegisterModel(PeopleRegisterModel peopleRegisterModel)
+        {
+            return new People
+            {
+                FirstName = peopleRegisterModel.FirstName,
+                LastName = peopleRegisterModel.LastName,
+                FullName = (peopleRegisterModel.FirstName + " " + peopleRegisterModel.LastName).Trim(),
+                IDNumber = peopleRegisterModel.IDNumber,
+                BirthDate = DateTime.Parse(peopleRegisterModel.BirthDay),
+                Gender = Utilities.IsMasculino(peopleRegisterModel.Sexo),
+                Nationality = peopleRegisterModel.Nationality,
+                State = peopleRegisterModel.State,
+                Country = peopleRegisterModel.Country,
+                City = peopleRegisterModel.City,
+                Address = peopleRegisterModel.Address,
+            };
+        }
+
+        public PeopleEditModel GetPeopleEditModelById(long id)
+        {
+            var people = GetById(id);
+            return new PeopleEditModel
+            {
+                FirstName = people.FirstName,
+                LastName = people.LastName,
+                FullName = (people.FirstName + " " + people.LastName).Trim(),
+                IDNumber = people.IDNumber,
+                BirthDay = people.BirthDate.ToShortDateString(),
+                Sexo = Utilities.GenderToString(people.Gender),
+                Nationality = people.Nationality,
+                Country = people.Country,
+                State = people.State,
+                City = people.City,
+                Address = people.Address,
+                PeopleId = people.PeopleId,
+            };
+        }
+
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public IEnumerable<DisplayPeopleModel> GetAllPeople()
+        {
+            return Query(x => x).ToList().Select(x => new DisplayPeopleModel
+            {
+                Address = x.Address,
+                BirthDay = x.BirthDate.ToShortDateString(),
+                PeopleId = x.PeopleId,
+                Sexo = Utilities.GenderToString(x.Gender),
+                City = x.City,
+                Nationality = x.Nationality,
+                State = x.State,
+                UrlPicture = x.UrlPicture,
+                FullName = x.FullName
+            });
         }
 
         public void Dispose()

@@ -188,9 +188,9 @@
     </Compile>
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
-    <Compile Include="Migrations\201405120504259_DatabaseInitializer.cs" />
-    <Compile Include="Migrations\201405120504259_DatabaseInitializer.Designer.cs">
-      <DependentUpon>201405120504259_DatabaseInitializer.cs</DependentUpon>
+    <Compile Include="Migrations\201405121728114_Test.cs" />
+    <Compile Include="Migrations\201405121728114_Test.Designer.cs">
+      <DependentUpon>201405121728114_Test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
@@ -433,14 +433,9 @@
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveExternalLoginsPartial.cshtml" />
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -518,8 +513,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201405120504259_DatabaseInitializer.resx">
-      <DependentUpon>201405120504259_DatabaseInitializer.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201405121728114_Test.resx">
+      <DependentUpon>201405121728114_Test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

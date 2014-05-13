@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -16,6 +17,7 @@ namespace Mhotivo.App_Data.Repositories
         User Update(User itemToUpdate, bool updateRole);
         User Delete(long id);
         void SaveChanges();
+        IEnumerable<DisplayUserModel> GetAllUsers();
     }
 
     public class UserRepository : IUserRepository
@@ -79,6 +81,18 @@ namespace Mhotivo.App_Data.Repositories
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public IEnumerable<DisplayUserModel> GetAllUsers()
+        {
+            return Query(x => x).ToList().Select(x => new DisplayUserModel
+            {
+                DisplayName = x.DisplayName,
+                Email = x.Email,
+                Role = x.Role.Name,
+                Status = x.Status ? "Activo" : "Inactivo",
+                UserId = x.UserId
+            });
         }
 
         public void Dispose()

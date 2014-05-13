@@ -11,12 +11,12 @@ namespace Mhotivo.Controllers
     public class ContactInformationController : Controller
     {
         private readonly IContactInformationRepository _contactInformationRepository;
-        private readonly IStudentRepository _studentRepository;
         private readonly IPeopleRepository _peopleRepository;
 
-        public ContactInformationController(IContactInformationRepository contactInformationRepository, IStudentRepository studentRepository,IPeopleRepository peopleRepository)
+        public ContactInformationController(IContactInformationRepository contactInformationRepository, IPeopleRepository peopleRepository)
         {
-            
+            _contactInformationRepository = contactInformationRepository;
+            _peopleRepository = peopleRepository;
         }
 
         [AllowAnonymous]
@@ -77,7 +77,6 @@ namespace Mhotivo.Controllers
                 Value = modelContactInformation.Value,
                 People = _peopleRepository.GetById(modelContactInformation.PeopleId)
             };
-            //_peopleRepository.Detach(myContactInformation.People);
             var contactInformation = _contactInformationRepository.Create(myContactInformation);
             
             const string title = "Informacion Agregada";
