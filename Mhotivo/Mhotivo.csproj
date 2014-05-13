@@ -188,9 +188,6 @@
     </Compile>
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
-    <Compile Include="Migrations\201405121728114_Test.cs" />
-    <Compile Include="Migrations\201405121728114_Test.Designer.cs">
-      <DependentUpon>201405121728114_Test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
@@ -511,11 +508,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201405121728114_Test.resx">
-      <DependentUpon>201405121728114_Test.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
