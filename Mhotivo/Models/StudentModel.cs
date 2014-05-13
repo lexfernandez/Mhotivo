@@ -75,10 +75,10 @@ namespace Mhotivo.Models
         public string Biography { get; set; }
 
         [Display(Name = "Tutor o Padre")]
-        public string Tutor1 { get; set; }
+        public string FirstParent { get; set; }
 
         [Display(Name = "Segundo Tutor o Madre")]
-        public string Tutor2 { get; set; }
+        public string SecondParent { get; set; }
 
     }
 
@@ -153,11 +153,11 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Padre o Tutor")]
-        public long Tutor1Id { get; set; }
+        public Parent FirstParent { get; set; }
 
         [Required]
         [Display(Name = "Madre o Segundo Tutor")]
-        public long Tutor2Id { get; set; }
+        public Parent SecondParent{ get; set; }
     }
 
     public class StudentBenefactorEditModel
@@ -236,10 +236,10 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Padre o Tutor")]
-        public int Tutor1Id { get; set; }
+        public Parent FirstParent { get; set; }
 
         [Required]
         [Display(Name = "Madre o Segundo Tutor")]
-        public int Tutor2Id { get; set; }
+        public Parent SecondParent { get; set; }
     }
 }

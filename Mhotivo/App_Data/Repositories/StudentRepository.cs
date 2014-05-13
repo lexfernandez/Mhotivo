@@ -53,14 +53,6 @@ namespace Mhotivo.App_Data.Repositories
         public Student Create(Student itemToCreate)
         {
             var student = _context.Students.Add(itemToCreate);
-            if (itemToCreate.Tutor1 != null)
-            {
-                _context.Entry(itemToCreate.Tutor1).State = EntityState.Modified;
-            }
-            if (itemToCreate.Tutor2 != null)
-            {
-                _context.Entry(itemToCreate.Tutor2).State = EntityState.Modified;
-            }
             _context.SaveChanges();
             return student;
         }
@@ -114,8 +106,8 @@ namespace Mhotivo.App_Data.Repositories
                 BloodType = x.BloodType,
                 AccountNumber = x.AccountNumber,
                 Biography = x.Biography,
-                Tutor1 = x.Tutor1 == null ? null : x.Tutor1.FullName,
-                Tutor2 = x.Tutor2 == null ? null : x.Tutor2.FullName
+                FirstParent = x.Tutor1 == null ? null : x.Tutor1.FullName,
+                SecondParent = x.Tutor2 == null ? null : x.Tutor2.FullName
             });
         }
 
@@ -142,8 +134,8 @@ namespace Mhotivo.App_Data.Repositories
                 BloodType = student.BloodType,
                 AccountNumber = student.AccountNumber,
                 Biography = student.Biography,
-                Tutor1 = student.Tutor1.FullName,
-                Tutor2 = student.FullName
+                FirstParent = student.Tutor1.FullName,
+                SecondParent = student.FullName
             };
         }
 
@@ -164,8 +156,8 @@ namespace Mhotivo.App_Data.Repositories
             student.StartDate = studentEditModel.StartDate;
             student.BloodType = studentEditModel.BloodType;
             student.AccountNumber = studentEditModel.AccountNumber;
-            student.Tutor1 = _context.Parents.First(x => x.PeopleId == studentEditModel.Tutor1Id);
-            student.Tutor2 = _context.Parents.First(x => x.PeopleId == studentEditModel.Tutor2Id);
+            student.Tutor1 = studentEditModel.FirstParent;
+            student.Tutor2 = studentEditModel.SecondParent;
             return Update(student);
         }
 
@@ -188,8 +180,8 @@ namespace Mhotivo.App_Data.Repositories
                 StartDate = studentRegisterModel.StartDate,
                 BloodType = studentRegisterModel.BloodType,
                 AccountNumber = studentRegisterModel.AccountNumber,
-                Tutor1 = _context.Parents.First(x => x.PeopleId == studentRegisterModel.Tutor1Id),
-                Tutor2 = _context.Parents.First(x => x.PeopleId == studentRegisterModel.Tutor2Id),
+                Tutor1 = studentRegisterModel.FirstParent,
+                Tutor2 = studentRegisterModel.SecondParent,
             };
         }
 
@@ -214,8 +206,8 @@ namespace Mhotivo.App_Data.Repositories
                 Biography = student.Biography,
                 AccountNumber = student.AccountNumber,
                 BloodType = student.BloodType,
-                Tutor1Id = student.Tutor1.PeopleId,
-                Tutor2Id = student.Tutor2.PeopleId
+                FirstParent = student.Tutor1,
+                SecondParent = student.Tutor2
             };
         }
     }
