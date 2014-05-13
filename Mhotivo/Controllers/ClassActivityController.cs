@@ -55,7 +55,13 @@ namespace Mhotivo.Controllers
                 Id = thisClassActivity.Id
             };
 
-            ViewBag.AcademicYearId = new SelectList(_academicYearRepository.Query(x => x), "AcademicYearId", "Year", thisClassActivity.AcademicYear.Id);
+            List<String> listTypes = new List<string>();
+            listTypes.Add("Exam");
+            listTypes.Add("Quiz");
+            listTypes.Add("Homework");
+            listTypes.Add("Classwork");
+            ViewBag.Type = new SelectList(listTypes);
+            ViewBag.AcademicYearId = new SelectList(_academicYearRepository.Query(x => x), "Id", "Year.Year");
 
             return View("Edit", classActivity);
         }
@@ -111,7 +117,7 @@ namespace Mhotivo.Controllers
             listTypes.Add("Homework");
             listTypes.Add("Classwork");
             ViewBag.Type = new SelectList(listTypes);
-            ViewBag.AcademicYearId = new SelectList(_academicYearRepository.Query(x => x), "AcademicYearId", "Year");
+            ViewBag.AcademicYearId = new SelectList(_academicYearRepository.Query(x => x), "Id", "Year.Year");
             return View("Create");
         }
 
