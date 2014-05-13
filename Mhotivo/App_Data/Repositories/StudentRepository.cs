@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,9 +14,14 @@ namespace Mhotivo.App_Data.Repositories
         Student Create(Student itemToCreate);
         IQueryable<Student> Query(Expression<Func<Student, Student>> expression);
         IQueryable<Student> Filter(Expression<Func<Student, bool>> expression);
-        Student Update(Student itemToUpdate, bool Tutor1, bool Tutor2, bool Benefactor);
+        Student Update(Student itemToUpdate);
         Student Delete(long id);
+        Student GenerateStudentFromRegisterModel(StudentRegisterModel studentRegisterModel);
+        StudentEditModel GetStudentEditModelById(long id);
+        DisplayStudentModel GetStudentDisplayModelById(long id);
+        Student UpdateStudentFromStudentEditModel(StudentEditModel studentEditModel, Student student);
         void SaveChanges();
+        IEnumerable<DisplayStudentModel> GetAllStudents();
     }
 
     public class StudentRepository : IStudentRepository
@@ -47,14 +53,6 @@ namespace Mhotivo.App_Data.Repositories
         public Student Create(Student itemToCreate)
         {
             var student = _context.Students.Add(itemToCreate);
-            if (itemToCreate.Tutor1 != null)
-            {
-                _context.Entry(itemToCreate.Tutor1).State = EntityState.Modified;
-            }
-            if (itemToCreate.Tutor2 != null)
-            {
-                _context.Entry(itemToCreate.Tutor2).State = EntityState.Modified;
-            }
             _context.SaveChanges();
             return student;
         }
@@ -71,57 +69,10 @@ namespace Mhotivo.App_Data.Repositories
             return myStudents.Count() != 0 ? myStudents.Include(x => x.Tutor1) : myStudents;
         }
 
-        public Student Update(Student itemToUpdate, bool Tutor1, bool Tutor2, bool Benefactor)
-        {
-            if (itemToUpdate.Tutor2 != null && Tutor2)
-            {
-                _context.Entry(itemToUpdate.Tutor2).State = EntityState.Modified;
-            }
-            if (itemToUpdate.Tutor1 != null && Tutor1)
-            {
-                _context.Entry(itemToUpdate.Tutor1).State = EntityState.Modified;
-            }
-            if (Benefactor)
-            {
-                _context.Entry(itemToUpdate.Benefactor).State = EntityState.Modified;
-            }
-            _context.SaveChanges();
-            return itemToUpdate;
-        }
-
         public Student Update(Student itemToUpdate)
         {
-            var student = GetById(itemToUpdate.PeopleId);
-            var updateTutor1 = false;
-            var updateTutor2 = false;
-
-            student.FirstName = itemToUpdate.FirstName;
-            student.LastName = itemToUpdate.LastName;
-            student.FullName = itemToUpdate.FullName;
-            student.BirthDate = itemToUpdate.BirthDate;
-            student.AccountNumber = itemToUpdate.AccountNumber;
-            student.Gender = itemToUpdate.Gender;
-            student.Nationality = itemToUpdate.Nationality;
-            student.State = itemToUpdate.State;
-            student.City = itemToUpdate.City;
-            student.Address = itemToUpdate.Address;
-            student.StartDate = itemToUpdate.StartDate;
-            student.BloodType = itemToUpdate.BloodType;
-            student.AccountNumber = itemToUpdate.AccountNumber;
-            student.Biography = itemToUpdate.Biography;
-            if (student.Tutor1.PeopleId != itemToUpdate.Tutor1.PeopleId)
-            {
-                student.Tutor1 = itemToUpdate.Tutor1;
-                updateTutor1 = true;
-            }
-            if (student.Tutor2.PeopleId != itemToUpdate.Tutor2.PeopleId)
-            {
-                student.Tutor2 = itemToUpdate.Tutor2;
-                updateTutor2 = true;
-            }
-
-            return Update(student, updateTutor1, updateTutor2, false);
-
+            _context.SaveChanges();
+            return itemToUpdate;
         }
 
         public Student Delete(long id)
@@ -135,6 +86,129 @@ namespace Mhotivo.App_Data.Repositories
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public IEnumerable<DisplayStudentModel> GetAllStudents()
+        {
+            return Query(x => x).ToList().Select(x => new DisplayStudentModel
+            {
+                StudentID = x.PeopleId,
+                UrlPicture = x.UrlPicture,
+                FullName = x.FullName,
+                BirthDate = x.BirthDate,
+                Nationality = x.Nationality,
+                Address = x.Address,
+                City = x.City,
+                State = x.State,
+                Country = x.Country,
+                Gender = Utilities.GenderToString(x.Gender),
+                StartDate = x.StartDate,
+                BloodType = x.BloodType,
+                AccountNumber = x.AccountNumber,
+                Biography = x.Biography,
+                FirstParent = x.Tutor1 == null ? null : x.Tutor1.FullName,
+                SecondParent = x.Tutor2 == null ? null : x.Tutor2.FullName
+            });
+        }
+
+        public DisplayStudentModel GetStudentDisplayModelById(long id)
+        {
+            var student = GetById(id);
+            return new DisplayStudentModel
+            {
+                StudentID = student.PeopleId,
+                IDNumber = student.IDNumber,
+                UrlPicture = student.UrlPicture,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                FullName = student.FullName,
+                BirthDate = student.BirthDate,
+                Nationality = student.Nationality,
+                Address = student.Address,
+                City = student.City,
+                State = student.State,
+                Country = student.Country,
+                Gender = Utilities.GenderToString(student.Gender),
+                Contacts = student.Contacts,
+                StartDate = student.StartDate,
+                BloodType = student.BloodType,
+                AccountNumber = student.AccountNumber,
+                Biography = student.Biography,
+                FirstParent = student.Tutor1.FullName,
+                SecondParent = student.FullName
+            };
+        }
+
+        public Student UpdateStudentFromStudentEditModel(StudentEditModel studentEditModel, Student student)
+        {
+            student.FirstName = studentEditModel.FirstName;
+            student.LastName = studentEditModel.LastName;
+            student.FullName = (studentEditModel.FirstName + " " + studentEditModel.LastName).Trim();
+            student.Country = studentEditModel.Country;
+            student.IDNumber = studentEditModel.IDNumber;
+            student.BirthDate = studentEditModel.BirthDate;
+            student.Gender = Utilities.IsMasculino(studentEditModel.Gender);
+            student.Nationality = studentEditModel.Nationality;
+            student.State = studentEditModel.State;
+            student.City = studentEditModel.City;
+            student.Address = studentEditModel.Address;
+            student.Biography = studentEditModel.Biography;
+            student.StartDate = studentEditModel.StartDate;
+            student.BloodType = studentEditModel.BloodType;
+            student.AccountNumber = studentEditModel.AccountNumber;
+            student.Tutor1 = studentEditModel.FirstParent;
+            student.Tutor2 = studentEditModel.SecondParent;
+            return Update(student);
+        }
+
+        public Student GenerateStudentFromRegisterModel(StudentRegisterModel studentRegisterModel)
+        {
+            return new Student
+            {
+                FirstName = studentRegisterModel.FirstName,
+                LastName = studentRegisterModel.LastName,
+                FullName = (studentRegisterModel.FirstName + " " + studentRegisterModel.LastName).Trim(),
+                IDNumber = studentRegisterModel.IDNumber,
+                BirthDate = studentRegisterModel.BirthDate,
+                Gender = Utilities.IsMasculino(studentRegisterModel.Gender),
+                Nationality = studentRegisterModel.Nationality,
+                State = studentRegisterModel.State,
+                Country = studentRegisterModel.Country,
+                City = studentRegisterModel.City,
+                Address = studentRegisterModel.Address,
+                Biography = studentRegisterModel.Biography,
+                StartDate = studentRegisterModel.StartDate,
+                BloodType = studentRegisterModel.BloodType,
+                AccountNumber = studentRegisterModel.AccountNumber,
+                Tutor1 = studentRegisterModel.FirstParent,
+                Tutor2 = studentRegisterModel.SecondParent,
+            };
+        }
+
+        public StudentEditModel GetStudentEditModelById(long id)
+        {
+            var student = GetById(id);
+            return new StudentEditModel
+            {
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                FullName = (student.FirstName + " " + student.LastName).Trim(),
+                IDNumber = student.IDNumber,
+                BirthDate = student.BirthDate,
+                Gender = Utilities.GenderToString(student.Gender),
+                Nationality = student.Nationality,
+                Country = student.Country,
+                State = student.State,
+                City = student.City,
+                Address = student.Address,
+                Id = student.PeopleId,
+                StartDate = student.StartDate,
+                Biography = student.Biography,
+                AccountNumber = student.AccountNumber,
+                BloodType = student.BloodType,
+                FirstParent = student.Tutor1,
+                SecondParent = student.Tutor2
+            };
         }
     }
 }

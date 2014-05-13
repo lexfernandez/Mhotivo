@@ -36,8 +36,8 @@
             @Html.ValidationMessageFor(model => model.BloodType)
             @Html.ValidationMessageFor(model => model.AccountNumber)
             @Html.ValidationMessageFor(model => model.Biography)
-            @Html.ValidationMessageFor(model => model.Tutor1Id)
-            @Html.ValidationMessageFor(model => model.Tutor2Id)
+            @Html.ValidationMessageFor(model => model.FirstParent)
+            @Html.ValidationMessageFor(model => model.SecondParent)
         </p>
 
         <div class="control-group">
@@ -210,7 +210,7 @@
 
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.Tutor1Id)
+                @Html.LabelFor(model => model.FirstParent)
             </div>
             <div class="controls">
                 @Html.DropDownList("Tutor1Id", "--Padre o Tutor--")
@@ -219,7 +219,7 @@
 
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.Tutor2Id)
+                @Html.LabelFor(model => model.SecondParent)
             </div>
             <div class="controls">
                 @Html.DropDownList("Tutor2Id", "--Padre o Tutor--")

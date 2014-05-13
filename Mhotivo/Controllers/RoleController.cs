@@ -26,7 +26,7 @@ namespace Mhotivo.Controllers
                 ViewBag.MessageContent = message.MessageContent;
             }
 
-            return View(_roleRepository.Query(x => x));
+            return View(_roleRepository.GetAllRoles());
         }
 
         //
