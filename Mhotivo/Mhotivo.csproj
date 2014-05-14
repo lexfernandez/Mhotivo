@@ -191,10 +191,6 @@
     <Compile Include="Logic\AcademicYearLogic.cs" />
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
-    <Compile Include="Migrations\201405132236254_DatabaseInitializer.cs" />
-    <Compile Include="Migrations\201405132236254_DatabaseInitializer.Designer.cs">
-      <DependentUpon>201405132236254_DatabaseInitializer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
     <Compile Include="Models\AppointmentDiary.cs" />
@@ -517,11 +513,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201405132236254_DatabaseInitializer.resx">
-      <DependentUpon>201405132236254_DatabaseInitializer.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
