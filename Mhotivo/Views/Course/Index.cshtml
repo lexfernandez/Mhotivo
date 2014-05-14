@@ -35,12 +35,12 @@ else
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.Area.Name)</td>
                     <td>
-                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Course/Edit/@Html.DisplayFor(modelItem => item.CourseId)"  ><i class="icon-edit bigger-120"></i></a>
+                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Course/Edit/@Html.DisplayFor(modelItem => item.Id)"  ><i class="icon-edit bigger-120"></i></a>
                         
-                         <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.CourseId)_Val"><i class="icon-trash bigger-120"></i></a>
-                        @using (Html.BeginForm("Delete", "Course", new { id = Html.DisplayFor(modelItem => item.CourseId) }, FormMethod.Post,
-                            new { id = "Form_" + Html.DisplayFor(modelItem => item.CourseId) + "_Val", style = "display: none" })) { }
-                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.CourseId)_Val_Message"
+                         <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.Id)_Val"><i class="icon-trash bigger-120"></i></a>
+                        @using (Html.BeginForm("Delete", "Course", new { id = Html.DisplayFor(modelItem => item.Id) }, FormMethod.Post,
+                            new { id = "Form_" + Html.DisplayFor(modelItem => item.Id) + "_Val", style = "display: none" })) { }
+                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.Id)_Val_Message"
                                value="¿Realmente desea eliminar el curso @Html.DisplayFor(modelItem => item.Name) - @Html.DisplayFor(modelItem => item.Area.Name)?" />
                     </td>
                 </tr>

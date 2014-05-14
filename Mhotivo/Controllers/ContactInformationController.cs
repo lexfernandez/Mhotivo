@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
 using Mhotivo.Models;
 
@@ -13,45 +9,46 @@ namespace Mhotivo.Controllers
         private readonly IContactInformationRepository _contactInformationRepository;
         private readonly IPeopleRepository _peopleRepository;
 
-        public ContactInformationController(IContactInformationRepository contactInformationRepository, IPeopleRepository peopleRepository)
+        public ContactInformationController(IContactInformationRepository contactInformationRepository,
+            IPeopleRepository peopleRepository)
         {
             _contactInformationRepository = contactInformationRepository;
             _peopleRepository = peopleRepository;
         }
-        
+
 
         [HttpPost]
         public ActionResult Edit(ContactInformationEditModel modelContactInformation)
         {
-            var myContactInformation = _contactInformationRepository.GetById(modelContactInformation.Id);
+            ContactInformation myContactInformation = _contactInformationRepository.GetById(modelContactInformation.Id);
 
             myContactInformation.Type = modelContactInformation.Type;
             myContactInformation.Value = modelContactInformation.Value;
 
-            var contactInformation = _contactInformationRepository.Update(myContactInformation);
+            ContactInformation contactInformation = _contactInformationRepository.Update(myContactInformation);
             const string title = "Contacto Actualizado";
 
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title
+                                      };
 
-            return RedirectToAction("Details/" + contactInformation.People.PeopleId, modelContactInformation.Controller);
+            return RedirectToAction("Details/" + contactInformation.People.Id, modelContactInformation.Controller);
         }
 
         [HttpPost]
         public ActionResult Delete(long id, string control)
         {
-            var myContactInformation = _contactInformationRepository.GetById(id);
-            long ID = myContactInformation.People.PeopleId;
-            var contactInformation = _contactInformationRepository.Delete(id);
+            ContactInformation myContactInformation = _contactInformationRepository.GetById(id);
+            long ID = myContactInformation.People.Id;
+            ContactInformation contactInformation = _contactInformationRepository.Delete(id);
             const string title = "Informacion Eliminada";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                      };
 
             return RedirectToAction("Details/" + ID, control);
         }
@@ -60,9 +57,9 @@ namespace Mhotivo.Controllers
         public ActionResult Add(long id)
         {
             var model = new ContactInformationRegisterModel
-            {
-                PeopleId = (int)id
-            };
+                        {
+                            Id = (int) id
+                        };
             return View("ContactAdd", model);
         }
 
@@ -70,21 +67,21 @@ namespace Mhotivo.Controllers
         public ActionResult Add(ContactInformationRegisterModel modelContactInformation)
         {
             var myContactInformation = new ContactInformation
-            {
-                Type = modelContactInformation.Type,
-                Value = modelContactInformation.Value,
-                People = _peopleRepository.GetById(modelContactInformation.PeopleId)
-            };
-            var contactInformation = _contactInformationRepository.Create(myContactInformation);
-            
+                                       {
+                                           Type = modelContactInformation.Type,
+                                           Value = modelContactInformation.Value,
+                                           People = _peopleRepository.GetById(modelContactInformation.Id)
+                                       };
+            ContactInformation contactInformation = _contactInformationRepository.Create(myContactInformation);
+
             const string title = "Informacion Agregada";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "SUCCESS",
-                MessageTitle = title,
-            };
+                                      {
+                                          Type = "SUCCESS",
+                                          Title = title,
+                                      };
 
-            return RedirectToAction("Details/" + contactInformation.People.PeopleId, modelContactInformation.Controller);
+            return RedirectToAction("Details/" + contactInformation.People.Id, modelContactInformation.Controller);
         }
     }
 }

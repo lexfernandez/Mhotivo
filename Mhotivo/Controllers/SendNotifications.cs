@@ -1,33 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
+using System.Net.Mail;
 using Mhotivo.App_Data;
 using Mhotivo.Models;
-using Microsoft.Ajax.Utilities;
-using System.Net.Mail;
 
 namespace Mhotivo.Controllers
 {
     public class SendNotifications
     {
-        MhotivoContext db = new MhotivoContext();
+        private readonly MhotivoContext _db = new MhotivoContext();
+
         public bool Send(string notificationName, Object templateParameters)
         {
-            Notification notification = db.Notifications.FirstOrDefault(x => x.EventName.Equals(notificationName));
+            Notification notification = _db.Notifications.FirstOrDefault(x => x.EventName.Equals(notificationName));
             if (notification != null)
             {
                 string[] parametersList = templateParameters.GetType().GetProperties().Select(p => p.Name).ToArray();
-                foreach (var parameters in parametersList)
+                foreach (string parameters in parametersList)
                 {
                     if (notification.Subject.Contains("${" + parameters + "}"))
                     {
-                        string value = templateParameters.GetType().GetProperty(parameters).GetValue(templateParameters, null).ToString();
-                        notification.Subject=notification.Subject.Replace("${" + parameters + "}", value);
+                        string value =
+                            templateParameters.GetType()
+                                .GetProperty(parameters)
+                                .GetValue(templateParameters, null)
+                                .ToString();
+                        notification.Subject = notification.Subject.Replace("${" + parameters + "}", value);
                     }
                     if (notification.Message.Contains("${" + parameters + "}"))
                     {
-                        string value = templateParameters.GetType().GetProperty(parameters).GetValue(templateParameters, null).ToString();
+                        string value =
+                            templateParameters.GetType()
+                                .GetProperty(parameters)
+                                .GetValue(templateParameters, null)
+                                .ToString();
                         notification.Message = notification.Message.Replace("${" + parameters + "}", value);
                     }
                 }
@@ -45,13 +52,12 @@ namespace Mhotivo.Controllers
                                  UseDefaultCredentials = true,
                                  EnableSsl = true,
                                  Credentials =
-                                     new System.Net.NetworkCredential(
+                                     new NetworkCredential(
                                      "mhotivo@gmail.com", "abc098765"),
                                  DeliveryMethod = SmtpDeliveryMethod.Network
                              };
 
                 client.Send(message);
-   
             }
             return true;
         }

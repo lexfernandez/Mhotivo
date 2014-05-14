@@ -6,13 +6,13 @@ using System.Web;
 
 namespace Mhotivo.Models
 {
-    [Table("People")]
     public class People
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public long PeopleId { get; set; }
-        public string IDNumber { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+
+        public string IdNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
@@ -26,6 +26,39 @@ namespace Mhotivo.Models
         public bool Gender { get; set; }
 
         public virtual ICollection<ContactInformation> Contacts { get; set; }
+    }
+
+    public class DisplayPeopleModel
+    {
+        [Display(Name = "ID")]
+        public long Id { get; set; }
+
+        [Display(Name = "Identificacion")]
+        public string IdNumber { get; set; }
+
+        [Display(Name = "Nombre Completo")]
+        public string FullName { get; set; }
+
+        [Display(Name = "Fecha de Nacimiento")]
+        public string BirthDay { get; set; }
+
+        [Display(Name = "Nacionalidad")]
+        public string Nationality { get; set; }
+
+        [Display(Name = "Ciudad")]
+        public string City { get; set; }
+
+        [Display(Name = "Estado")]
+        public string State { get; set; }
+
+        [Display(Name = "Dirección")]
+        public string Address { get; set; }
+
+        [Display(Name = "Foto Perfil")]
+        public string UrlPicture { get; set; }
+
+        [Display(Name = "Sexo")]
+        public string Sexo { get; set; }
     }
 
     public class PeopleRegisterModel
@@ -69,52 +102,19 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Identificacion")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Sexo")]
         public string Sexo { get; set; }
     }
 
-    public class DisplayPeopleModel
-    {
-        [Display(Name = "ID")]
-        public long PeopleId { get; set; }
-
-        [Display(Name = "Identificacion")]
-        public string IDNumber { get; set; }
-
-        [Display(Name = "Nombre Completo")]
-        public string FullName { get; set; }
-
-        [Display(Name = "Fecha de Nacimiento")]
-        public string BirthDay { get; set; }
-
-        [Display(Name = "Nacionalidad")]
-        public string Nationality { get; set; }
-
-        [Display(Name = "Ciudad")]
-        public string City { get; set; }
-
-        [Display(Name = "Estado")]
-        public string State { get; set; }
-
-        [Display(Name = "Dirección")]
-        public string Address { get; set; }
-
-        [Display(Name = "Foto Perfil")]
-        public string UrlPicture { get; set; }
-
-        [Display(Name = "Sexo")]
-        public string Sexo { get; set; }
-    }
-
     public class PeopleEditModel
     {
-        public long PeopleId { get; set; }
+        public long Id { get; set; }
 
         [Display(Name = "Identificacion")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Nombre")]

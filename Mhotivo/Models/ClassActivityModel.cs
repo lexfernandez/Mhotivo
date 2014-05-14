@@ -1,16 +1,14 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mhotivo.Models
 {
-    [Table("ClassActivity")]
     public class ClassActivity
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public virtual AcademicYear AcademicYear { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
@@ -20,7 +18,6 @@ namespace Mhotivo.Models
 
     public class DisplayClassActivityModel
     {
-
         public int Id { get; set; }
 
         [Display(Name = "Año Académico")]
@@ -37,7 +34,6 @@ namespace Mhotivo.Models
 
         [Display(Name = "Valor")]
         public string Value { get; set; }
-
     }
 
     public class ClassActivityEditModel

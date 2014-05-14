@@ -39,7 +39,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Event GetById(long id)
         {
-            return _context.Events.First(x => x.EventId == id);
+            return _context.Events.First(x => x.Id == id);
         }
 
         public Event Create(Event itemToCreate)

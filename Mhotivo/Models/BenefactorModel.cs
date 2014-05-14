@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Web;
 
 namespace Mhotivo.Models
 {
-    [Table("Benefactor")]
     public class Benefactor : People
     {
         public int Capacity { get; set; }
@@ -17,7 +14,7 @@ namespace Mhotivo.Models
 
     public class DisplayBenefactorModel
     {
-        public long BenefactorID { get; set; }
+        public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
@@ -42,7 +39,7 @@ namespace Mhotivo.Models
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
@@ -64,7 +61,6 @@ namespace Mhotivo.Models
 
         [Display(Name = "Sexo")]
         public string Gender { get; set; }
-
     }
 
     public class BenefactorEditModel
@@ -88,7 +84,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Apellidos")]
@@ -148,7 +144,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Fecha de Nacimiento")]

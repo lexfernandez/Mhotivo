@@ -16,15 +16,15 @@
     <fieldset>
         <legend>Editar Informacion de Contacto</legend>
 
-        @Html.HiddenFor(model => model.OldID)
-        @Html.HiddenFor(model => model.BenefactorID)
+        @Html.HiddenFor(model => model.OldId)
+        @Html.HiddenFor(model => model.Id)
         <p class="text-error">
-            @Html.ValidationMessageFor(model => model.NewID)
+            @Html.ValidationMessageFor(model => model.NewId)
         </p>
 
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.NewID)
+                @Html.LabelFor(model => model.NewId)
             </div>
             <div class="controls">
                 @Html.DropDownList("NewID", "--Seleccione Estudiante--")

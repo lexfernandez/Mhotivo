@@ -6,27 +6,27 @@ namespace Mhotivo.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly IStudentRepository _studentRepository;
-        private readonly IParentRepository _parentRepository;
         private readonly IContactInformationRepository _contactInformationRepository;
+        private readonly IParentRepository _parentRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public StudentController(IStudentRepository studentRepository, IParentRepository parentRepository, IContactInformationRepository contactInformationRepository)
+        public StudentController(IStudentRepository studentRepository, IParentRepository parentRepository,
+            IContactInformationRepository contactInformationRepository)
         {
             _studentRepository = studentRepository;
             _parentRepository = parentRepository;
             _contactInformationRepository = contactInformationRepository;
         }
 
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            var message = (MessageModel)TempData["MessageInfo"];
+            var message = (MessageModel) TempData["MessageInfo"];
 
             if (message != null)
             {
-                ViewBag.MessageType = message.MessageType;
-                ViewBag.MessageTitle = message.MessageTitle;
-                ViewBag.MessageContent = message.MessageContent;
+                ViewBag.MessageType = message.Type;
+                ViewBag.MessageTitle = message.Title;
+                ViewBag.MessageContent = message.Content;
             }
 
             return View(_studentRepository.GetAllStudents());
@@ -35,15 +35,15 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult ContactEdit(long id)
         {
-            var thisContactInformation = _contactInformationRepository.GetById(id);
+            ContactInformation thisContactInformation = _contactInformationRepository.GetById(id);
             var contactInformation = new ContactInformationEditModel
-            {
-                Type = thisContactInformation.Type,
-                Value = thisContactInformation.Value,
-                Id = thisContactInformation.ContactId,
-                people = thisContactInformation.People,
-                Controller = "Student"
-            };
+                                     {
+                                         Type = thisContactInformation.Type,
+                                         Value = thisContactInformation.Value,
+                                         Id = thisContactInformation.Id,
+                                         People = thisContactInformation.People,
+                                         Controller = "Student"
+                                     };
 
             return View("ContactEdit", contactInformation);
         }
@@ -51,10 +51,12 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var student = _studentRepository.GetStudentEditModelById(id);
+            StudentEditModel student = _studentRepository.GetStudentEditModelById(id);
 
-            ViewBag.Tutor1Id = new SelectList(_parentRepository.Query(x => x), "PeopleID", "FullName", student.FirstParent);
-            ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "PeopleID", "FullName", student.SecondParent);
+            ViewBag.Tutor1Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName",
+                student.FirstParent);
+            ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName",
+                student.SecondParent);
 
             return View("Edit", student);
         }
@@ -62,18 +64,18 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(StudentEditModel modelStudent)
         {
-            var myStudent = _studentRepository.GetById(modelStudent.Id);
+            Student myStudent = _studentRepository.GetById(modelStudent.Id);
             _studentRepository.UpdateStudentFromStudentEditModel(modelStudent, myStudent);
 
             const string title = "Estudiante Actualizado";
-            var content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
+            string content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
 
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -81,14 +83,16 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-            var student = _studentRepository.Delete(id);
+            Student student = _studentRepository.Delete(id);
 
             const string title = "Estudiante Eliminado";
-            var content = "El estudiante " + student.FullName + " ha sido eliminado exitosamente.";
+            string content = "El estudiante " + student.FullName + " ha sido eliminado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO", MessageTitle = title, MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -97,35 +101,35 @@ namespace Mhotivo.Controllers
         public ActionResult ContactAdd(long id)
         {
             var model = new ContactInformationRegisterModel
-            {
-                PeopleId = (int) id,
-                Controller = "Student"
-            };
+                        {
+                            Id = (int) id,
+                            Controller = "Student"
+                        };
             return View("ContactAdd", model);
         }
 
         [HttpGet]
         public ActionResult Add()
         {
-            ViewBag.Tutor1Id = new SelectList(_parentRepository.Query(x => x), "PeopleID", "FullName");
-            ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "PeopleID", "FullName");
+            ViewBag.Tutor1Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName");
+            ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName");
             return View("Create");
         }
 
         [HttpPost]
         public ActionResult Add(StudentRegisterModel modelStudent)
         {
-            var myStudent = _studentRepository.GenerateStudentFromRegisterModel(modelStudent);
-            
-            var student = _studentRepository.Create(myStudent);
+            Student myStudent = _studentRepository.GenerateStudentFromRegisterModel(modelStudent);
+
+            Student student = _studentRepository.Create(myStudent);
             const string title = "Estudiante Agregado";
-            var content = "El estudiante " + myStudent.FullName + " ha sido agregado exitosamente.";
+            string content = "El estudiante " + myStudent.FullName + " ha sido agregado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "SUCCESS",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "SUCCESS",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -133,7 +137,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Details(long id)
         {
-            var student = _studentRepository.GetStudentDisplayModelById(id);
+            DisplayStudentModel student = _studentRepository.GetStudentDisplayModelById(id);
 
             return View("Details", student);
         }
@@ -147,26 +151,26 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult DetailsEdit(long id)
         {
-            var student = _studentRepository.GetStudentEditModelById(id);
-            
+            StudentEditModel student = _studentRepository.GetStudentEditModelById(id);
+
             return View("DetailsEdit", student);
         }
 
         [HttpPost]
         public ActionResult DetailsEdit(StudentEditModel modelStudent)
         {
-            var myStudent = _studentRepository.GetById(modelStudent.Id);
+            Student myStudent = _studentRepository.GetById(modelStudent.Id);
             _studentRepository.UpdateStudentFromStudentEditModel(modelStudent, myStudent);
-            
+
             const string title = "Estudiante Actualizado";
-            var content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
+            string content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
 
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Details/" + modelStudent.Id);
         }

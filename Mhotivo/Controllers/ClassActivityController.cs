@@ -9,10 +9,11 @@ namespace Mhotivo.Controllers
 {
     public class ClassActivityController : Controller
     {
-        private readonly IClassActivityRepository _classActivityRepository;
         private readonly IAcademicYearRepository _academicYearRepository;
+        private readonly IClassActivityRepository _classActivityRepository;
 
-        public ClassActivityController(IClassActivityRepository classActivityRepository, IAcademicYearRepository academicYearRepository)
+        public ClassActivityController(IClassActivityRepository classActivityRepository,
+            IAcademicYearRepository academicYearRepository)
         {
             _classActivityRepository = classActivityRepository;
             _academicYearRepository = academicYearRepository;
@@ -20,42 +21,42 @@ namespace Mhotivo.Controllers
 
         public ActionResult Index()
         {
-            var message = (MessageModel)TempData["MessageInfo"];
+            var message = (MessageModel) TempData["MessageInfo"];
 
             if (message != null)
             {
-                ViewBag.MessageType = message.MessageType;
-                ViewBag.MessageTitle = message.MessageTitle;
-                ViewBag.MessageContent = message.MessageContent;
+                ViewBag.MessageType = message.Type;
+                ViewBag.MessageTitle = message.Title;
+                ViewBag.MessageContent = message.Content;
             }
 
             return View(_classActivityRepository.Query(x => x).ToList()
                 .Select(x => new DisplayClassActivityModel
-                {
-                    AcademicYear = Convert.ToString(x.AcademicYear.Year.Year),
-                    DisplayName = x.Name,
-                    Type = x.Type,
-                    Description = x.Description,
-                    Value = Convert.ToString(x.Value),
-                    Id = x.Id
-                }));   
+                             {
+                                 AcademicYear = Convert.ToString(x.AcademicYear.Year.Year),
+                                 DisplayName = x.Name,
+                                 Type = x.Type,
+                                 Description = x.Description,
+                                 Value = Convert.ToString(x.Value),
+                                 Id = x.Id
+                             }));
         }
 
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var thisClassActivity = _classActivityRepository.GetById(id);
+            ClassActivity thisClassActivity = _classActivityRepository.GetById(id);
             var classActivity = new ClassActivityEditModel
-            {
-                AcademicYearId = thisClassActivity.AcademicYear.Id,
-                DisplayName = thisClassActivity.Name,
-                Type = thisClassActivity.Type,
-                Description = thisClassActivity.Description,
-                Value = thisClassActivity.Value,
-                Id = thisClassActivity.Id
-            };
+                                {
+                                    AcademicYearId = thisClassActivity.AcademicYear.Id,
+                                    DisplayName = thisClassActivity.Name,
+                                    Type = thisClassActivity.Type,
+                                    Description = thisClassActivity.Description,
+                                    Value = thisClassActivity.Value,
+                                    Id = thisClassActivity.Id
+                                };
 
-            List<String> listTypes = new List<string>();
+            var listTypes = new List<string>();
             listTypes.Add("Exam");
             listTypes.Add("Quiz");
             listTypes.Add("Homework");
@@ -69,24 +70,24 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(ClassActivityEditModel modelClassActivity)
         {
-            var myClassActivity = _classActivityRepository.GetById(modelClassActivity.Id);
+            ClassActivity myClassActivity = _classActivityRepository.GetById(modelClassActivity.Id);
             myClassActivity.Name = modelClassActivity.DisplayName;
             myClassActivity.Type = modelClassActivity.Type;
             myClassActivity.Description = modelClassActivity.Description;
             myClassActivity.Value = modelClassActivity.Value;
             myClassActivity.AcademicYear = _academicYearRepository.GetById(modelClassActivity.AcademicYearId);
 
-            var classactivity = _classActivityRepository.Update(myClassActivity);
+            ClassActivity classactivity = _classActivityRepository.Update(myClassActivity);
             _classActivityRepository.SaveChanges();
             const string title = "Actividad Actualizada";
-            var content = "La actividad --" + classactivity.Name + "-- ha sido actualizado exitosamente.";
+            string content = "La actividad --" + classactivity.Name + "-- ha sido actualizado exitosamente.";
 
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -94,16 +95,17 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-
-            var classactivity = _classActivityRepository.Delete(_classActivityRepository.GetById(id));
+            ClassActivity classactivity = _classActivityRepository.Delete(_classActivityRepository.GetById(id));
             _classActivityRepository.SaveChanges();
 
             const string title = "Actividad Eliminada";
-            var content = "La activdad --" + classactivity.Name + "-- ha sido eliminado exitosamente.";
+            string content = "La activdad --" + classactivity.Name + "-- ha sido eliminado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO", MessageTitle = title, MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -111,7 +113,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            List<String> listTypes = new List<string>();
+            var listTypes = new List<string>();
             listTypes.Add("Exam");
             listTypes.Add("Quiz");
             listTypes.Add("Homework");
@@ -125,24 +127,24 @@ namespace Mhotivo.Controllers
         public ActionResult Add(ClassActivityRegisterModel modelClassActivity)
         {
             var myClassActivity = new ClassActivity
-            {
-                Name = modelClassActivity.DisplayName,
-                Type = modelClassActivity.Type,
-                Description = modelClassActivity.Description,
-                Value = modelClassActivity.Value,
-                AcademicYear = _academicYearRepository.GetById(modelClassActivity.AcademicYearId)
-            };
+                                  {
+                                      Name = modelClassActivity.DisplayName,
+                                      Type = modelClassActivity.Type,
+                                      Description = modelClassActivity.Description,
+                                      Value = modelClassActivity.Value,
+                                      AcademicYear = _academicYearRepository.GetById(modelClassActivity.AcademicYearId)
+                                  };
 
-            var classactivity = _classActivityRepository.Create(myClassActivity);
+            ClassActivity classactivity = _classActivityRepository.Create(myClassActivity);
             _classActivityRepository.SaveChanges();
             const string title = "Actividad Agregada";
-            var content = "La Actividad --" + classactivity.Name + "-- ha sido agregada exitosamente.";
+            string content = "La Actividad --" + classactivity.Name + "-- ha sido agregada exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "SUCCESS",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "SUCCESS",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }

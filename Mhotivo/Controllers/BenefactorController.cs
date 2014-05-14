@@ -7,10 +7,11 @@ namespace Mhotivo.Controllers
     public class BenefactorController : Controller
     {
         private readonly IBenefactorRepository _benefactorRepository;
-        private readonly IStudentRepository _studentRepository;
         private readonly IContactInformationRepository _contactInformationRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public BenefactorController(IBenefactorRepository benefactorRepository, IStudentRepository studentRepository, IContactInformationRepository contactInformationRepository)
+        public BenefactorController(IBenefactorRepository benefactorRepository, IStudentRepository studentRepository,
+            IContactInformationRepository contactInformationRepository)
         {
             _benefactorRepository = benefactorRepository;
             _studentRepository = studentRepository;
@@ -20,13 +21,13 @@ namespace Mhotivo.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var message = (MessageModel)TempData["MessageInfo"];
+            var message = (MessageModel) TempData["MessageInfo"];
 
             if (message != null)
             {
-                ViewBag.MessageType = message.MessageType;
-                ViewBag.MessageTitle = message.MessageTitle;
-                ViewBag.MessageContent = message.MessageContent;
+                ViewBag.MessageType = message.Type;
+                ViewBag.MessageTitle = message.Title;
+                ViewBag.MessageContent = message.Content;
             }
 
             return View(_benefactorRepository.GettAllBenefactors());
@@ -35,15 +36,15 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult ContactEdit(long id)
         {
-            var thisContactInformation = _contactInformationRepository.GetById(id);
+            ContactInformation thisContactInformation = _contactInformationRepository.GetById(id);
             var contactInformation = new ContactInformationEditModel
-            {
-                Type = thisContactInformation.Type,
-                Value = thisContactInformation.Value,
-                Id = thisContactInformation.ContactId,
-                people = thisContactInformation.People,
-                Controller = "Benefactor"
-            };
+                                     {
+                                         Type = thisContactInformation.Type,
+                                         Value = thisContactInformation.Value,
+                                         Id = thisContactInformation.Id,
+                                         People = thisContactInformation.People,
+                                         Controller = "Benefactor"
+                                     };
 
             return View("ContactEdit", contactInformation);
         }
@@ -60,30 +61,30 @@ namespace Mhotivo.Controllers
             if (modelBenefactor.Capacity < modelBenefactor.StudentsCount)
             {
                 string title = "Beneficiario No Puede Tener Menos de " + modelBenefactor.StudentsCount;
-                var content = "Elimine algunos estudiantes antes de continuar.";
+                string content = "Elimine algunos estudiantes antes de continuar.";
 
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "INFO",
-                    MessageTitle = title,
-                    MessageContent = content
-                };
+                                          {
+                                              Type = "INFO",
+                                              Title = title,
+                                              Content = content
+                                          };
                 return RedirectToAction("Index");
             }
             else
             {
-                var myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
+                Benefactor myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
                 _benefactorRepository.UpdateBenefactorFromBenefactorEditModel(modelBenefactor, myBenefactor);
 
                 const string title = "Beneficiario Actualizado";
-                var content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
+                string content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
 
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "INFO",
-                    MessageTitle = title,
-                    MessageContent = content
-                };
+                                          {
+                                              Type = "INFO",
+                                              Title = title,
+                                              Content = content
+                                          };
                 return RedirectToAction("Index");
             }
         }
@@ -91,16 +92,16 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-            var benefactor = _benefactorRepository.Delete(id);
+            Benefactor benefactor = _benefactorRepository.Delete(id);
 
             const string title = "Padre o Tutor Eliminado";
-            var content = "El Padre o Tutor " + benefactor.FullName + " ha sido eliminado exitosamente.";
+            string content = "El Padre o Tutor " + benefactor.FullName + " ha sido eliminado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -109,10 +110,10 @@ namespace Mhotivo.Controllers
         public ActionResult ContactAdd(long id)
         {
             var model = new ContactInformationRegisterModel
-            {
-                PeopleId = (int)id,
-                Controller = "Benefactor"
-            };
+                        {
+                            Id = (int) id,
+                            Controller = "Benefactor"
+                        };
             return View("ContactAdd", model);
         }
 
@@ -125,18 +126,17 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Add(BenefactorRegisterModel modelBenefactor)
         {
+            Benefactor myBenefactor = _benefactorRepository.GenerateBenefactorFromRegisterModel(modelBenefactor);
 
-            var myBenefactor = _benefactorRepository.GenerateBenefactorFromRegisterModel(modelBenefactor);
-
-            var benefactor = _benefactorRepository.Create(myBenefactor);
+            Benefactor benefactor = _benefactorRepository.Create(myBenefactor);
             const string title = "Padre o Tutor Agregado";
-            var content = "El Padre o Tutor " + myBenefactor.FullName + "ha sido agregado exitosamente.";
+            string content = "El Padre o Tutor " + myBenefactor.FullName + "ha sido agregado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "SUCCESS",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "SUCCESS",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -144,7 +144,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Details(long id)
         {
-            var benefactor = _benefactorRepository.GetBenefactorDisplayModelById(id);
+            DisplayBenefactorModel benefactor = _benefactorRepository.GetBenefactorDisplayModelById(id);
 
             return View("Details", benefactor);
         }
@@ -152,8 +152,8 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult DetailsEdit(long id)
         {
-            var benefactor = _benefactorRepository.GetBenefactorEditModelById(id);
-            
+            BenefactorEditModel benefactor = _benefactorRepository.GetBenefactorEditModelById(id);
+
             return View("DetailsEdit", benefactor);
         }
 
@@ -163,30 +163,30 @@ namespace Mhotivo.Controllers
             if (modelBenefactor.StudentsCount > modelBenefactor.Capacity)
             {
                 string title = "Beneficiario No Puede Tener Menos de " + modelBenefactor.StudentsCount;
-                var content = "Elimine algunos estudiantes antes de continuar.";
+                string content = "Elimine algunos estudiantes antes de continuar.";
 
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "INFO",
-                    MessageTitle = title,
-                    MessageContent = content
-                };
+                                          {
+                                              Type = "INFO",
+                                              Title = title,
+                                              Content = content
+                                          };
                 return RedirectToAction("DetailsEdit/" + modelBenefactor.Id);
             }
             else
             {
-                var myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
+                Benefactor myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
                 _benefactorRepository.UpdateBenefactorFromBenefactorEditModel(modelBenefactor, myBenefactor);
-                
+
                 const string title = "Beneficiario Actualizado";
-                var content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
+                string content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
 
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "INFO",
-                    MessageTitle = title,
-                    MessageContent = content
-                };
+                                          {
+                                              Type = "INFO",
+                                              Title = title,
+                                              Content = content
+                                          };
                 return RedirectToAction("Details/" + modelBenefactor.Id);
             }
         }
@@ -194,14 +194,13 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult StudentEdit(long id)
         {
-            var thisStudent = _studentRepository.GetById(id);
+            Student thisStudent = _studentRepository.GetById(id);
             var student = new StudentBenefactorEditModel
-            {
-                OldID = (int) id,
-                BenefactorID = thisStudent.Benefactor == null ? -1 : thisStudent.Benefactor.PeopleId
-
-            };
-            ViewBag.NewID = new SelectList(_studentRepository.Query(x => x), "PeopleID", "FullName", student.OldID);
+                          {
+                              OldId = (int) id,
+                              Id = thisStudent.Benefactor == null ? -1 : thisStudent.Benefactor.Id
+                          };
+            ViewBag.NewID = new SelectList(_studentRepository.Query(x => x), "Id", "FullName", student.OldId);
             return View("StudentEdit", student);
         }
 
@@ -209,70 +208,70 @@ namespace Mhotivo.Controllers
         public ActionResult StudentAdd(long id)
         {
             var student = new StudentBenefactorEditModel
-            {
-                BenefactorID = (int)id
-            };
-            ViewBag.NewID = new SelectList(_studentRepository.Query(x => x), "PeopleID", "FullName");
+                          {
+                              Id = (int) id
+                          };
+            ViewBag.NewID = new SelectList(_studentRepository.Query(x => x), "Id", "FullName");
             return View("StudentAdd", student);
         }
 
         [HttpPost]
         public ActionResult StudentAdd(StudentBenefactorEditModel modelStudent)
         {
-            var benefactor = _benefactorRepository.GetById(modelStudent.BenefactorID);
+            Benefactor benefactor = _benefactorRepository.GetById(modelStudent.Id);
             if (benefactor != null)
             {
                 if (benefactor.Capacity > benefactor.Students.Count)
                 {
-                    var myStudent = _studentRepository.GetById(modelStudent.NewID);
+                    Student myStudent = _studentRepository.GetById(modelStudent.NewId);
                     myStudent.Benefactor = benefactor;
                     _studentRepository.Update(myStudent);
                 }
             }
-            return RedirectToAction("Details/" + modelStudent.BenefactorID);
+            return RedirectToAction("Details/" + modelStudent.Id);
         }
 
         [HttpPost]
         public ActionResult StudentEdit(StudentBenefactorEditModel modelStudent)
         {
-            if (modelStudent.NewID <= 0)
+            if (modelStudent.NewId <= 0)
             {
-                var myStudent = _studentRepository.GetById(modelStudent.OldID);
+                Student myStudent = _studentRepository.GetById(modelStudent.OldId);
                 myStudent.Benefactor = null;
-                var student = _studentRepository.Update(myStudent);
-                myStudent = _studentRepository.GetById(modelStudent.NewID);
+                Student student = _studentRepository.Update(myStudent);
+                myStudent = _studentRepository.GetById(modelStudent.NewId);
             }
-            else if (modelStudent.OldID != modelStudent.NewID)
+            else if (modelStudent.OldId != modelStudent.NewId)
             {
-                var myStudent = _studentRepository.GetById(modelStudent.NewID);
-                if (myStudent.Benefactor == null || myStudent.Benefactor.PeopleId != modelStudent.BenefactorID)
+                Student myStudent = _studentRepository.GetById(modelStudent.NewId);
+                if (myStudent.Benefactor == null || myStudent.Benefactor.Id != modelStudent.Id)
                 {
-                    myStudent.Benefactor = _benefactorRepository.GetById(modelStudent.BenefactorID);
-                    var student = _studentRepository.Update(myStudent);
-                    myStudent = _studentRepository.GetById(modelStudent.OldID);
+                    myStudent.Benefactor = _benefactorRepository.GetById(modelStudent.Id);
+                    Student student = _studentRepository.Update(myStudent);
+                    myStudent = _studentRepository.GetById(modelStudent.OldId);
                     myStudent.Benefactor = null;
                     student = _studentRepository.Update(myStudent);
                 }
             }
-            return RedirectToAction("Details/" + modelStudent.BenefactorID);
+            return RedirectToAction("Details/" + modelStudent.Id);
         }
 
         [HttpPost]
         public ActionResult DeleteStudent(long id)
         {
-            var myStudent = _studentRepository.GetById(id);
-            long ID = myStudent.Benefactor.PeopleId;
+            Student myStudent = _studentRepository.GetById(id);
+            long ID = myStudent.Benefactor.Id;
             myStudent.Benefactor = null;
-            var student = _studentRepository.Update(myStudent);
+            Student student = _studentRepository.Update(myStudent);
 
             const string title = "Estudiante Eliminado";
-            var content = "El estudiante " + myStudent.FullName + " ha sido eliminado exitosamente.";
+            string content = "El estudiante " + myStudent.FullName + " ha sido eliminado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Details/" + ID);
         }

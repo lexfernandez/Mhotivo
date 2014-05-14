@@ -31,10 +31,10 @@ namespace Mhotivo.Migrations
             //    );
             //
 
-            context.Roles.AddOrUpdate(new Role{RoleId = 1,Description = "Admin", Name = "Admin"});
+            context.Roles.AddOrUpdate(new Role{Id = 1,Description = "Admin", Name = "Admin"});
             context.SaveChanges();
-            context.Users.AddOrUpdate(new User {UserId = 1,DisplayName = "Alex Fernandez", Email = "olorenzo@outlook.com", Password = "123", Role = context.Roles.First(), Status = true });
-            context.Users.AddOrUpdate(new User { UserId = 2, DisplayName = "Franklin Castellanos", Email = "castellarfrank@hotmail.com", Password = "siniestro", Role = context.Roles.First(), Status = true });
+            context.Users.AddOrUpdate(new User {Id = 1,DisplayName = "Alex Fernandez", Email = "olorenzo@outlook.com", Password = "123", Role = context.Roles.First(), Status = true });
+            context.Users.AddOrUpdate(new User { Id = 2, DisplayName = "Franklin Castellanos", Email = "castellarfrank@hotmail.com", Password = "siniestro", Role = context.Roles.First(), Status = true });
 
         }
     }

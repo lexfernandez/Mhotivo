@@ -1,41 +1,38 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web.Mvc;
 
 namespace Mhotivo.Models
 {
-    [Table("User")]
     public class User
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         public string Email { get; set; }
         public string DisplayName { get; set; }
         public string Password { get; set; }
         public bool Status { get; set; }
         public Role Role { get; set; }
-        public virtual ICollection<Group> Groups { get; set; } 
+        public virtual ICollection<Group> Groups { get; set; }
     }
 
     public class DisplayUserModel
     {
-
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Correo Elctrónico")]
         public string Email { get; set; }
 
         [Display(Name = "Nombre")]
         public string DisplayName { get; set; }
-        
+
         [Display(Name = "Estado")]
         public string Status { get; set; }
 
         [Display(Name = "Tipo de Usuario")]
         public string Role { get; set; }
-        
     }
 
     public class LocalPasswordModel
@@ -93,12 +90,12 @@ namespace Mhotivo.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar contraseña")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
         [Display(Name = "Tipo de Usuario")]
-        public int RoleId { get; set; }
+        public int Id { get; set; }
     }
 
     public class UserEditModel
@@ -124,12 +121,11 @@ namespace Mhotivo.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar contraseña")]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
+        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
         [Display(Name = "Tipo de Usuario")]
         public int RoleId { get; set; }
     }
-
 }

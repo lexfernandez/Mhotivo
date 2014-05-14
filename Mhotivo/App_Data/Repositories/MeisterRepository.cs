@@ -40,7 +40,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Meister GetById(long id)
         {
-            var meisters = _context.Meisters.Where(x => x.PeopleId == id);
+            var meisters = _context.Meisters.Where(x => x.Id == id);
             return meisters.Count() != 0 ? meisters.First() : null;
         }
 
@@ -80,8 +80,8 @@ namespace Mhotivo.App_Data.Repositories
         {
             return Query(x => x).ToList().Select(x => new DisplayMeisterModel
                 {
-                    MeisterID = x.PeopleId,
-                    IDNumber = x.IDNumber,
+                    Id = x.Id,
+                    IdNumber = x.IdNumber,
                     UrlPicture = x.UrlPicture,
                     FullName = x.FullName,
                     BirthDate = x.BirthDate.ToShortDateString(),
@@ -106,8 +106,8 @@ namespace Mhotivo.App_Data.Repositories
             var meister = GetById(id);
             return new DisplayMeisterModel
             {
-                MeisterID = meister.PeopleId,
-                IDNumber = meister.IDNumber,
+                Id = meister.Id,
+                IdNumber = meister.IdNumber,
                 UrlPicture = meister.UrlPicture,
                 FirstName = meister.FirstName,
                 LastName = meister.LastName,
@@ -132,7 +132,7 @@ namespace Mhotivo.App_Data.Repositories
             meister.LastName = meisterEditModel.LastName;
             meister.FullName = (meisterEditModel.FirstName + " " + meisterEditModel.LastName).Trim();
             meister.Country = meisterEditModel.Country;
-            meister.IDNumber = meisterEditModel.IDNumber;
+            meister.IdNumber = meisterEditModel.IdNumber;
             meister.BirthDate = DateTime.Parse(meisterEditModel.BirthDate);
             meister.Gender = Utilities.IsMasculino(meisterEditModel.Gender);
             meister.Nationality = meisterEditModel.Nationality;
@@ -152,7 +152,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = meisterRegisterModel.FirstName,
                 LastName = meisterRegisterModel.LastName,
                 FullName = (meisterRegisterModel.FirstName + " " + meisterRegisterModel.LastName).Trim(),
-                IDNumber = meisterRegisterModel.IDNumber,
+                IdNumber = meisterRegisterModel.IdNumber,
                 BirthDate = DateTime.Parse(meisterRegisterModel.BirthDate),
                 Gender = Utilities.IsMasculino(meisterRegisterModel.Gender),
                 Nationality = meisterRegisterModel.Nationality,
@@ -174,7 +174,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = meister.FirstName,
                 LastName = meister.LastName,
                 FullName = (meister.FirstName + " " + meister.LastName).Trim(),
-                IDNumber = meister.IDNumber,
+                IdNumber = meister.IdNumber,
                 BirthDate = meister.BirthDate.ToShortDateString(),
                 Gender = Utilities.GenderToString(meister.Gender),
                 Nationality = meister.Nationality,
@@ -182,7 +182,7 @@ namespace Mhotivo.App_Data.Repositories
                 State = meister.State,
                 City = meister.City,
                 Address = meister.Address,
-                Id = meister.PeopleId,
+                Id = meister.Id,
                 StartDate = meister.StartDate.ToShortDateString(),
                 EndDate = meister.EndDate.ToShortDateString(),
                 Biography = meister.Biography

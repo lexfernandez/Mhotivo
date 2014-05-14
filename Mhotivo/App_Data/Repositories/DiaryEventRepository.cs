@@ -41,7 +41,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public AppointmentDiary GetById(long id)
         {
-            var diaryEvents = _context.AppointmentDiary.Where(x => x.AppointmentDiaryId == id);
+            var diaryEvents = _context.AppointmentDiary.Where(x => x.Id == id);
             return diaryEvents.Count() != 0 ? diaryEvents.First() : null;
         }
 

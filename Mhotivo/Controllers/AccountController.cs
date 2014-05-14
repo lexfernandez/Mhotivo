@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.Filters;
-using Mhotivo.Models;
 using Mhotivo.Logic;
+using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
 {
@@ -9,14 +9,13 @@ namespace Mhotivo.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
-
-        private readonly  ISessionManagement _sessionManagement;
+        private readonly ISessionManagement _sessionManagement;
 
         public AccountController(ISessionManagement sessionManagement)
         {
             _sessionManagement = sessionManagement;
         }
-        
+
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -25,7 +24,7 @@ namespace Mhotivo.Controllers
             return View();
         }
 
-        
+
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -36,7 +35,7 @@ namespace Mhotivo.Controllers
             {
                 return RedirectToLocal(returnUrl);
             }
-            
+
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             ModelState.AddModelError("", "El nombre de usuario o la contraseña especificados son incorrectos.");
             return View(model);
@@ -50,7 +49,7 @@ namespace Mhotivo.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+
         // POST: /Account/Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -60,9 +59,9 @@ namespace Mhotivo.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        
 
         #region Aplicaciones auxiliares
+
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -71,6 +70,7 @@ namespace Mhotivo.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
         #endregion
     }
 }

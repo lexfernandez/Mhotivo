@@ -7,7 +7,6 @@ namespace Mhotivo.App_Data
     {
         public MhotivoContext() : base("DefaultConnection")
         {
-            
         }
 
         public DbSet<AcademicYear> AcademicYears { get; set; }
@@ -30,7 +29,5 @@ namespace Mhotivo.App_Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<User> Users { get; set; }
-
     }
-
 }

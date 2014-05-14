@@ -42,7 +42,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public ContactInformation GetById(long id)
         {
-            var contactInformations = _context.ContactInformations.Where(x => x.ContactId == id);
+            var contactInformations = _context.ContactInformations.Where(x => x.Id == id);
             return contactInformations.Count() != 0 ? contactInformations.Include(x => x.People).First() : null;
         }
 

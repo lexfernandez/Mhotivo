@@ -16,7 +16,7 @@
 <h2>Detalles de @Html.DisplayFor(model => model.FullName)</h2>
 
 <p>
-    <a href="../DetailsEdit/@Html.DisplayFor(model => model.ParentID)" data-dismiss="modal" class="btn btn-small btn-primary">
+    <a href="../DetailsEdit/@Html.DisplayFor(model => model.Id)" data-dismiss="modal" class="btn btn-small btn-primary">
         Editar
     </a>
 
@@ -60,8 +60,8 @@
     <br style="clear: left;" />
     <br style="clear: left;" />
     <div style="float: left; width: 250px;">
-        <input type="text" value="@Html.DisplayFor(model => model.IDNumber)" disabled="disabled" />
-        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.IDNumber)</span>
+        <input type="text" value="@Html.DisplayFor(model => model.IdNumber)" disabled="disabled" />
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.IdNumber)</span>
     </div>
     <div style="float: left; width: 250px;">
         <input type="text" value="@Html.DisplayFor(model => model.BirthDate)" disabled="disabled" />
@@ -82,7 +82,7 @@
 <hr />
 <div id="contactInformation" style="width: 500px;">
     <h3>Información de Contacto</h3>
-    <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Parent/ContactAdd/@Html.DisplayFor(model => model.ParentID)"><span class="btn btn-small btn-primary active">Agregar</span></a>
+    <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Parent/ContactAdd/@Html.DisplayFor(model => model.Id)"><span class="btn btn-small btn-primary active">Agregar</span></a>
     <br style="clear: left;" />
     <br style="clear: left;" />
     @if(Model.Contacts != null){
@@ -91,11 +91,11 @@
             <div style="float: left; width: 250px;">
                 <input type="text" value="@Html.DisplayFor(modelItem => item.Value)" disabled="disabled" />
                 <br />
-                <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Parent/ContactEdit/@Html.DisplayFor(modelItem => item.ContactId)"><i class="icon-edit bigger-120"></i></a>
-                            <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.ContactId)_Val"><i class="icon-trash bigger-120"></i></a>
-                            @using (Html.BeginForm("Delete", "ContactInformation", new { id = Html.DisplayFor(modelItem => item.ContactId), @control="Parent" }, FormMethod.Post,
-                                new { id = "Form_" + Html.DisplayFor(modelItem => item.ContactId) + "_Val", style = "display: none" })) { }
-                            <input type="hidden" id="@Html.DisplayFor(modelItem => item.ContactId)_Val_Message"
+                <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Parent/ContactEdit/@Html.DisplayFor(modelItem => item.Id)"><i class="icon-edit bigger-120"></i></a>
+                            <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.Id)_Val"><i class="icon-trash bigger-120"></i></a>
+                            @using (Html.BeginForm("Delete", "ContactInformation", new { id = Html.DisplayFor(modelItem => item.Id), @control="Parent" }, FormMethod.Post,
+                                new { id = "Form_" + Html.DisplayFor(modelItem => item.Id) + "_Val", style = "display: none" })) { }
+                            <input type="hidden" id="@Html.DisplayFor(modelItem => item.Id)_Val_Message"
                                    value="¿Realmente desea eliminar el @Html.DisplayFor(modelItem => item.Type)?" />
                 <span class="InputLabel">@Html.DisplayFor(modelItem => item.Type)</span>
             </div>
@@ -105,7 +105,7 @@
 </div>
 <hr />
 <p>
-    <a href="../DetailsEdit/@Html.DisplayFor(model => model.ParentID)" data-dismiss="modal" class="btn btn-small btn-primary">
+    <a href="../DetailsEdit/@Html.DisplayFor(model => model.Id)" data-dismiss="modal" class="btn btn-small btn-primary">
         Editar
     </a>
 

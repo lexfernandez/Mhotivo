@@ -23,10 +23,10 @@ else
 	    <thead>
 	        <tr>
 	            <th>
-	                @Html.DisplayNameFor(model => model.PeopleId)
+	                @Html.DisplayNameFor(model => model.Id)
 	            </th>
                 <th>
-	                @Html.DisplayNameFor(model => model.IDNumber)
+	                @Html.DisplayNameFor(model => model.IdNumber)
 	            </th>
 	            <th>
 	                @Html.DisplayNameFor(model => model.FullName)
@@ -60,10 +60,10 @@ else
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.PeopleId)
+                        @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IDNumber)
+                        @Html.DisplayFor(modelItem => item.IdNumber)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FullName)
@@ -94,12 +94,12 @@ else
                         @Html.DisplayFor(modelItem => item.Sexo)
                     </td>
                     <td>
-                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/People/Edit/@Html.DisplayFor(modelItem => item.PeopleId)"><i class="icon-edit bigger-120"></i></a>
-                        <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.PeopleId)_Val"><i class="icon-trash bigger-120"></i></a>
-                        @using (Html.BeginForm("Delete", "People", new { id = Html.DisplayFor(modelItem => item.PeopleId) }, FormMethod.Post,
-                            new { id = "Form_" + Html.DisplayFor(modelItem => item.PeopleId) + "_Val", style = "display: none" })) { }
-                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.PeopleId)_Val_Message"
-                               value="¿Realmente desea eliminar a la persona @Html.DisplayFor(modelItem => item.PeopleId) - @Html.DisplayFor(modelItem => item.FullName)?" />
+                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/People/Edit/@Html.DisplayFor(modelItem => item.Id)"><i class="icon-edit bigger-120"></i></a>
+                        <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.Id)_Val"><i class="icon-trash bigger-120"></i></a>
+                        @using (Html.BeginForm("Delete", "People", new { id = Html.DisplayFor(modelItem => item.Id) }, FormMethod.Post,
+                            new { id = "Form_" + Html.DisplayFor(modelItem => item.Id) + "_Val", style = "display: none" })) { }
+                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.Id)_Val_Message"
+                               value="¿Realmente desea eliminar a la persona @Html.DisplayFor(modelItem => item.Id) - @Html.DisplayFor(modelItem => item.FullName)?" />
                     </td>
                 </tr>
             }

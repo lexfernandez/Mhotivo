@@ -4,19 +4,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mhotivo.Models
 {
-    [Table("Role")]
     public class Role
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int RoleId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         public String Name { get; set; }
         public String Description { get; set; }
     }
 
     public class RoleEditModel
     {
-        public int RoleId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Display(Name = "Nombre")]

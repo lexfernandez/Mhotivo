@@ -41,7 +41,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Parent GetById(long id)
         {
-            var parent = _context.Parents.Where(x => x.PeopleId == id);
+            var parent = _context.Parents.Where(x => x.Id == id);
             return parent.Count() != 0 ? parent.First() : null;
         }
 
@@ -82,8 +82,8 @@ namespace Mhotivo.App_Data.Repositories
         {
             return Query(x => x).ToList().Select(x => new DisplayParentModel
             {
-                ParentID = x.PeopleId,
-                IDNumber = x.IDNumber,
+                Id = x.Id,
+                IdNumber = x.IdNumber,
                 UrlPicture = x.UrlPicture,
                 FullName = x.FullName,
                 BirthDate = x.BirthDate,
@@ -104,8 +104,8 @@ namespace Mhotivo.App_Data.Repositories
             var parent = GetById(id);
             return new DisplayParentModel
             {
-                ParentID = parent.PeopleId,
-                IDNumber = parent.IDNumber,
+                Id = parent.Id,
+                IdNumber = parent.IdNumber,
                 UrlPicture = parent.UrlPicture,
                 FirstName = parent.FirstName,
                 LastName = parent.LastName,
@@ -127,7 +127,7 @@ namespace Mhotivo.App_Data.Repositories
             parent.LastName = parentEditModel.LastName;
             parent.FullName = (parentEditModel.FirstName + " " + parentEditModel.LastName).Trim();
             parent.Country = parentEditModel.Country;
-            parent.IDNumber = parentEditModel.IDNumber;
+            parent.IdNumber = parentEditModel.IdNumber;
             parent.BirthDate = parentEditModel.BirthDate;
             parent.Gender = Utilities.IsMasculino(parentEditModel.Gender);
             parent.Nationality = parentEditModel.Nationality;
@@ -144,7 +144,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = parentRegisterModel.FirstName,
                 LastName = parentRegisterModel.LastName,
                 FullName = (parentRegisterModel.FirstName + " " + parentRegisterModel.LastName).Trim(),
-                IDNumber = parentRegisterModel.IDNumber,
+                IdNumber = parentRegisterModel.IdNumber,
                 BirthDate = parentRegisterModel.BirthDate,
                 Gender = Utilities.IsMasculino(parentRegisterModel.Gender),
                 Nationality = parentRegisterModel.Nationality,
@@ -163,7 +163,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = parent.FirstName,
                 LastName = parent.LastName,
                 FullName = (parent.FirstName + " " + parent.LastName).Trim(),
-                IDNumber = parent.IDNumber,
+                IdNumber = parent.IdNumber,
                 BirthDate = parent.BirthDate,
                 Gender = Utilities.GenderToString(parent.Gender),
                 Nationality = parent.Nationality,
@@ -171,7 +171,7 @@ namespace Mhotivo.App_Data.Repositories
                 State = parent.State,
                 City = parent.City,
                 Address = parent.Address,
-                Id = parent.PeopleId,
+                Id = parent.Id,
             };
         }
 

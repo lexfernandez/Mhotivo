@@ -9,12 +9,12 @@ namespace Mhotivo.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public string Name { get; set; }
-        public virtual ICollection<User> Users { get; set; } 
 
+        public string Name { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 
-    public class addGroup
+    public class AddGroup
     {
         public string Name { get; set; }
         public string Users { get; set; }

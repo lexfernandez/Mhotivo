@@ -1,43 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using Mhotivo.App_Data;
 using Mhotivo.Models;
-using Microsoft.Ajax.Utilities;
 
 namespace Mhotivo.Controllers
 {
     public class GroupController : Controller
     {
-        private MhotivoContext db = new MhotivoContext();
+        private readonly MhotivoContext db = new MhotivoContext();
 
         //
         // GET: /Group/
 
         public ActionResult Index()
         {
-            var message = (MessageModel)TempData["MessageInfo"];
+            var message = (MessageModel) TempData["MessageInfo"];
 
             if (message != null)
             {
-                ViewBag.MessageType = message.MessageType;
-                ViewBag.MessageTitle = message.MessageTitle;
-                ViewBag.MessageContent = message.MessageContent;
+                ViewBag.MessageType = message.Type;
+                ViewBag.MessageTitle = message.Title;
+                ViewBag.MessageContent = message.Content;
             }
 
-            var groups = db.Groups.Select(x => x);
+            IQueryable<Group> groups = db.Groups.Select(x => x);
             return View(groups);
         }
 
         public JsonResult GetMembers(string filter)
         {
-            var members = db.Users.Where(x => x.DisplayName.Contains(filter) || x.Email.Contains(filter)).Select(x => new { name= x.DisplayName+" <"+x.Email+">",value=x.UserId }).ToList();
-            return this.Json(members, JsonRequestBehavior.AllowGet);
+            var members =
+                db.Users.Where(x => x.DisplayName.Contains(filter) || x.Email.Contains(filter))
+                    .Select(x => new {name = x.DisplayName + " <" + x.Email + ">", value = x.Id})
+                    .ToList();
+            return Json(members, JsonRequestBehavior.AllowGet);
         }
 
         //
@@ -52,12 +52,12 @@ namespace Mhotivo.Controllers
         // POST: /Group/Create
 
         [HttpPost]
-        public ActionResult Add(addGroup group)
+        public ActionResult Add(AddGroup group)
         {
             try
             {
-                var usersId = group.Users.Split(',').Select(Int32.Parse).ToList();
-                IQueryable<User> users = db.Users.Where(x => usersId.Contains(x.UserId));
+                List<int> usersId = group.Users.Split(',').Select(Int32.Parse).ToList();
+                IQueryable<User> users = db.Users.Where(x => usersId.Contains(x.Id));
                 var g = new Group {Name = group.Name, Users = users.ToList()};
 
                 if (ModelState.IsValid)
@@ -65,35 +65,33 @@ namespace Mhotivo.Controllers
                     db.Groups.Add(g);
                     db.SaveChanges();
                     TempData["MessageInfo"] = new MessageModel
-                    {
-                        MessageType = "SUCCESS",
-                        MessageTitle = "Grupo Agregado",
-                        MessageContent = "El grupo fue agregado exitosamente!"
-                    };
+                                              {
+                                                  Type = "SUCCESS",
+                                                  Title = "Grupo Agregado",
+                                                  Content = "El grupo fue agregado exitosamente!"
+                                              };
                 }
                 else
                 {
                     TempData["MessageInfo"] = new MessageModel
-                    {
-                        MessageType = "INFO",
-                        MessageTitle = "Data validation",
-                        MessageContent = "The data is no valid!"
-                    };
+                                              {
+                                                  Type = "INFO",
+                                                  Title = "Data validation",
+                                                  Content = "The data is no valid!"
+                                              };
                 }
-                
             }
             catch
             {
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "ERROR",
-                    MessageTitle = "Error",
-                    MessageContent = "Something went wrong, please try again!"
-                };                
+                                          {
+                                              Type = "ERROR",
+                                              Title = "Error",
+                                              Content = "Something went wrong, please try again!"
+                                          };
             }
-            var groups = db.Groups.Select(x => x);
-            return RedirectToAction("Index",groups);
-
+            IQueryable<Group> groups = db.Groups.Select(x => x);
+            return RedirectToAction("Index", groups);
         }
 
         //
@@ -101,7 +99,7 @@ namespace Mhotivo.Controllers
 
         public ActionResult Edit(int id)
         {
-            var group = db.Groups.FirstOrDefault(x => x.Id.Equals(id));
+            Group group = db.Groups.FirstOrDefault(x => x.Id.Equals(id));
             return View("Edit", group);
         }
 
@@ -109,29 +107,29 @@ namespace Mhotivo.Controllers
         // POST: /Group/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, addGroup group)
+        public ActionResult Edit(int id, AddGroup group)
         {
             try
             {
-                var g = db.Groups.FirstOrDefault(x => x.Id.Equals(id));
+                Group g = db.Groups.FirstOrDefault(x => x.Id.Equals(id));
                 g.Name = group.Name;
                 if (!group.Users.IsEmpty())
                 {
-                    var usersId = group.Users.Split(',').Select(Int32.Parse).ToList();
-                    IQueryable<User> users = db.Users.Where(x => usersId.Contains(x.UserId));
-                    g.Users = g.Users.Concat(users).ToList();    
+                    List<int> usersId = group.Users.Split(',').Select(Int32.Parse).ToList();
+                    IQueryable<User> users = db.Users.Where(x => usersId.Contains(x.Id));
+                    g.Users = g.Users.Concat(users).ToList();
                 }
-                
+
                 if (ModelState.IsValid)
                 {
-                    db.Entry(g).State= EntityState.Modified;
+                    db.Entry(g).State = EntityState.Modified;
                     db.SaveChanges();
                     TempData["MessageInfo"] = new MessageModel
-                    {
-                        MessageType = "SUCCESS",
-                        MessageTitle = "Grupo Editado",
-                        MessageContent = "El grupo fue editado exitosamente!"
-                    };
+                                              {
+                                                  Type = "SUCCESS",
+                                                  Title = "Grupo Editado",
+                                                  Content = "El grupo fue editado exitosamente!"
+                                              };
                 }
 
                 return RedirectToAction("Index");
@@ -139,11 +137,12 @@ namespace Mhotivo.Controllers
             catch
             {
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "ERROR",
-                    MessageTitle = "Error en edición",
-                    MessageContent = "El grupo no pudo ser editado correctamente, por favor intente nuevamente!"
-                };
+                                          {
+                                              Type = "ERROR",
+                                              Title = "Error en edición",
+                                              Content =
+                                                  "El grupo no pudo ser editado correctamente, por favor intente nuevamente!"
+                                          };
                 return View("Index");
             }
         }
@@ -156,37 +155,39 @@ namespace Mhotivo.Controllers
         {
             try
             {
-                var group= db.Groups.FirstOrDefault(x => x.Id == id);
+                Group group = db.Groups.FirstOrDefault(x => x.Id == id);
                 db.Groups.Remove(group);
                 db.SaveChanges();
 
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "SUCCESS",
-                    MessageTitle = "Grupo eliminado",
-                    MessageContent = "Grupo eliminado exitosamente!"
-                };
+                                          {
+                                              Type = "SUCCESS",
+                                              Title = "Grupo eliminado",
+                                              Content = "Grupo eliminado exitosamente!"
+                                          };
 
                 return RedirectToAction("Index");
             }
             catch
             {
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "ERROR",
-                    MessageTitle = "Error en eliminación",
-                    MessageContent = "El grupo no pudo ser eliminado correctamente, por favor intente nuevamente!"
-                };
+                                          {
+                                              Type = "ERROR",
+                                              Title = "Error en eliminación",
+                                              Content =
+                                                  "El grupo no pudo ser eliminado correctamente, por favor intente nuevamente!"
+                                          };
                 return View("Index");
             }
         }
 
         [HttpPost]
-        public bool DeleteUser(int id,int groupId)
+        public bool DeleteUser(int id, int groupId)
         {
             try
             {
-                db.Database.ExecuteSqlCommand("Delete From UserGroups where User_UserId=" + id + " and Group_Id=" + groupId);
+                db.Database.ExecuteSqlCommand("Delete From UserGroups where User_UserId=" + id + " and Group_Id=" +
+                                              groupId);
                 return true;
             }
             catch

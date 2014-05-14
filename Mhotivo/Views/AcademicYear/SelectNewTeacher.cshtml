@@ -17,7 +17,7 @@
     <tbody>
         @foreach (var item in Model) {
             <tr>
-                <td><a href="/AcademicYear/ChangeTeacher/@ViewBag.AcademicYearId/@Html.DisplayFor(modelItem=> item.PeopleId)">@Html.DisplayFor(modelItem => item.FullName)</a></td>
+                <td><a href="/AcademicYear/ChangeTeacher/@ViewBag.AcademicYearId/@Html.DisplayFor(modelItem=> item.Id)">@Html.DisplayFor(modelItem => item.FullName)</a></td>
                 <td>@Html.DisplayFor(modelItem => item.Nationality)</td>
             </tr>
         }

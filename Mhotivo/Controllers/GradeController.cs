@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
 using Mhotivo.Models;
@@ -22,22 +20,22 @@ namespace Mhotivo.Controllers
 
         public ActionResult Index()
         {
-            var message = (MessageModel)TempData["MessageInfo"];
+            var message = (MessageModel) TempData["MessageInfo"];
 
             if (message != null)
             {
-                ViewBag.MessageType = message.MessageType;
-                ViewBag.MessageTitle = message.MessageTitle;
-                ViewBag.MessageContent = message.MessageContent;
+                ViewBag.MessageType = message.Type;
+                ViewBag.MessageTitle = message.Title;
+                ViewBag.MessageContent = message.Content;
             }
 
-            var displayGradeModels = _gradeRepository.Query(x => x).ToList().Select(x => new DisplayGradeModel
-                             {
-                                 Id = x.Id,
-                                 Name = x.Name,
-                                 EducationLevel = x.EducationLevel
-
-                             });
+            IEnumerable<DisplayGradeModel> displayGradeModels =
+                _gradeRepository.Query(x => x).ToList().Select(x => new DisplayGradeModel
+                                                                    {
+                                                                        Id = x.Id,
+                                                                        Name = x.Name,
+                                                                        EducationLevel = x.EducationLevel
+                                                                    });
 
             return View(displayGradeModels);
         }
@@ -47,13 +45,13 @@ namespace Mhotivo.Controllers
 
         public ActionResult Details(long id)
         {
-            var thisgrade = _gradeRepository.GetById(id);
+            Grade thisgrade = _gradeRepository.GetById(id);
             var grade = new DisplayGradeModel
-            {
-                Id = thisgrade.Id,
-                Name = thisgrade.Name,
-                EducationLevel = thisgrade.EducationLevel
-            };
+                        {
+                            Id = thisgrade.Id,
+                            Name = thisgrade.Name,
+                            EducationLevel = thisgrade.EducationLevel
+                        };
 
             return View("Details", grade);
         }
@@ -61,35 +59,34 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult DetailsEdit(long id)
         {
-            var thisGrade = _gradeRepository.GetById(id);
+            Grade thisGrade = _gradeRepository.GetById(id);
             var grade = new GradeEditModel
-            {
-
-                Id = thisGrade.Id,
-                Name = thisGrade.Name,
-                EducationLevel = thisGrade.EducationLevel
-            };
+                        {
+                            Id = thisGrade.Id,
+                            Name = thisGrade.Name,
+                            EducationLevel = thisGrade.EducationLevel
+                        };
             return View("DetailsEdit", grade);
         }
 
         [HttpPost]
         public ActionResult DetailsEdit(GradeEditModel modelGrade)
         {
-            var myGrade = _gradeRepository.GetById(modelGrade.Id);
+            Grade myGrade = _gradeRepository.GetById(modelGrade.Id);
             myGrade.Name = modelGrade.Name;
             myGrade.EducationLevel = modelGrade.EducationLevel;
 
-            var grade = _gradeRepository.Update(myGrade);
+            Grade grade = _gradeRepository.Update(myGrade);
             _gradeRepository.SaveChanges();
             const string title = "Padre o Tutor Actualizado";
-            var content = "El Alumno " + myGrade.Name + " ha sido actualizado exitosamente.";
+            string content = "El Alumno " + myGrade.Name + " ha sido actualizado exitosamente.";
 
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Details/" + modelGrade.Id);
         }
@@ -109,21 +106,21 @@ namespace Mhotivo.Controllers
         public ActionResult Add(GradeRegisterModel modelGrade)
         {
             var myGrade = new Grade
-            {
-                Name = modelGrade.Name,
-                EducationLevel = modelGrade.EducationLevel
-            };
+                          {
+                              Name = modelGrade.Name,
+                              EducationLevel = modelGrade.EducationLevel
+                          };
 
-            var grade = _gradeRepository.Create(myGrade);
+            Grade grade = _gradeRepository.Create(myGrade);
             _gradeRepository.SaveChanges();
             const string title = "Alumno Agregado al Grado";
-            var content = "El Alumno " + myGrade.Name + " ha sido agregado exitosamente.";
+            string content = "El Alumno " + myGrade.Name + " ha sido agregado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "SUCCESS",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "SUCCESS",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -133,14 +130,13 @@ namespace Mhotivo.Controllers
 
         public ActionResult Edit(int id)
         {
-            var thisGrade = _gradeRepository.GetById(id);
+            Grade thisGrade = _gradeRepository.GetById(id);
             var grade = new GradeEditModel
-            {
-
-                Id = thisGrade.Id,
-                Name = thisGrade.Name,
-                EducationLevel = thisGrade.EducationLevel
-            };
+                        {
+                            Id = thisGrade.Id,
+                            Name = thisGrade.Name,
+                            EducationLevel = thisGrade.EducationLevel
+                        };
 
             return View("Edit", grade);
         }
@@ -151,22 +147,22 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(GradeEditModel modelGrade)
         {
-            var myGrade = _gradeRepository.GetById(modelGrade.Id);
+            Grade myGrade = _gradeRepository.GetById(modelGrade.Id);
 
             myGrade.Name = modelGrade.Name;
             myGrade.EducationLevel = modelGrade.EducationLevel;
 
-            var grade = _gradeRepository.Update(myGrade);
+            Grade grade = _gradeRepository.Update(myGrade);
             _gradeRepository.SaveChanges();
             const string title = "Grado Actualizado";
-            var content = "El Alumno " + myGrade.Name + " ha sido actualizado exitosamente.";
+            string content = "El Alumno " + myGrade.Name + " ha sido actualizado exitosamente.";
 
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -178,18 +174,18 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-            var grade = _gradeRepository.GetById(id);
+            Grade grade = _gradeRepository.GetById(id);
             _gradeRepository.Delete(grade);
             _gradeRepository.SaveChanges();
 
             const string title = "Alumno ha sido Eliminado del Grado";
-            var content = "El Alumno " + grade.Name + " ha sido eliminado exitosamente.";
+            string content = "El Alumno " + grade.Name + " ha sido eliminado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -198,10 +194,10 @@ namespace Mhotivo.Controllers
         public ActionResult ContactAdd(long id)
         {
             var model = new ContactInformationRegisterModel
-            {
-                PeopleId = (int)id,
-                Controller = "Parent"
-            };
+                        {
+                            Id = (int) id,
+                            Controller = "Parent"
+                        };
             return View("ContactAdd", model);
         }
     }

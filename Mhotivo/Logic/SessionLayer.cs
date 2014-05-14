@@ -10,7 +10,7 @@ namespace Mhotivo.Logic
     {
         private readonly IUserRepository _userRepository;
         private readonly string _userNameIdentifier;
-        private readonly string _userRoleIdentifier;
+        private readonly string _userIdentifier;
         private readonly string _userEmailIdentifier;
 
         public SessionLayer(IUserRepository userRepository)
@@ -18,7 +18,7 @@ namespace Mhotivo.Logic
             _userRepository = userRepository;
             _userNameIdentifier = "loggedUserName";
             _userEmailIdentifier = "loggedUserEmail";
-            _userRoleIdentifier = "loggedUserRole";
+            _userIdentifier = "loggedUserRole";
         }
 
         public bool LogIn(string userEmail, string password, bool remember = false)
@@ -27,7 +27,7 @@ namespace Mhotivo.Logic
 
             HttpContext.Current.Session[_userEmailIdentifier] = userEmail;
             HttpContext.Current.Session[_userNameIdentifier] = GetUserName(userEmail,password);
-            HttpContext.Current.Session[_userRoleIdentifier] = GetUserRole(userEmail);
+            HttpContext.Current.Session[_userIdentifier] = GetUserRole(userEmail);
             FormsAuthentication.RedirectFromLoginPage(userEmail, true);
 
             return true;
@@ -37,7 +37,7 @@ namespace Mhotivo.Logic
         {
             FormsAuthentication.SignOut();
             HttpContext.Current.Session.Remove(_userNameIdentifier);
-            HttpContext.Current.Session.Remove(_userRoleIdentifier);
+            HttpContext.Current.Session.Remove(_userIdentifier);
 
             if(redirect) FormsAuthentication.RedirectToLoginPage();
 
@@ -62,7 +62,7 @@ namespace Mhotivo.Logic
 
         public string GetUserLoggedRole()
         {
-            var userRole = HttpContext.Current.Session[_userRoleIdentifier];
+            var userRole = HttpContext.Current.Session[_userIdentifier];
             return userRole != null ? userRole.ToString() : null;
         }
 

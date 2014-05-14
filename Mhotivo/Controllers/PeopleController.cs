@@ -15,22 +15,22 @@ namespace Mhotivo.Controllers
 
         public ActionResult Index()
         {
-            var message = (MessageModel)TempData["MessageInfo"];
+            var message = (MessageModel) TempData["MessageInfo"];
 
             if (message != null)
             {
-                ViewBag.MessageType = message.MessageType;
-                ViewBag.MessageTitle = message.MessageTitle;
-                ViewBag.MessageContent = message.MessageContent;
+                ViewBag.MessageType = message.Type;
+                ViewBag.MessageTitle = message.Title;
+                ViewBag.MessageContent = message.Content;
             }
 
             return View(_peopleRepository.GetAllPeople());
         }
 
         [HttpGet]
-        public ActionResult Edit(long peopleId)
+        public ActionResult Edit(long Id)
         {
-            var people = _peopleRepository.GetPeopleEditModelById(peopleId);
+            PeopleEditModel people = _peopleRepository.GetPeopleEditModelById(Id);
 
             return View("Edit", people);
         }
@@ -38,21 +38,20 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(PeopleEditModel peopleModel)
         {
-            var people = _peopleRepository.GetById(peopleModel.PeopleId);
+            People people = _peopleRepository.GetById(peopleModel.Id);
             _peopleRepository.UpdatePeopleFromPeopleEditModel(peopleModel, people);
-            
+
             const string title = "Persona Actualizada";
-            var content = "La persona " + people.FullName + " - " + people.PeopleId + " ha sido actualizada exitosamente.";
+            string content = "La persona " + people.FullName + " - " + people.Id + " ha sido actualizada exitosamente.";
 
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "INFO",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "INFO",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
-
     }
 }

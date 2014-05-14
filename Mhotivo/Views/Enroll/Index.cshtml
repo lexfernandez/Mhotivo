@@ -36,24 +36,24 @@ else
         
             @foreach (var item in Model) {
                 <tr>
-                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.EnrollID)" class="toDetails">
+                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">
                         <a href="~/@Html.DisplayNameFor(model => model.UrlPicture)" data-rel="colorbox">
 							<img alt="150x150" src="~/@Html.DisplayNameFor(model => model.UrlPicture)" />
 							<div class="text">
 							</div>
 						</a>
                     </td>
-				    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.EnrollID)" class="toDetails">@Html.DisplayFor(modelItem => item.FullName)</td>
-                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.EnrollID)" class="toDetails">@Html.DisplayFor(modelItem => item.AccountNumber)</td>
-                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.EnrollID)" class="toDetails">@Html.DisplayFor(modelItem => item.Gender)</td>
-                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.EnrollID)" class="toDetails">@Html.DisplayFor(modelItem => item.Grade)</td>
-                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.EnrollID)" class="toDetails">@Html.DisplayFor(modelItem => item.Section)</td>
+				    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.FullName)</td>
+                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.AccountNumber)</td>
+                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.Gender)</td>
+                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.Grade)</td>
+                    <td data-id="Enroll/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.Section)</td>
                     <td>
-                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Enroll/Edit/@Html.DisplayFor(modelItem => item.EnrollID)"><i class="icon-edit bigger-120"></i></a>
-                        <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.EnrollID)_Val"><i class="icon-trash bigger-120"></i></a>
-                        @using (Html.BeginForm("Delete", "Enroll", new { id = Html.DisplayFor(modelItem => item.EnrollID) }, FormMethod.Post,
-                            new { id = "Form_" + Html.DisplayFor(modelItem => item.EnrollID) + "_Val", style = "display: none" })) { }
-                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.EnrollID)_Val_Message"
+                        <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Enroll/Edit/@Html.DisplayFor(modelItem => item.Id)"><i class="icon-edit bigger-120"></i></a>
+                        <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.Id)_Val"><i class="icon-trash bigger-120"></i></a>
+                        @using (Html.BeginForm("Delete", "Enroll", new { id = Html.DisplayFor(modelItem => item.Id) }, FormMethod.Post,
+                            new { id = "Form_" + Html.DisplayFor(modelItem => item.Id) + "_Val", style = "display: none" })) { }
+                        <input type="hidden" id="@Html.DisplayFor(modelItem => item.Id)_Val_Message"
                                value="¿Realmente desea eliminar al alumno @Html.DisplayFor(modelItem => item.FullName)?" />
                     </td>
                 </tr>

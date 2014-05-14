@@ -12,18 +12,19 @@ namespace Mhotivo.Controllers
         {
             _roleRepository = roleRepository;
         }
-                //
+
+        //
         // GET: /Role/
 
         public ActionResult Index()
         {
-            var message = (MessageModel)TempData["MessageInfo"];
+            var message = (MessageModel) TempData["MessageInfo"];
 
             if (message != null)
             {
-                ViewBag.MessageType = message.MessageType;
-                ViewBag.MessageTitle = message.MessageTitle;
-                ViewBag.MessageContent = message.MessageContent;
+                ViewBag.MessageType = message.Type;
+                ViewBag.MessageTitle = message.Title;
+                ViewBag.MessageContent = message.Content;
             }
 
             return View(_roleRepository.GetAllRoles());
@@ -35,13 +36,13 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long id)
         {
-            var r = _roleRepository.GetById(id);
+            Role r = _roleRepository.GetById(id);
             var role = new RoleEditModel
-                   {
-                       RoleId = r.RoleId,
-                       Description = r.Description,
-                       Name = r.Name
-                   };
+                       {
+                           Id = r.Id,
+                           Description = r.Description,
+                           Name = r.Name
+                       };
 
             return View("_Edit", role);
         }
@@ -49,15 +50,15 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(Role modelRole)
         {
-            var role = _roleRepository.Update(modelRole);
+            Role role = _roleRepository.Update(modelRole);
             const string title = "Role Actualizado";
-            var content = "El role " + role.Name + " ha sido modificado exitosamente.";
+            string content = "El role " + role.Name + " ha sido modificado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "SUCCESS",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "SUCCESS",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }

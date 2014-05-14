@@ -76,7 +76,7 @@ namespace Mhotivo.App_Data.Repositories
             var updateGrade = false;
             var pensum = GetById(itemToUpdate.Id);
 
-            if (pensum.Course.CourseId != itemToUpdate.Course.CourseId)
+            if (pensum.Course.Id != itemToUpdate.Course.Id)
             {
                 pensum.Course = itemToUpdate.Course;
                 updateCourse = true;

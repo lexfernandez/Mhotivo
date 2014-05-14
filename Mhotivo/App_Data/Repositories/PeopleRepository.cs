@@ -41,7 +41,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public People GetById(long id)
         {
-            var peoples = _context.Peoples.Where(x => x.PeopleId == id);
+            var peoples = _context.Peoples.Where(x => x.Id == id);
             return peoples.Count() != 0 ? peoples.First() : null;
         }
 
@@ -87,8 +87,8 @@ namespace Mhotivo.App_Data.Repositories
             var people = GetById(id);
             return new DisplayPeopleModel
             {
-                PeopleId = people.PeopleId,
-                IDNumber = people.IDNumber,
+                Id = people.Id,
+                IdNumber = people.IdNumber,
                 UrlPicture = people.UrlPicture,
                 FullName = people.FullName,
                 BirthDay = people.BirthDate.ToShortDateString(),
@@ -106,7 +106,7 @@ namespace Mhotivo.App_Data.Repositories
             people.LastName = peopleEditModel.LastName;
             people.FullName = (peopleEditModel.FirstName + " " + peopleEditModel.LastName).Trim();
             people.Country = peopleEditModel.Country;
-            people.IDNumber = peopleEditModel.IDNumber;
+            people.IdNumber = peopleEditModel.IdNumber;
             people.BirthDate = DateTime.Parse(peopleEditModel.BirthDay);
             people.Gender = Utilities.IsMasculino(peopleEditModel.Sexo);
             people.Nationality = peopleEditModel.Nationality;
@@ -123,7 +123,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = peopleRegisterModel.FirstName,
                 LastName = peopleRegisterModel.LastName,
                 FullName = (peopleRegisterModel.FirstName + " " + peopleRegisterModel.LastName).Trim(),
-                IDNumber = peopleRegisterModel.IDNumber,
+                IdNumber = peopleRegisterModel.IdNumber,
                 BirthDate = DateTime.Parse(peopleRegisterModel.BirthDay),
                 Gender = Utilities.IsMasculino(peopleRegisterModel.Sexo),
                 Nationality = peopleRegisterModel.Nationality,
@@ -142,7 +142,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = people.FirstName,
                 LastName = people.LastName,
                 FullName = (people.FirstName + " " + people.LastName).Trim(),
-                IDNumber = people.IDNumber,
+                IdNumber = people.IdNumber,
                 BirthDay = people.BirthDate.ToShortDateString(),
                 Sexo = Utilities.GenderToString(people.Gender),
                 Nationality = people.Nationality,
@@ -150,7 +150,7 @@ namespace Mhotivo.App_Data.Repositories
                 State = people.State,
                 City = people.City,
                 Address = people.Address,
-                PeopleId = people.PeopleId,
+                Id = people.Id,
             };
         }
 
@@ -165,7 +165,7 @@ namespace Mhotivo.App_Data.Repositories
             {
                 Address = x.Address,
                 BirthDay = x.BirthDate.ToShortDateString(),
-                PeopleId = x.PeopleId,
+                Id = x.Id,
                 Sexo = Utilities.GenderToString(x.Gender),
                 City = x.City,
                 Nationality = x.Nationality,

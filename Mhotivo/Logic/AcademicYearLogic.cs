@@ -25,7 +25,7 @@ namespace Mhotivo.Logic
             foreach (var currentCourse in courses)
             {
                 Course course = currentCourse;
-                var pensums = _pensumRepo.Filter(x => x.Course.CourseId == course.CourseId).ToList();
+                var pensums = _pensumRepo.Filter(x => x.Course.Id == course.Id).ToList();
                 foreach (var pensum in pensums)
                 {
                     var academicYear = new AcademicYear

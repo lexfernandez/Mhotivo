@@ -19,7 +19,7 @@
         @Html.HiddenFor(model => model.Id)
         <p class="text-error">
             @Html.ValidationMessageFor(model => model.Address)
-            @Html.ValidationMessageFor(model => model.IDNumber)
+            @Html.ValidationMessageFor(model => model.IdNumber)
             @Html.ValidationMessageFor(model => model.BirthDate)
             @Html.ValidationMessageFor(model => model.City)
             @Html.ValidationMessageFor(model => model.UrlPicture)
@@ -42,10 +42,10 @@
 
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.IDNumber)
+                @Html.LabelFor(model => model.IdNumber)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.IDNumber)
+                @Html.EditorFor(model => model.IdNumber)
             </div>
         </div>
 

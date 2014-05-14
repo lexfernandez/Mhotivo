@@ -15,9 +15,9 @@
     <fieldset>
         <legend>Editar Persona</legend>
 
-        @Html.HiddenFor(model => model.PeopleId)
+        @Html.HiddenFor(model => model.Id)
         <p class="text-error">
-            @Html.ValidationMessageFor(model => model.IDNumber)
+            @Html.ValidationMessageFor(model => model.IdNumber)
             @Html.ValidationMessageFor(model => model.Address)
             @Html.ValidationMessageFor(model => model.BirthDay)
             @Html.ValidationMessageFor(model => model.City)
@@ -31,10 +31,10 @@
         
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.IDNumber)
+                @Html.LabelFor(model => model.IdNumber)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.IDNumber)
+                @Html.EditorFor(model => model.IdNumber)
             </div>
         </div>
 

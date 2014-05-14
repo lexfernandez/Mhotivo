@@ -47,7 +47,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Role GetById(long id)
         {
-            var roles = _context.Roles.Where(x => x.RoleId == id);
+            var roles = _context.Roles.Where(x => x.Id == id);
             return roles.Count() != 0 ? roles.First() : null;
         }
 

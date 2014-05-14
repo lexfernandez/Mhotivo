@@ -46,7 +46,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Student GetById(long id)
         {
-            var student = _context.Students.Where(x => x.PeopleId == id);
+            var student = _context.Students.Where(x => x.Id == id);
             return student.Count() != 0 ? student.Include(x => x.Benefactor).First() : null;
         }
 
@@ -92,7 +92,7 @@ namespace Mhotivo.App_Data.Repositories
         {
             return Query(x => x).ToList().Select(x => new DisplayStudentModel
             {
-                StudentID = x.PeopleId,
+                Id = x.Id,
                 UrlPicture = x.UrlPicture,
                 FullName = x.FullName,
                 BirthDate = x.BirthDate,
@@ -116,8 +116,8 @@ namespace Mhotivo.App_Data.Repositories
             var student = GetById(id);
             return new DisplayStudentModel
             {
-                StudentID = student.PeopleId,
-                IDNumber = student.IDNumber,
+                Id = student.Id,
+                IdNumber = student.IdNumber,
                 UrlPicture = student.UrlPicture,
                 FirstName = student.FirstName,
                 LastName = student.LastName,
@@ -145,7 +145,7 @@ namespace Mhotivo.App_Data.Repositories
             student.LastName = studentEditModel.LastName;
             student.FullName = (studentEditModel.FirstName + " " + studentEditModel.LastName).Trim();
             student.Country = studentEditModel.Country;
-            student.IDNumber = studentEditModel.IDNumber;
+            student.IdNumber = studentEditModel.IdNumber;
             student.BirthDate = studentEditModel.BirthDate;
             student.Gender = Utilities.IsMasculino(studentEditModel.Gender);
             student.Nationality = studentEditModel.Nationality;
@@ -168,7 +168,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = studentRegisterModel.FirstName,
                 LastName = studentRegisterModel.LastName,
                 FullName = (studentRegisterModel.FirstName + " " + studentRegisterModel.LastName).Trim(),
-                IDNumber = studentRegisterModel.IDNumber,
+                IdNumber = studentRegisterModel.IdNumber,
                 BirthDate = studentRegisterModel.BirthDate,
                 Gender = Utilities.IsMasculino(studentRegisterModel.Gender),
                 Nationality = studentRegisterModel.Nationality,
@@ -193,7 +193,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = student.FirstName,
                 LastName = student.LastName,
                 FullName = (student.FirstName + " " + student.LastName).Trim(),
-                IDNumber = student.IDNumber,
+                IdNumber = student.IdNumber,
                 BirthDate = student.BirthDate,
                 Gender = Utilities.GenderToString(student.Gender),
                 Nationality = student.Nationality,
@@ -201,7 +201,7 @@ namespace Mhotivo.App_Data.Repositories
                 State = student.State,
                 City = student.City,
                 Address = student.Address,
-                Id = student.PeopleId,
+                Id = student.Id,
                 StartDate = student.StartDate,
                 Biography = student.Biography,
                 AccountNumber = student.AccountNumber,

@@ -1,16 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web;
 
 namespace Mhotivo.Models
 {
-    [Table("ContactInformation")]
     public class ContactInformation
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int ContactId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         public string Type { get; set; }
         public string Value { get; set; }
         public People People { get; set; }
@@ -22,7 +20,7 @@ namespace Mhotivo.Models
 
         public string Controller { get; set; }
 
-        public People people { get; set; }
+        public People People { get; set; }
 
         [Required]
         [Display(Name = "Tipo")]
@@ -35,7 +33,7 @@ namespace Mhotivo.Models
 
     public class ContactInformationRegisterModel
     {
-        public int PeopleId { get; set; }
+        public int Id { get; set; }
 
         public string Controller { get; set; }
 

@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mhotivo.Models
 {
-    [Table("AcademicYear")]
     public class AcademicYear
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public virtual Grade Grade { get; set; }
         public virtual Course Course { get; set; }
         public DateTime Year { get; set; }
@@ -62,7 +62,6 @@ namespace Mhotivo.Models
 
         [Display(Name = "Students Limit")]
         public int Limit { get; set; }
-
     }
 
     public class AcademicYearViewManagement

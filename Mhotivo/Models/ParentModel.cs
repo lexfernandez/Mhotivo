@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Web;
 
 namespace Mhotivo.Models
 {
-    [Table("Parent")]
     public class Parent : People
     {
         public string JustARandomColumn { get; set; }
@@ -15,7 +12,7 @@ namespace Mhotivo.Models
 
     public class DisplayParentModel
     {
-        public long ParentID { get; set; }
+        public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
@@ -32,7 +29,7 @@ namespace Mhotivo.Models
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
@@ -70,7 +67,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Apellidos")]
@@ -125,7 +122,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Fecha de Nacimiento")]

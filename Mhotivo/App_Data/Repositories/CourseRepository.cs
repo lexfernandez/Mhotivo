@@ -42,7 +42,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Course GetById(long id)
         {
-            var courses = _context.Courses.Where(x => x.CourseId == id);
+            var courses = _context.Courses.Where(x => x.Id == id);
             return courses.Count() != 0 ? courses.First() : null;
         }
 

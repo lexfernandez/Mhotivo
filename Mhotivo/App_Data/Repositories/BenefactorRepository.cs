@@ -41,7 +41,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Benefactor GetById(long id)
         {
-            var benefactor = _context.Benefactors.Where(x => x.PeopleId == id);
+            var benefactor = _context.Benefactors.Where(x => x.Id == id);
             return benefactor.Count() != 0 ? benefactor.First() : null;
         }
 
@@ -82,8 +82,8 @@ namespace Mhotivo.App_Data.Repositories
         {
             return Query(x => x).ToList().Select(x => new DisplayBenefactorModel
             {
-                BenefactorID = x.PeopleId,
-                IDNumber = x.IDNumber,
+                Id = x.Id,
+                IdNumber = x.IdNumber,
                 UrlPicture = x.UrlPicture,
                 FullName = x.FullName,
                 BirthDate = x.BirthDate,
@@ -105,8 +105,8 @@ namespace Mhotivo.App_Data.Repositories
             var benefactor = GetById(id);
             return new DisplayBenefactorModel
             {
-                BenefactorID = benefactor.PeopleId,
-                IDNumber = benefactor.IDNumber,
+                Id = benefactor.Id,
+                IdNumber = benefactor.IdNumber,
                 UrlPicture = benefactor.UrlPicture,
                 FirstName = benefactor.FirstName,
                 LastName = benefactor.LastName,
@@ -131,7 +131,7 @@ namespace Mhotivo.App_Data.Repositories
             benefactorModel.LastName = editModel.LastName;
             benefactorModel.FullName = (editModel.FirstName + " " + editModel.LastName).Trim();
             benefactorModel.Country = editModel.Country;
-            benefactorModel.IDNumber = editModel.IDNumber;
+            benefactorModel.IdNumber = editModel.IdNumber;
             benefactorModel.BirthDate = editModel.BirthDate;
             benefactorModel.Gender = Utilities.IsMasculino(editModel.Gender);
             benefactorModel.Nationality = editModel.Nationality;
@@ -149,7 +149,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = benefactorRegisterModel.FirstName,
                 LastName = benefactorRegisterModel.LastName,
                 FullName = (benefactorRegisterModel.FirstName + " " + benefactorRegisterModel.LastName).Trim(),
-                IDNumber = benefactorRegisterModel.IDNumber,
+                IdNumber = benefactorRegisterModel.IdNumber,
                 BirthDate = benefactorRegisterModel.BirthDate,
                 Gender = Utilities.IsMasculino(benefactorRegisterModel.Gender),
                 Nationality = benefactorRegisterModel.Nationality,
@@ -169,7 +169,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = benefactor.FirstName,
                 LastName = benefactor.LastName,
                 FullName = (benefactor.FirstName + " " + benefactor.LastName).Trim(),
-                IDNumber = benefactor.IDNumber,
+                IdNumber = benefactor.IdNumber,
                 BirthDate = benefactor.BirthDate,
                 Gender = Utilities.GenderToString(benefactor.Gender),
                 Nationality = benefactor.Nationality,
@@ -177,7 +177,7 @@ namespace Mhotivo.App_Data.Repositories
                 State = benefactor.State,
                 City = benefactor.City,
                 Address = benefactor.Address,
-                Id = benefactor.PeopleId,
+                Id = benefactor.Id,
                 StudentsCount = benefactor.Students.Count
             };
         }

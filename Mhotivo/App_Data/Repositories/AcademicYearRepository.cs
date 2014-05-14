@@ -109,7 +109,7 @@ namespace Mhotivo.App_Data.Repositories
             ayear.Year = itemToUpdate.Year;
             ayear.StudentsCount = itemToUpdate.StudentsCount;
 
-            if (ayear.Course.CourseId != itemToUpdate.Course.CourseId)
+            if (ayear.Course.Id != itemToUpdate.Course.Id)
             {
                 ayear.Course = itemToUpdate.Course;
                 updateCourse = true;
@@ -121,7 +121,7 @@ namespace Mhotivo.App_Data.Repositories
                 updateGrade = true;
             }
 
-            if (ayear.Teacher.PeopleId != itemToUpdate.Teacher.PeopleId)
+            if (ayear.Teacher.Id != itemToUpdate.Teacher.Id)
             {
                 ayear.Teacher = itemToUpdate.Teacher;
                 updateTeacher = true;

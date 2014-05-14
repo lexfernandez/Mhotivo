@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
 {
-
     public class CourseController : Controller
     {
-
         private readonly ICourseRepository _courseRepository;
 
         public CourseController(ICourseRepository courseRepository)
@@ -25,16 +20,16 @@ namespace Mhotivo.Controllers
 
         public ActionResult Index()
         {
-            var message = (MessageModel)TempData["MessageInfo"];
+            var message = (MessageModel) TempData["MessageInfo"];
 
             if (message != null)
             {
-                ViewBag.MessageType = message.MessageType;
-                ViewBag.MessageTitle = message.MessageTitle;
-                ViewBag.MessageContent = message.MessageContent;
+                ViewBag.MessageType = message.Type;
+                ViewBag.MessageTitle = message.Title;
+                ViewBag.MessageContent = message.Content;
             }
 
-            var v = _courseRepository.Query(x => x).Include("Area");
+            IQueryable<Course> v = _courseRepository.Query(x => x).Include("Area");
 
             return View(v);
         }
@@ -55,39 +50,37 @@ namespace Mhotivo.Controllers
         {
             try
             {
-               
                 if (ModelState.IsValid)
                 {
                     _courseRepository.Create(group);
                     _courseRepository.SaveChanges();
                     TempData["MessageInfo"] = new MessageModel
-                    {
-                        MessageType = "SUCCESS",
-                        MessageTitle = "Agregado",
-                        MessageContent = "El grupo fue agregado exitosamente!"
-                    };
+                                              {
+                                                  Type = "SUCCESS",
+                                                  Title = "Agregado",
+                                                  Content = "El grupo fue agregado exitosamente!"
+                                              };
                 }
                 else
                 {
                     TempData["MessageInfo"] = new MessageModel
-                    {
-                        MessageType = "INFO",
-                        MessageTitle = "Data validation",
-                        MessageContent = "The data is no valid!"
-                    };
+                                              {
+                                                  Type = "INFO",
+                                                  Title = "Data validation",
+                                                  Content = "The data is no valid!"
+                                              };
                 }
-
             }
             catch
             {
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "ERROR",
-                    MessageTitle = "Error",
-                    MessageContent = "Something went wrong, please try again!"
-                };
+                                          {
+                                              Type = "ERROR",
+                                              Title = "Error",
+                                              Content = "Something went wrong, please try again!"
+                                          };
             }
-            var groups = _courseRepository.Query(x => x);
+            IQueryable<Course> groups = _courseRepository.Query(x => x);
             return RedirectToAction("Index", groups);
         }
 
@@ -96,7 +89,7 @@ namespace Mhotivo.Controllers
 
         public ActionResult Edit(int id)
         {
-            var c = _courseRepository.GetById(id);
+            Course c = _courseRepository.GetById(id);
 
             return View(c);
         }
@@ -107,15 +100,15 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Edit(Course course)
         {
-            var role = _courseRepository.Update(course);
+            Course role = _courseRepository.Update(course);
             const string title = "Curso Actualizado";
-            var content = "El curso " + role.Name + " ha sido modificado exitosamente.";
+            string content = "El curso " + role.Name + " ha sido modificado exitosamente.";
             TempData["MessageInfo"] = new MessageModel
-            {
-                MessageType = "SUCCESS",
-                MessageTitle = title,
-                MessageContent = content
-            };
+                                      {
+                                          Type = "SUCCESS",
+                                          Title = title,
+                                          Content = content
+                                      };
 
             return RedirectToAction("Index");
         }
@@ -128,27 +121,28 @@ namespace Mhotivo.Controllers
         {
             try
             {
-                var group = _courseRepository.GetById(id);
+                Course group = _courseRepository.GetById(id);
                 _courseRepository.Delete(group);
                 _courseRepository.SaveChanges();
 
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "SUCCESS",
-                    MessageTitle = " eliminado",
-                    MessageContent = " eliminado exitosamente!"
-                };
+                                          {
+                                              Type = "SUCCESS",
+                                              Title = " eliminado",
+                                              Content = " eliminado exitosamente!"
+                                          };
 
                 return RedirectToAction("Index");
             }
             catch
             {
                 TempData["MessageInfo"] = new MessageModel
-                {
-                    MessageType = "ERROR",
-                    MessageTitle = "Error en eliminación",
-                    MessageContent = "El grupo no pudo ser eliminado correctamente, por favor intente nuevamente!"
-                };
+                                          {
+                                              Type = "ERROR",
+                                              Title = "Error en eliminación",
+                                              Content =
+                                                  "El grupo no pudo ser eliminado correctamente, por favor intente nuevamente!"
+                                          };
                 return View("Index");
             }
         }

@@ -18,15 +18,15 @@
         
         <p class="text-error">
             @Html.ValidationMessageFor(model => model.GradeId)
-            @Html.ValidationMessageFor(model => model.StudentId)
+            @Html.ValidationMessageFor(model => model.Id)
         </p>
         
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.StudentId)
+                @Html.LabelFor(model => model.Id)
             </div>
             <div class="controls">
-                @Html.DropDownList("StudentId")
+                @Html.DropDownList("Id")
             </div>
         </div>
         

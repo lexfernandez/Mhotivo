@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mhotivo.Models
 {
-    [Table("Enroll")]
     public class Enroll
     {
         [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public virtual AcademicYear AcademicYear { get; set; }
         public virtual Student Student { get; set; }
     }
 
     public class DisplayEnrollStudents
     {
-        public int EnrollID { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Nombre Completo")]
         public string FullName { get; set; }
@@ -38,17 +36,12 @@ namespace Mhotivo.Models
         public char Section { get; set; }
     }
 
-    public class EnrollEditModel
-    {
-
-    }
-
     public class EnrollRegisterModel
     {
         [Display(Name = "Grado")]
         public int GradeId { get; set; }
 
         [Display(Name = "Estudiante")]
-        public int StudentId { get; set; }
+        public int Id { get; set; }
     }
 }

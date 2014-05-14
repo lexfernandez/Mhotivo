@@ -37,7 +37,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public User GetById(long id)
         {
-            var users = _context.Users.Where(x => x.UserId == id);
+            var users = _context.Users.Where(x => x.Id == id);
             return users.Count() != 0 ? users.Include(x => x.Role).First() : null;
         }
 
@@ -91,7 +91,7 @@ namespace Mhotivo.App_Data.Repositories
                 Email = x.Email,
                 Role = x.Role.Name,
                 Status = x.Status ? "Activo" : "Inactivo",
-                UserId = x.UserId
+                Id = x.Id
             });
         }
 

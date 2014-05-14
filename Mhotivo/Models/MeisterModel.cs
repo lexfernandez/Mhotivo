@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Web;
 
 namespace Mhotivo.Models
 {
-    [Table("Meister")]
     public class Meister : People
     {
         public string Biography { get; set; }
@@ -16,7 +13,7 @@ namespace Mhotivo.Models
 
     public class DisplayMeisterModel
     {
-        public long MeisterID { get; set; }
+        public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
@@ -33,7 +30,7 @@ namespace Mhotivo.Models
         public string BirthDate { get; set; }
 
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
@@ -56,13 +53,13 @@ namespace Mhotivo.Models
         [Display(Name = "Sexo")]
         public string Gender { get; set; }
 
-        [Display (Name = "Fecha de Inicio")]
+        [Display(Name = "Fecha de Inicio")]
         public string StartDate { get; set; }
 
-        [Display (Name = "EndDate")]
+        [Display(Name = "EndDate")]
         public string EndDate { get; set; }
 
-        [Display (Name = "Biografia")]
+        [Display(Name = "Biografia")]
         public string Biography { get; set; }
     }
 
@@ -80,7 +77,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Apellidos")]
@@ -141,7 +138,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Fecha de Nacimiento")]

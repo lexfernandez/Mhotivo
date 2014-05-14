@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Web;
 
 namespace Mhotivo.Models
 {
-    [Table("Student")]
     public class Student : People
     {
         public DateTime StartDate { get; set; }
@@ -22,7 +19,7 @@ namespace Mhotivo.Models
 
     public class DisplayStudentModel
     {
-        public long StudentID { get; set; }
+        public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
 
@@ -39,7 +36,7 @@ namespace Mhotivo.Models
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
@@ -79,7 +76,6 @@ namespace Mhotivo.Models
 
         [Display(Name = "Segundo Tutor o Madre")]
         public string SecondParent { get; set; }
-
     }
 
     public class StudentEditModel
@@ -87,7 +83,7 @@ namespace Mhotivo.Models
         public long Id { get; set; }
 
         public ICollection<ContactInformation> Contacts { get; set; }
-        
+
         public string FullName { get; set; }
 
         [Required]
@@ -96,7 +92,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Apellidos")]
@@ -157,17 +153,17 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Madre o Segundo Tutor")]
-        public Parent SecondParent{ get; set; }
+        public Parent SecondParent { get; set; }
     }
 
     public class StudentBenefactorEditModel
     {
-        public long BenefactorID { get; set; }
+        public long Id { get; set; }
 
-        public int OldID { get; set; }
+        public int OldId { get; set; }
 
         [Display(Name = "Estudiante")]
-        public int NewID { get; set; }
+        public int NewId { get; set; }
     }
 
     public class StudentRegisterModel
@@ -184,7 +180,7 @@ namespace Mhotivo.Models
 
         [Required]
         [Display(Name = "Numero de Identidad")]
-        public string IDNumber { get; set; }
+        public string IdNumber { get; set; }
 
         [Required]
         [Display(Name = "Fecha de Nacimiento")]
