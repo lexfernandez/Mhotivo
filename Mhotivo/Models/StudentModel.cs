@@ -47,7 +47,7 @@ namespace Mhotivo.Models
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
-        [Display(Name = "Estado")]
+        [Display(Name = "Departamento")]
         public string State { get; set; }
 
         [Display(Name = "Dirección Principal")]
@@ -59,13 +59,13 @@ namespace Mhotivo.Models
         [Display(Name = "Sexo")]
         public string Gender { get; set; }
 
-        [Display(Name = "Fecha de Inicio")]
+        [Display(Name = "Fecha de Ingreso")]
         public DateTime StartDate { get; set; }
 
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
-        [Display(Name = "Numero de Cuenta")]
+        [Display(Name = "Codigo de Alumno")]
         public string AccountNumber { get; set; }
 
         [Display(Name = "Biografia")]
@@ -111,7 +111,7 @@ namespace Mhotivo.Models
         public string City { get; set; }
 
         [Required]
-        [Display(Name = "Estado")]
+        [Display(Name = "Departamento")]
         public string State { get; set; }
 
         [Required]
@@ -133,14 +133,14 @@ namespace Mhotivo.Models
         public string Gender { get; set; }
 
         [Required]
-        [Display(Name = "Fecha de Inicio")]
+        [Display(Name = "Fecha de Ingreso")]
         public DateTime StartDate { get; set; }
 
         [Required]
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
-        [Display(Name = "Numero de Cuenta")]
+        [Display(Name = "Codigo de Alumno")]
         public string AccountNumber { get; set; }
 
         [Required]
@@ -199,7 +199,7 @@ namespace Mhotivo.Models
         public string City { get; set; }
 
         [Required]
-        [Display(Name = "Estado")]
+        [Display(Name = "Departamento")]
         public string State { get; set; }
 
         [Required]
@@ -216,14 +216,14 @@ namespace Mhotivo.Models
         public string Gender { get; set; }
 
         [Required]
-        [Display(Name = "Fecha de Inicio")]
+        [Display(Name = "Fecha de Ingreso")]
         public DateTime StartDate { get; set; }
 
         [Required]
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
-        [Display(Name = "Numero de Cuenta")]
+        [Display(Name = "Codigo de Alumno")]
         public string AccountNumber { get; set; }
 
         [Required]

@@ -50,7 +50,7 @@ namespace Mhotivo.Models
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
-        [Display(Name = "Estado")]
+        [Display(Name = "Departamento")]
         public string State { get; set; }
 
         [Display(Name = "Dirección Principal")]
@@ -103,7 +103,7 @@ namespace Mhotivo.Models
         public string City { get; set; }
 
         [Required]
-        [Display(Name = "Estado")]
+        [Display(Name = "Departamento")]
         public string State { get; set; }
 
         [Required]
@@ -159,7 +159,7 @@ namespace Mhotivo.Models
         public string City { get; set; }
 
         [Required]
-        [Display(Name = "Estado")]
+        [Display(Name = "Departamento")]
         public string State { get; set; }
 
         [Required]

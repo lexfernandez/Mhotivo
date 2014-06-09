@@ -34,32 +34,6 @@
     </button>
 </p>
 
-<div id="address" style="width: 500px;">
-    <h3>Dirección</h3>
-    <div id="mainAddress">
-        @Html.EditorFor(model => model.Address)
-        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Address)</span>
-        <p class="text-error">@Html.ValidationMessageFor(model => model.Address)</p>
-    </div>
-    <br style="clear: left;" />
-    <div style="float: left; width: 200px;">
-        @Html.EditorFor(model => model.City)
-        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.City)</span>
-        <p class="text-error">@Html.ValidationMessageFor(model => model.City)</p>
-    </div>
-    <div style="float: left; width: 100px;">
-        @Html.EditorFor(model => model.State)
-        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.State)</span>
-        <p class="text-error">@Html.ValidationMessageFor(model => model.State)</p>
-    </div>
-    <div style="float: left; width: 200px;">
-        @Html.EditorFor(model => model.Country)
-        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Country)</span>
-        <p class="text-error">@Html.ValidationMessageFor(model => model.Country)</p>
-    </div>
-    <br style="clear: left;" />
-</div>
-
 <div id="information" style="width: 500px;">
     <h3>Información Personal</h3>
     <div id="FirstName" style="float: left; width: 250px;">
@@ -116,7 +90,34 @@
     </div>
     <br style="clear: left;" />
 </div>
-<hr />
+    <hr />
+    
+    <div id="address" style="width: 500px;">
+    <h3>Dirección</h3>
+    <div id="mainAddress">
+        @Html.EditorFor(model => model.Address)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Address)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.Address)</p>
+    </div>
+    <br style="clear: left;" />
+    <div style="float: left; width: 200px;">
+        @Html.EditorFor(model => model.City)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.City)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.City)</p>
+    </div>
+    <div style="float: left; width: 100px;">
+        @Html.EditorFor(model => model.State)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.State)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.State)</p>
+    </div>
+    <div style="float: left; width: 200px;">
+        @Html.EditorFor(model => model.Country)
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Country)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.Country)</p>
+    </div>
+    <br style="clear: left;" />
+</div>
+    
 <div id="studentInformation" style="width: 500px;">
     <h3>Información de Estudiante</h3>
     <div id="accountNumber" style="float: left; width: 250px;">
