@@ -13,6 +13,7 @@ namespace Mhotivo.App_Data
         public DbSet<AppointmentDiary> AppointmentDiary { get; set; }
         public DbSet<Area> Areas { get; set; }
         public DbSet<Benefactor> Benefactors { get; set; }
+        public DbSet<City> Cities { get; set; } 
         public DbSet<ClassActivityGrading> ClassActivityGradings { get; set; }
         public DbSet<ClassActivity> ClassActivities { get; set; }
         public DbSet<ContactInformation> ContactInformations { get; set; }
@@ -27,6 +28,7 @@ namespace Mhotivo.App_Data
         public DbSet<Pensum> Pensums { get; set; }
         public DbSet<People> Peoples { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<State> States { get; set; } 
         public DbSet<Student> Students { get; set; }
         public DbSet<User> Users { get; set; }
     }
