@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -9,10 +10,12 @@ namespace Mhotivo.Controllers
     public class GradeController : Controller
     {
         private readonly IGradeRepository _gradeRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public GradeController(IGradeRepository gradeRepository)
         {
             _gradeRepository = gradeRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         //
@@ -20,15 +23,7 @@ namespace Mhotivo.Controllers
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             IEnumerable<DisplayGradeModel> displayGradeModels =
                 _gradeRepository.Query(x => x).ToList().Select(x => new DisplayGradeModel
                                                                     {
@@ -79,14 +74,8 @@ namespace Mhotivo.Controllers
             Grade grade = _gradeRepository.Update(myGrade);
             _gradeRepository.SaveChanges();
             const string title = "Padre o Tutor Actualizado";
-            string content = "El Alumno " + myGrade.Name + " ha sido actualizado exitosamente.";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Alumno " + myGrade.Name + " ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Details/" + modelGrade.Id);
         }
@@ -113,14 +102,10 @@ namespace Mhotivo.Controllers
 
             Grade grade = _gradeRepository.Create(myGrade);
             _gradeRepository.SaveChanges();
+
             const string title = "Alumno Agregado al Grado";
-            string content = "El Alumno " + myGrade.Name + " ha sido agregado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Alumno " + myGrade.Name + " ha sido agregado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }
@@ -154,15 +139,10 @@ namespace Mhotivo.Controllers
 
             Grade grade = _gradeRepository.Update(myGrade);
             _gradeRepository.SaveChanges();
-            const string title = "Grado Actualizado";
-            string content = "El Alumno " + myGrade.Name + " ha sido actualizado exitosamente.";
 
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            const string title = "Grado Actualizado";
+            var content = "El Alumno " + myGrade.Name + " ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -179,13 +159,8 @@ namespace Mhotivo.Controllers
             _gradeRepository.SaveChanges();
 
             const string title = "Alumno ha sido Eliminado del Grado";
-            string content = "El Alumno " + grade.Name + " ha sido eliminado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Alumno " + grade.Name + " ha sido eliminado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }

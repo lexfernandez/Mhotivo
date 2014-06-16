@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -16,6 +17,7 @@ namespace Mhotivo.Controllers
         private readonly IGradeRepository _gradeRepository;
         private readonly IPeopleRepository _peopleRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public EnrollController(IPeopleRepository peopleRepository, IAcademicYearRepository academicYearRepository,
             IStudentRepository studentRepository, IEnrollRepository enrollRepository, IGradeRepository gradeRepository)
@@ -25,20 +27,13 @@ namespace Mhotivo.Controllers
             _enrollRepository = enrollRepository;
             _academicYearRepository = academicYearRepository;
             _gradeRepository = gradeRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             return View(_enrollRepository.Query(x => x).ToList()
                 .Select(x => new DisplayEnrollStudents
                              {
@@ -55,15 +50,7 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Search(string id)
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             IEnumerable<DisplayEnrollStudents> model = _enrollRepository.Filter(x => x.Student.FullName.Contains(id))
                 .ToList()
                 .Select(x => new DisplayEnrollStudents
@@ -87,12 +74,7 @@ namespace Mhotivo.Controllers
 
             const string title = "Matricula Borrada";
             const string content = "El estudiante ha sido eliminado exitosamente de la lista de matriculados.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -124,24 +106,14 @@ namespace Mhotivo.Controllers
                     Enroll enroll = _enrollRepository.Create(myEnroll);
                 }
                 const string title = "Usuario Agregado";
-                string content = "El usuario ha sido matriculado exitosamente.";
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "SUCCESS",
-                                              Title = title,
-                                              Content = content
-                                          };
+                const string content = "El usuario ha sido matriculado exitosamente.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
             }
             else
             {
                 const string title = "Usuario No Agregado";
-                string content = "El usuario no se logro matricular.";
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "SUCCESS",
-                                              Title = title,
-                                              Content = content
-                                          };
+                const string content = "El usuario no se logro matricular.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
             }
 
             return RedirectToAction("Index");

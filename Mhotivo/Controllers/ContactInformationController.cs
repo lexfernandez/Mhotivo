@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -8,12 +9,14 @@ namespace Mhotivo.Controllers
     {
         private readonly IContactInformationRepository _contactInformationRepository;
         private readonly IPeopleRepository _peopleRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public ContactInformationController(IContactInformationRepository contactInformationRepository,
             IPeopleRepository peopleRepository)
         {
             _contactInformationRepository = contactInformationRepository;
             _peopleRepository = peopleRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
 
@@ -27,12 +30,7 @@ namespace Mhotivo.Controllers
 
             ContactInformation contactInformation = _contactInformationRepository.Update(myContactInformation);
             const string title = "Contacto Actualizado";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title
-                                      };
+            _viewMessageLogic.SetNewMessage(title, "", ViewMessageType.InformationMessage);
 
             return RedirectToAction("Details/" + contactInformation.People.Id, modelContactInformation.Controller);
         }
@@ -44,11 +42,7 @@ namespace Mhotivo.Controllers
             long ID = myContactInformation.People.Id;
             ContactInformation contactInformation = _contactInformationRepository.Delete(id);
             const string title = "Informacion Eliminada";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                      };
+            _viewMessageLogic.SetNewMessage(title, "", ViewMessageType.InformationMessage);
 
             return RedirectToAction("Details/" + ID, control);
         }
@@ -75,11 +69,7 @@ namespace Mhotivo.Controllers
             ContactInformation contactInformation = _contactInformationRepository.Create(myContactInformation);
 
             const string title = "Informacion Agregada";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                      };
+            _viewMessageLogic.SetNewMessage(title, "", ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Details/" + contactInformation.People.Id, modelContactInformation.Controller);
         }

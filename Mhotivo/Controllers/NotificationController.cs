@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using Mhotivo.App_Data;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -11,19 +12,19 @@ namespace Mhotivo.Controllers
     public class NotificationController : Controller
     {
         public MhotivoContext db = new MhotivoContext();
+        private readonly ViewMessageLogic _viewMessageLogic;
+
+        public NotificationController()
+        {
+            _viewMessageLogic = new ViewMessageLogic(this);
+        }
+
         //
         // GET: /Notification/
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
+            _viewMessageLogic.SetViewMessageIfExist();
             IQueryable<Notification> notifications = db.Notifications.Where(x => true);
             return View(notifications);
         }
@@ -57,22 +58,12 @@ namespace Mhotivo.Controllers
                 db.Notifications.Add(template);
                 db.SaveChanges();
                 const string title = "Notificación Agregado";
-                string content = "El evento " + eventNotification.EventName + " ha sido agregado exitosamente.";
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "SUCCESS",
-                                              Title = title,
-                                              Content = content
-                                          };
+                var content = "El evento " + eventNotification.EventName + " ha sido agregado exitosamente.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
             }
             else
             {
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "ERROR",
-                                              Title = "",
-                                              Content = ""
-                                          };
+                _viewMessageLogic.SetNewMessage("", "", ViewMessageType.ErrorMessage);
             }
             return RedirectToAction("Index");
         }
@@ -109,23 +100,12 @@ namespace Mhotivo.Controllers
                 {
                     db.Entry(notification).State = EntityState.Modified;
                     db.SaveChanges();
-                    TempData["MessageInfo"] = new MessageModel
-                                              {
-                                                  Type = "SUCCESS",
-                                                  Title = "Notificación Editada",
-                                                  Content = "La notificación fue editada exitosamente!"
-                                              };
+                    _viewMessageLogic.SetNewMessage("Notificación Editada", "La notificación fue editada exitosamente.", ViewMessageType.SuccessMessage);
                 }
             }
             catch
             {
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "ERROR",
-                                              Title = "Error en edición",
-                                              Content =
-                                                  "La notificación no pudo ser editada correctamente, por favor intente nuevamente!"
-                                          };
+                _viewMessageLogic.SetNewMessage("Error en edición", "La notificación no pudo ser editada correctamente, por favor intente nuevamente.", ViewMessageType.ErrorMessage);
             }
             IQueryable<Group> g = db.Groups.Select(x => x);
             return RedirectToAction("Index", g);

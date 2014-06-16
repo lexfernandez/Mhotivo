@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -7,23 +8,17 @@ namespace Mhotivo.Controllers
     public class PeopleController : Controller
     {
         private readonly IPeopleRepository _peopleRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public PeopleController(IPeopleRepository peopleRepository)
         {
             _peopleRepository = peopleRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             return View(_peopleRepository.GetAllPeople());
         }
 
@@ -42,14 +37,8 @@ namespace Mhotivo.Controllers
             _peopleRepository.UpdatePeopleFromPeopleEditModel(peopleModel, people);
 
             const string title = "Persona Actualizada";
-            string content = "La persona " + people.FullName + " - " + people.Id + " ha sido actualizada exitosamente.";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "La persona " + people.FullName + " - " + people.Id + " ha sido actualizada exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }

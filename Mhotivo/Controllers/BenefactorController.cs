@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -9,6 +10,7 @@ namespace Mhotivo.Controllers
         private readonly IBenefactorRepository _benefactorRepository;
         private readonly IContactInformationRepository _contactInformationRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public BenefactorController(IBenefactorRepository benefactorRepository, IStudentRepository studentRepository,
             IContactInformationRepository contactInformationRepository)
@@ -16,20 +18,13 @@ namespace Mhotivo.Controllers
             _benefactorRepository = benefactorRepository;
             _studentRepository = studentRepository;
             _contactInformationRepository = contactInformationRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             return View(_benefactorRepository.GettAllBenefactors());
         }
 
@@ -60,15 +55,10 @@ namespace Mhotivo.Controllers
         {
             if (modelBenefactor.Capacity < modelBenefactor.StudentsCount)
             {
-                string title = "Beneficiario No Puede Tener Menos de " + modelBenefactor.StudentsCount;
-                string content = "Elimine algunos estudiantes antes de continuar.";
+                var title = "Beneficiario No Puede Tener Menos de " + modelBenefactor.StudentsCount;
+                const string content = "Elimine algunos estudiantes antes de continuar.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "INFO",
-                                              Title = title,
-                                              Content = content
-                                          };
                 return RedirectToAction("Index");
             }
             else
@@ -77,14 +67,9 @@ namespace Mhotivo.Controllers
                 _benefactorRepository.UpdateBenefactorFromBenefactorEditModel(modelBenefactor, myBenefactor);
 
                 const string title = "Beneficiario Actualizado";
-                string content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
+                var content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "INFO",
-                                              Title = title,
-                                              Content = content
-                                          };
                 return RedirectToAction("Index");
             }
         }
@@ -95,13 +80,8 @@ namespace Mhotivo.Controllers
             Benefactor benefactor = _benefactorRepository.Delete(id);
 
             const string title = "Padre o Tutor Eliminado";
-            string content = "El Padre o Tutor " + benefactor.FullName + " ha sido eliminado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Padre o Tutor " + benefactor.FullName + " ha sido eliminado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -128,15 +108,10 @@ namespace Mhotivo.Controllers
         {
             Benefactor myBenefactor = _benefactorRepository.GenerateBenefactorFromRegisterModel(modelBenefactor);
 
-            Benefactor benefactor = _benefactorRepository.Create(myBenefactor);
+            _benefactorRepository.Create(myBenefactor);
             const string title = "Padre o Tutor Agregado";
-            string content = "El Padre o Tutor " + myBenefactor.FullName + "ha sido agregado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Padre o Tutor " + myBenefactor.FullName + "ha sido agregado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }
@@ -163,14 +138,9 @@ namespace Mhotivo.Controllers
             if (modelBenefactor.StudentsCount > modelBenefactor.Capacity)
             {
                 string title = "Beneficiario No Puede Tener Menos de " + modelBenefactor.StudentsCount;
-                string content = "Elimine algunos estudiantes antes de continuar.";
+                const string content = "Elimine algunos estudiantes antes de continuar.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "INFO",
-                                              Title = title,
-                                              Content = content
-                                          };
                 return RedirectToAction("DetailsEdit/" + modelBenefactor.Id);
             }
             else
@@ -179,14 +149,9 @@ namespace Mhotivo.Controllers
                 _benefactorRepository.UpdateBenefactorFromBenefactorEditModel(modelBenefactor, myBenefactor);
 
                 const string title = "Beneficiario Actualizado";
-                string content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
+                var content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "INFO",
-                                              Title = title,
-                                              Content = content
-                                          };
                 return RedirectToAction("Details/" + modelBenefactor.Id);
             }
         }
@@ -262,16 +227,11 @@ namespace Mhotivo.Controllers
             Student myStudent = _studentRepository.GetById(id);
             long ID = myStudent.Benefactor.Id;
             myStudent.Benefactor = null;
-            Student student = _studentRepository.Update(myStudent);
+            _studentRepository.Update(myStudent);
 
             const string title = "Estudiante Eliminado";
-            string content = "El estudiante " + myStudent.FullName + " ha sido eliminado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El estudiante " + myStudent.FullName + " ha sido eliminado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Details/" + ID);
         }

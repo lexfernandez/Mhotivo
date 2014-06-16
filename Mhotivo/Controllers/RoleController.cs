@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -7,10 +8,12 @@ namespace Mhotivo.Controllers
     public class RoleController : Controller
     {
         private readonly IRoleRepository _roleRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public RoleController(IRoleRepository roleRepository)
         {
             _roleRepository = roleRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         //
@@ -18,15 +21,7 @@ namespace Mhotivo.Controllers
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             return View(_roleRepository.GetAllRoles());
         }
 
@@ -52,13 +47,8 @@ namespace Mhotivo.Controllers
         {
             Role role = _roleRepository.Update(modelRole);
             const string title = "Role Actualizado";
-            string content = "El role " + role.Name + " ha sido modificado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El role " + role.Name + " ha sido modificado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }

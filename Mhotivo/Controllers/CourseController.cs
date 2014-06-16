@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -9,10 +10,12 @@ namespace Mhotivo.Controllers
     public class CourseController : Controller
     {
         private readonly ICourseRepository _courseRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public CourseController(ICourseRepository courseRepository)
         {
             _courseRepository = courseRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         //
@@ -20,15 +23,7 @@ namespace Mhotivo.Controllers
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             IQueryable<Course> v = _courseRepository.Query(x => x).Include("Area");
 
             return View(v);
@@ -54,31 +49,16 @@ namespace Mhotivo.Controllers
                 {
                     _courseRepository.Create(group);
                     _courseRepository.SaveChanges();
-                    TempData["MessageInfo"] = new MessageModel
-                                              {
-                                                  Type = "SUCCESS",
-                                                  Title = "Agregado",
-                                                  Content = "El grupo fue agregado exitosamente!"
-                                              };
+                    _viewMessageLogic.SetNewMessage("Agregado", "El grupo fue agregado exitosamente.", ViewMessageType.SuccessMessage);
                 }
                 else
                 {
-                    TempData["MessageInfo"] = new MessageModel
-                                              {
-                                                  Type = "INFO",
-                                                  Title = "Data validation",
-                                                  Content = "The data is no valid!"
-                                              };
+                    _viewMessageLogic.SetNewMessage("Validación de Información", "La información no es válida.", ViewMessageType.InformationMessage);
                 }
             }
             catch
             {
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "ERROR",
-                                              Title = "Error",
-                                              Content = "Something went wrong, please try again!"
-                                          };
+                _viewMessageLogic.SetNewMessage("Error", "Algo salió mal, por favor intente de nuevo.", ViewMessageType.ErrorMessage);
             }
             IQueryable<Course> groups = _courseRepository.Query(x => x);
             return RedirectToAction("Index", groups);
@@ -102,13 +82,9 @@ namespace Mhotivo.Controllers
         {
             Course role = _courseRepository.Update(course);
             const string title = "Curso Actualizado";
-            string content = "El curso " + role.Name + " ha sido modificado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El curso " + role.Name + " ha sido modificado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
+
 
             return RedirectToAction("Index");
         }
@@ -124,25 +100,13 @@ namespace Mhotivo.Controllers
                 Course group = _courseRepository.GetById(id);
                 _courseRepository.Delete(group);
                 _courseRepository.SaveChanges();
-
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "SUCCESS",
-                                              Title = " eliminado",
-                                              Content = " eliminado exitosamente!"
-                                          };
+                _viewMessageLogic.SetNewMessage("Eliminado", "Eliminado exitosamente.", ViewMessageType.SuccessMessage);
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "ERROR",
-                                              Title = "Error en eliminación",
-                                              Content =
-                                                  "El grupo no pudo ser eliminado correctamente, por favor intente nuevamente!"
-                                          };
+                _viewMessageLogic.SetNewMessage("Error en eliminación", "El grupo no pudo ser eliminado correctamente, por favor intente nuevamente.", ViewMessageType.ErrorMessage);
                 return View("Index");
             }
         }

@@ -90,8 +90,8 @@
 
                                                         <div class="clearfix">
                                                             <label class="inline">
-                                                                <input type="checkbox" id="RememberMe" name="RememberMe"/>
-                                                                <span class="lbl"> Remember Me</span>
+                                                                @Html.CheckBoxFor(model => model.RememberMe)
+                                                                @Html.DisplayNameFor(model => model.RememberMe)
                                                             </label>
 
                                                             <button onclick="" class="width-35 pull-right btn btn-small btn-primary">

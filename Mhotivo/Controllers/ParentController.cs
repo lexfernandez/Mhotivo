@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -8,25 +9,20 @@ namespace Mhotivo.Controllers
     {
         private readonly IContactInformationRepository _contactInformationRepository;
         private readonly IParentRepository _parentRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public ParentController(IParentRepository parentRepository,
             IContactInformationRepository contactInformationRepository)
         {
             _parentRepository = parentRepository;
             _contactInformationRepository = contactInformationRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
+            _viewMessageLogic.SetViewMessageIfExist();
 
             return View(_parentRepository.GetAllParents());
         }
@@ -63,14 +59,8 @@ namespace Mhotivo.Controllers
             _parentRepository.UpdateParentFromParentEditModel(modelParent, myParent);
 
             const string title = "Padre o Tutor Actualizado";
-            string content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -81,13 +71,8 @@ namespace Mhotivo.Controllers
             Parent parent = _parentRepository.Delete(id);
 
             const string title = "Padre o Tutor Eliminado";
-            string content = "El Padre o Tutor " + parent.FullName + " ha sido eliminado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Padre o Tutor " + parent.FullName + " ha sido eliminado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -116,13 +101,8 @@ namespace Mhotivo.Controllers
 
             Parent parent = _parentRepository.Create(myParent);
             const string title = "Padre o Tutor Agregado";
-            string content = "El Padre o Tutor " + myParent.FullName + "ha sido agregado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Padre o Tutor " + myParent.FullName + "ha sido agregado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }
@@ -150,14 +130,8 @@ namespace Mhotivo.Controllers
             _parentRepository.UpdateParentFromParentEditModel(modelParent, myParent);
 
             const string title = "Padre o Tutor Actualizado";
-            string content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Details/" + modelParent.Id);
         }

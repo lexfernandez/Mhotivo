@@ -1,12 +1,10 @@
 ﻿using System.Web.Mvc;
-using Mhotivo.Filters;
 using Mhotivo.Logic;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         private readonly ISessionManagement _sessionManagement;
@@ -31,7 +29,7 @@ namespace Mhotivo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && _sessionManagement.LogIn(model.UserEmail, model.Password, model.RememberMe))
+            if (_sessionManagement.LogIn(model.UserEmail, model.Password, model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }

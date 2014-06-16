@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -9,6 +10,7 @@ namespace Mhotivo.Controllers
         private readonly IContactInformationRepository _contactInformationRepository;
         private readonly IParentRepository _parentRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public StudentController(IStudentRepository studentRepository, IParentRepository parentRepository,
             IContactInformationRepository contactInformationRepository)
@@ -16,19 +18,12 @@ namespace Mhotivo.Controllers
             _studentRepository = studentRepository;
             _parentRepository = parentRepository;
             _contactInformationRepository = contactInformationRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             return View(_studentRepository.GetAllStudents());
         }
 
@@ -68,14 +63,8 @@ namespace Mhotivo.Controllers
             _studentRepository.UpdateStudentFromStudentEditModel(modelStudent, myStudent);
 
             const string title = "Estudiante Actualizado";
-            string content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -86,13 +75,8 @@ namespace Mhotivo.Controllers
             Student student = _studentRepository.Delete(id);
 
             const string title = "Estudiante Eliminado";
-            string content = "El estudiante " + student.FullName + " ha sido eliminado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El estudiante " + student.FullName + " ha sido eliminado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -123,13 +107,8 @@ namespace Mhotivo.Controllers
 
             Student student = _studentRepository.Create(myStudent);
             const string title = "Estudiante Agregado";
-            string content = "El estudiante " + myStudent.FullName + " ha sido agregado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El estudiante " + myStudent.FullName + " ha sido agregado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }
@@ -163,14 +142,8 @@ namespace Mhotivo.Controllers
             _studentRepository.UpdateStudentFromStudentEditModel(modelStudent, myStudent);
 
             const string title = "Estudiante Actualizado";
-            string content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El estudiante " + myStudent.FullName + " ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Details/" + modelStudent.Id);
         }

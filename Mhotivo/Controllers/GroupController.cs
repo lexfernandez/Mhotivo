@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using Mhotivo.App_Data;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -12,21 +13,18 @@ namespace Mhotivo.Controllers
     public class GroupController : Controller
     {
         private readonly MhotivoContext db = new MhotivoContext();
+        private readonly ViewMessageLogic _viewMessageLogic;
 
+        public GroupController()
+        {
+            _viewMessageLogic = new ViewMessageLogic(this);
+        }
         //
         // GET: /Group/
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             IQueryable<Group> groups = db.Groups.Select(x => x);
             return View(groups);
         }
@@ -64,31 +62,16 @@ namespace Mhotivo.Controllers
                 {
                     db.Groups.Add(g);
                     db.SaveChanges();
-                    TempData["MessageInfo"] = new MessageModel
-                                              {
-                                                  Type = "SUCCESS",
-                                                  Title = "Grupo Agregado",
-                                                  Content = "El grupo fue agregado exitosamente!"
-                                              };
+                    _viewMessageLogic.SetNewMessage("Grupo Agregado", "El grupo fue agregado exitosamente.", ViewMessageType.SuccessMessage);
                 }
                 else
                 {
-                    TempData["MessageInfo"] = new MessageModel
-                                              {
-                                                  Type = "INFO",
-                                                  Title = "Data validation",
-                                                  Content = "The data is no valid!"
-                                              };
+                    _viewMessageLogic.SetNewMessage("Validación de Información", "La información es inválida.", ViewMessageType.InformationMessage);
                 }
             }
             catch
             {
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "ERROR",
-                                              Title = "Error",
-                                              Content = "Something went wrong, please try again!"
-                                          };
+                _viewMessageLogic.SetNewMessage("Error", "Algo salió mal, por favor intente de nuevo.", ViewMessageType.ErrorMessage);
             }
             IQueryable<Group> groups = db.Groups.Select(x => x);
             return RedirectToAction("Index", groups);
@@ -124,25 +107,14 @@ namespace Mhotivo.Controllers
                 {
                     db.Entry(g).State = EntityState.Modified;
                     db.SaveChanges();
-                    TempData["MessageInfo"] = new MessageModel
-                                              {
-                                                  Type = "SUCCESS",
-                                                  Title = "Grupo Editado",
-                                                  Content = "El grupo fue editado exitosamente!"
-                                              };
+                    _viewMessageLogic.SetNewMessage("Grupo Editado", "El grupo fue editado exitosamente.", ViewMessageType.SuccessMessage);
                 }
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "ERROR",
-                                              Title = "Error en edición",
-                                              Content =
-                                                  "El grupo no pudo ser editado correctamente, por favor intente nuevamente!"
-                                          };
+                _viewMessageLogic.SetNewMessage("Error en edición", "El grupo no pudo ser editado correctamente, por favor intente nuevamente.", ViewMessageType.ErrorMessage);
                 return View("Index");
             }
         }
@@ -158,25 +130,13 @@ namespace Mhotivo.Controllers
                 Group group = db.Groups.FirstOrDefault(x => x.Id == id);
                 db.Groups.Remove(group);
                 db.SaveChanges();
-
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "SUCCESS",
-                                              Title = "Grupo eliminado",
-                                              Content = "Grupo eliminado exitosamente!"
-                                          };
+                _viewMessageLogic.SetNewMessage("Grupo eliminado", "Grupo eliminado exitosamente.", ViewMessageType.SuccessMessage);
 
                 return RedirectToAction("Index");
             }
             catch
             {
-                TempData["MessageInfo"] = new MessageModel
-                                          {
-                                              Type = "ERROR",
-                                              Title = "Error en eliminación",
-                                              Content =
-                                                  "El grupo no pudo ser eliminado correctamente, por favor intente nuevamente!"
-                                          };
+                _viewMessageLogic.SetNewMessage("Error en eliminación", "El grupo no pudo ser eliminado correctamente, por favor intente nuevamente.", ViewMessageType.ErrorMessage);
                 return View("Index");
             }
         }

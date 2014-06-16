@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -8,26 +9,20 @@ namespace Mhotivo.Controllers
     {
         private readonly IContactInformationRepository _contactInformationRepository;
         private readonly IMeisterRepository _meisterRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public MeisterController(IMeisterRepository meisterRepository,
             IContactInformationRepository contactInformationRepository)
         {
             _meisterRepository = meisterRepository;
             _contactInformationRepository = contactInformationRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             return View(_meisterRepository.GetAllMeisters());
         }
 
@@ -62,14 +57,8 @@ namespace Mhotivo.Controllers
             _meisterRepository.UpdateMeisterFromMeisterEditModel(modelMeister, myMeister);
 
             const string title = "Maestro Actualizado";
-            string content = "El maestro " + myMeister.FullName + " ha sido actualizado exitosamente.";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El maestro " + myMeister.FullName + " ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -80,13 +69,8 @@ namespace Mhotivo.Controllers
             Meister meister = _meisterRepository.Delete(id);
 
             const string title = "Maestro Eliminado";
-            string content = "El maestro " + meister.FullName + " ha sido eliminado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El maestro " + meister.FullName + " ha sido eliminado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -115,13 +99,8 @@ namespace Mhotivo.Controllers
 
             _meisterRepository.Create(myMeister);
             const string title = "Maestro Agregado";
-            string content = "El maestro " + myMeister.FullName + "ha sido agregado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El maestro " + myMeister.FullName + "ha sido agregado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }
@@ -149,14 +128,8 @@ namespace Mhotivo.Controllers
             _meisterRepository.UpdateMeisterFromMeisterEditModel(modelMeister, myMeister);
 
             const string title = "Maestro Actualizado";
-            string content = "El maestro " + myMeister.FullName + " ha sido actualizado exitosamente.";
-
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El maestro " + myMeister.FullName + " ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Details/" + modelMeister.Id);
         }

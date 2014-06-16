@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -8,24 +9,18 @@ namespace Mhotivo.Controllers
     {
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public UserController(IUserRepository userRepository, IRoleRepository roleRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
-
+            _viewMessageLogic.SetViewMessageIfExist();
             return View(_userRepository.GetAllUsers());
         }
 
@@ -44,7 +39,7 @@ namespace Mhotivo.Controllers
                            RoleId = thisUser.Role.Id
                        };
 
-            ViewBag.Id = new SelectList(_roleRepository.Query(x => x), "Id", "Name", thisUser.Role.Id);
+            ViewBag.RoleId = new SelectList(_roleRepository.Query(x => x), "Id", "Name", thisUser.Role.Id);
 
             return View("Edit", user);
         }
@@ -58,23 +53,18 @@ namespace Mhotivo.Controllers
             myUser.Email = modelUser.Email;
             myUser.Password = modelUser.Password;
             myUser.Status = modelUser.Status;
-            if (myUser.Role.Id != modelUser.Id)
+            if (myUser.Role.Id != modelUser.RoleId)
             {
-                myUser.Role = _roleRepository.GetById(modelUser.Id);
+                myUser.Role = _roleRepository.GetById(modelUser.RoleId);
                 updateRole = true;
             }
 
             User user = _userRepository.Update(myUser, updateRole);
             const string title = "Usuario Actualizado";
-            string content = "El usuario " + user.DisplayName + " - " + user.Email +
+            var content = "El usuario " + user.DisplayName + " - " + user.Email +
                              " ha sido actualizado exitosamente.";
 
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -85,13 +75,8 @@ namespace Mhotivo.Controllers
             User user = _userRepository.Delete(id);
 
             const string title = "Usuario Eliminado";
-            string content = "El usuario " + user.DisplayName + " - " + user.Email + " ha sido eliminado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El usuario " + user.DisplayName + " - " + user.Email + " ha sido eliminado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -115,15 +100,11 @@ namespace Mhotivo.Controllers
                              Status = modelUser.Status
                          };
 
-            User user = _userRepository.Create(myUser);
+            var user = _userRepository.Create(myUser);
+
             const string title = "Usuario Agregado";
-            string content = "El usuario " + user.DisplayName + " - " + user.Email + " ha sido agregado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "El usuario " + user.DisplayName + " - " + user.Email + " ha sido agregado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
 namespace Mhotivo.Controllers
@@ -11,24 +12,19 @@ namespace Mhotivo.Controllers
     {
         private readonly IAcademicYearRepository _academicYearRepository;
         private readonly IClassActivityRepository _classActivityRepository;
+        private readonly ViewMessageLogic _viewMessageLogic;
 
         public ClassActivityController(IClassActivityRepository classActivityRepository,
             IAcademicYearRepository academicYearRepository)
         {
             _classActivityRepository = classActivityRepository;
             _academicYearRepository = academicYearRepository;
+            _viewMessageLogic = new ViewMessageLogic(this);
         }
 
         public ActionResult Index()
         {
-            var message = (MessageModel) TempData["MessageInfo"];
-
-            if (message != null)
-            {
-                ViewBag.MessageType = message.Type;
-                ViewBag.MessageTitle = message.Title;
-                ViewBag.MessageContent = message.Content;
-            }
+            _viewMessageLogic.SetViewMessageIfExist();
 
             return View(_classActivityRepository.Query(x => x).ToList()
                 .Select(x => new DisplayClassActivityModel
@@ -79,15 +75,10 @@ namespace Mhotivo.Controllers
 
             ClassActivity classactivity = _classActivityRepository.Update(myClassActivity);
             _classActivityRepository.SaveChanges();
-            const string title = "Actividad Actualizada";
-            string content = "La actividad --" + classactivity.Name + "-- ha sido actualizado exitosamente.";
 
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            const string title = "Actividad Actualizada";
+            var content = "La actividad --" + classactivity.Name + "-- ha sido actualizado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -99,13 +90,8 @@ namespace Mhotivo.Controllers
             _classActivityRepository.SaveChanges();
 
             const string title = "Actividad Eliminada";
-            string content = "La activdad --" + classactivity.Name + "-- ha sido eliminado exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "INFO",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "La activdad --" + classactivity.Name + "-- ha sido eliminado exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
         }
@@ -137,14 +123,10 @@ namespace Mhotivo.Controllers
 
             ClassActivity classactivity = _classActivityRepository.Create(myClassActivity);
             _classActivityRepository.SaveChanges();
+
             const string title = "Actividad Agregada";
-            string content = "La Actividad --" + classactivity.Name + "-- ha sido agregada exitosamente.";
-            TempData["MessageInfo"] = new MessageModel
-                                      {
-                                          Type = "SUCCESS",
-                                          Title = title,
-                                          Content = content
-                                      };
+            var content = "La Actividad --" + classactivity.Name + "-- ha sido agregada exitosamente.";
+            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }

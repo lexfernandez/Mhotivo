@@ -16,7 +16,7 @@ namespace Mhotivo.Tests.Controllers
         public void Index()
         {
             // Disponer
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(null);
 
             // Actuar
             ViewResult result = controller.Index() as ViewResult;
@@ -29,7 +29,7 @@ namespace Mhotivo.Tests.Controllers
         public void About()
         {
             // Disponer
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(null);
 
             // Actuar
             ViewResult result = controller.About() as ViewResult;
@@ -42,7 +42,7 @@ namespace Mhotivo.Tests.Controllers
         public void Contact()
         {
             // Disponer
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(null);
 
             // Actuar
             ViewResult result = controller.Contact() as ViewResult;

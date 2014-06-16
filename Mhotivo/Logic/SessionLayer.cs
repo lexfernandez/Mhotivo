@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.Models;
 
 
 namespace Mhotivo.Logic
@@ -10,78 +12,90 @@ namespace Mhotivo.Logic
     {
         private readonly IUserRepository _userRepository;
         private readonly string _userNameIdentifier;
-        private readonly string _userIdentifier;
+        private readonly string _userRoleIdentifier;
         private readonly string _userEmailIdentifier;
+        private readonly string _userIdIdentifier;
 
         public SessionLayer(IUserRepository userRepository)
         {
             _userRepository = userRepository;
             _userNameIdentifier = "loggedUserName";
             _userEmailIdentifier = "loggedUserEmail";
-            _userIdentifier = "loggedUserRole";
+            _userRoleIdentifier = "loggedUserRole";
+            _userIdIdentifier = "loggedUserId";
         }
 
         public bool LogIn(string userEmail, string password, bool remember = false)
         {
-            if (!ValidateUser(userEmail, password)) return false;
+            var user = ValidateUser(userEmail, password);
+            if (user == null) return false;
 
-            HttpContext.Current.Session[_userEmailIdentifier] = userEmail;
-            HttpContext.Current.Session[_userNameIdentifier] = GetUserName(userEmail,password);
-            HttpContext.Current.Session[_userIdentifier] = GetUserRole(userEmail);
-            FormsAuthentication.RedirectFromLoginPage(userEmail, true);
+            UpdateSessionFromUser(user);
+
+            FormsAuthentication.RedirectFromLoginPage(user.Id.ToString(CultureInfo.InvariantCulture), remember);
 
             return true;
         }
 
-        public void LogOut(bool redirect = false)
+        private void UpdateSessionFromUser(User user)
         {
-            FormsAuthentication.SignOut();
-            HttpContext.Current.Session.Remove(_userNameIdentifier);
-            HttpContext.Current.Session.Remove(_userIdentifier);
-
-            if(redirect) FormsAuthentication.RedirectToLoginPage();
-
+            HttpContext.Current.Session[_userEmailIdentifier] = user.Email;
+            HttpContext.Current.Session[_userNameIdentifier] = user.DisplayName;
+            HttpContext.Current.Session[_userRoleIdentifier] = user.Role.Name;
+            HttpContext.Current.Session[_userIdIdentifier] = user.Id;
         }
 
-        private string GetUserName(string userEmail ,string password )
+        public void LogOut(bool redirect = false)
         {
-            var myUsers =
-                _userRepository.Filter(x => x.Email.Equals(userEmail) && x.Password.Equals(password)).FirstOrDefault();
-            return myUsers.DisplayName;
+            HttpContext.Current.Session.Remove(_userEmailIdentifier);
+            HttpContext.Current.Session.Remove(_userNameIdentifier);
+            HttpContext.Current.Session.Remove(_userRoleIdentifier);
+            HttpContext.Current.Session.Remove(_userIdIdentifier);
+
+            FormsAuthentication.SignOut();
+            if(redirect) FormsAuthentication.RedirectToLoginPage();
         }
 
         public string GetUserLoggedName()
         {
-            return HttpContext.Current.Session[_userNameIdentifier].ToString();
+            CheckSession();
+            var userName = HttpContext.Current.Session[_userNameIdentifier];
+            return userName != null ? userName.ToString() : "";
         }
 
         public string GetUserLoggedEmail()
         {
-            return HttpContext.Current.Session[_userEmailIdentifier].ToString();
+            CheckSession();
+            var userName = HttpContext.Current.Session[_userEmailIdentifier];
+            return userName != null ? userName.ToString() : "";
         }
 
         public string GetUserLoggedRole()
         {
-            var userRole = HttpContext.Current.Session[_userIdentifier];
-            return userRole != null ? userRole.ToString() : null;
+            CheckSession();
+            var userRole = HttpContext.Current.Session[_userRoleIdentifier];
+            return userRole != null ? userRole.ToString() : "";
         }
 
-        private bool ValidateUser(string userName, string password)
+        private User ValidateUser(string userName, string password)
         {    
-            var myUsers = _userRepository.Filter(x => x.Email.Equals(userName) && x.Password.Equals(password));
-            return myUsers != null && myUsers.Count() == 1; 
+            var myUsers = _userRepository.Filter(x => x.Email.Equals(userName) && x.Password.Equals(password) && x.Status);
+
+            return (myUsers != null && myUsers.Any() ? myUsers.First() : null); 
         }
 
-        private string GetUserRole(string userName)
+        public void CheckSession()
         {
-            var users = _userRepository.Filter(x => x.Email.Equals(userName));
-            if (users != null && users.Count() !=0)
-                return users.First().Role.Name;
-            return "";
-            
+            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                FormsAuthentication.RedirectToLoginPage();
+
+            var val = HttpContext.Current.Session[_userIdIdentifier];
+            if (val != null)
+                if ((int)val > 0) return;
+
+            var id = int.Parse(HttpContext.Current.User.Identity.Name);
+            var user = _userRepository.GetById(id);
+            UpdateSessionFromUser(user);
         }
-
-
-
     }
 }

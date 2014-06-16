@@ -184,17 +184,14 @@
     <Compile Include="Controllers\SendNotifications.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AcademicYearLogic.cs" />
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
-    <Compile Include="Migrations\201405140046109_DatabaseInitializer.cs" />
-    <Compile Include="Migrations\201405140046109_DatabaseInitializer.Designer.cs">
-      <DependentUpon>201405140046109_DatabaseInitializer.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Logic\ViewMessage\ViewMessageLogic.cs" />
+    <Compile Include="Logic\ViewMessage\ViewMessageType.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
     <Compile Include="Models\AppointmentDiary.cs" />
@@ -519,9 +516,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201405140046109_DatabaseInitializer.resx">
-      <DependentUpon>201405140046109_DatabaseInitializer.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Filters\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
