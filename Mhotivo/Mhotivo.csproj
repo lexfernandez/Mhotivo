@@ -164,7 +164,6 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="App_Data\Repositories\AreaRepository.cs" />
     <Compile Include="Controllers\AcademicYearController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BenefactorController.cs" />
@@ -193,9 +192,9 @@
     <Compile Include="Logic\AcademicYearLogic.cs" />
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
-    <Compile Include="Migrations\201406182228497_initial.cs" />
-    <Compile Include="Migrations\201406182228497_initial.Designer.cs">
-      <DependentUpon>201406182228497_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201406232303419__initial.cs" />
+    <Compile Include="Migrations\201406232303419__initial.Designer.cs">
+      <DependentUpon>201406232303419__initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
@@ -526,11 +525,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201406182228497_initial.resx">
-      <DependentUpon>201406182228497_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201406232303419__initial.resx">
+      <DependentUpon>201406232303419__initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

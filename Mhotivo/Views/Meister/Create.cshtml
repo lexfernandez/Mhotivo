@@ -1,7 +1,7 @@
 ﻿@model Mhotivo.Models.MeisterRegisterModel
 
 @{
-    ViewBag.Title = "Agregar Padre o Tutor";
+    ViewBag.Title = "Agregar Maestro";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,7 +18,7 @@
 
 @using (Html.BeginForm("Add", "meister", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"})){
     @Html.ValidationSummary(true)
-<h2>Agregar Padre o Tutor</h2>
+<h2>Agregar Maestro</h2>
 
 <p>
     <a href="../Meister/Index" data-dismiss="modal" class="btn btn-small">
@@ -96,7 +96,7 @@
     <br style="clear: left;" />
     <br style="clear: left;" />
     <div style="float: left; width: 250px;">
-        @Html.EditorFor(model => model.Gender)
+         @Html.DropDownListFor(model => model.Gender, new SelectList (new [] {"Masculino","Femenino"}) )
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.Gender)</span>
         <p class="text-error">@Html.ValidationMessageFor(model => model.Gender)</p>
     </div>
