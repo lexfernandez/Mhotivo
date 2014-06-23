@@ -7,7 +7,7 @@ namespace Mhotivo.Models
 {
     public class Student : People
     {
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
         public string BloodType { get; set; }
         public string AccountNumber { get; set; }
         public string Biography { get; set; }
@@ -33,15 +33,15 @@ namespace Mhotivo.Models
         public string FullName { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
-        [Display(Name = "Numero de Identidad")]
+        [Display(Name = "Número de Identidad")]
         public string IdNumber { get; set; }
 
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
-        [Display(Name = "Pais")]
+        [Display(Name = "País")]
         public string Country { get; set; }
 
         [Display(Name = "Ciudad")]
@@ -60,15 +60,15 @@ namespace Mhotivo.Models
         public string Gender { get; set; }
 
         [Display(Name = "Fecha de Inicio")]
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
 
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
-        [Display(Name = "Numero de Cuenta")]
+        [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 
-        [Display(Name = "Biografia")]
+        [Display(Name = "Biografía")]
         public string Biography { get; set; }
 
         [Display(Name = "Tutor o Padre")]
@@ -86,39 +86,39 @@ namespace Mhotivo.Models
 
         public string FullName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombres")]
         [Display(Name = "Nombres")]
         public string FirstName { get; set; }
 
-        [Required]
-        [Display(Name = "Numero de Identidad")]
+        [Required(ErrorMessage = "Debe Ingresar Número de Identidad")]
+        [Display(Name = "Número de Identidad")]
         public string IdNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Apellidos")]
         [Display(Name = "Apellidos")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Nacimiento")]
         [Display(Name = "Fecha de Nacimiento")]
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nacionalidad")]
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Ciudad")]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Estado")]
         [Display(Name = "Estado")]
         public string State { get; set; }
 
-        [Required]
-        [Display(Name = "Pais")]
+        [Required(ErrorMessage = "Debe Ingresar País")]
+        [Display(Name = "País")]
         public string Country { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Dirección")]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 10)]
         [Display(Name = "Dirección")]
         public string Address { get; set; }
@@ -128,30 +128,30 @@ namespace Mhotivo.Models
 
         public string UrlPicture { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
         public string Gender { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Inicio")]
         [Display(Name = "Fecha de Inicio")]
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Tipo de Sangre")]
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
-        [Display(Name = "Numero de Cuenta")]
+        [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 
-        [Required]
-        [Display(Name = "Biografia")]
+        [Required(ErrorMessage = "Debe Ingresar Biografía")]
+        [Display(Name = "Biografía")]
         public string Biography { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Padre o Tutor")]
         [Display(Name = "Padre o Tutor")]
         public Parent FirstParent { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Madre o Segundo Tutor")]
         [Display(Name = "Madre o Segundo Tutor")]
         public Parent SecondParent { get; set; }
     }
@@ -170,71 +170,71 @@ namespace Mhotivo.Models
     {
         public string FullName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombres")]
         [Display(Name = "Nombres")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Número de Identidad")]
+        [Display(Name = "Número de Identidad")]
+        public string IdNumber { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Apellidos")]
         [Display(Name = "Apellidos")]
         public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = "Numero de Identidad")]
-        public string IdNumber { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Nacimiento")]
         [Display(Name = "Fecha de Nacimiento")]
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nacionalidad")]
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
-        [Required]
-        [Display(Name = "Pais")]
-        public string Country { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Ciudad")]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Estado")]
         [Display(Name = "Estado")]
         public string State { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar País")]
+        [Display(Name = "País")]
+        public string Country { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Dirección")]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 10)]
         [Display(Name = "Dirección")]
         public string Address { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Foto Perfil")]
         [Display(Name = "Foto Perfil")]
         public HttpPostedFileBase FilePicture { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
         public string Gender { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Inicio")]
         [Display(Name = "Fecha de Inicio")]
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Tipo de Sangre")]
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
-        [Display(Name = "Numero de Cuenta")]
+        [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 
-        [Required]
-        [Display(Name = "Biografia")]
+        [Required(ErrorMessage = "Debe Ingresar Biografía")]
+        [Display(Name = "Biografía")]
         public string Biography { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Padre o Tutor")]
         [Display(Name = "Padre o Tutor")]
         public Parent FirstParent { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Madre o Segundo Tutor")]
         [Display(Name = "Madre o Segundo Tutor")]
         public Parent SecondParent { get; set; }
     }

@@ -1,0 +1,59 @@
+﻿@model Mhotivo.Models.PensumEditModel
+
+@{
+    ViewBag.Title = "Editar Pensum";
+    Layout = "";
+}
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<div id="body" class="modal-body" style="max-height: 500px;">
+@using (Html.BeginForm("Edit", "Pensum", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"}))
+{@Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Editar Usuario</legend>
+
+        @Html.HiddenFor(model => model.Id)
+        <p class="text-error">
+            @Html.ValidationMessageFor(model => model.IdCourse)
+            @Html.ValidationMessageFor(model => model.IdGrade)
+        </p>
+
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.IdCourse)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("IdCourse")
+            </div>
+        </div>
+            
+        <div class="control-group">
+            <div class="control-label">
+                @Html.LabelFor(model => model.IdGrade)
+            </div>
+            <div class="controls">
+                @Html.DropDownList("IdGrade")
+            </div>
+        </div>
+
+
+        <div class="space"></div>
+
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-small">
+                <i class="icon-remove"></i>
+                Cancel
+            </button>
+
+            <button type="submit" class="btn btn-small btn-primary">
+                <i class="icon-ok"></i>
+                Actualizar
+            </button>
+        </div>
+    </fieldset>
+}
+
+</div>

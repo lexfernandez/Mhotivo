@@ -37,12 +37,12 @@ namespace Mhotivo.Models
 
     public class LocalPasswordModel
     {
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Contraseña actual")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña actual")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nueva contraseña")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nueva contraseña")]
@@ -56,11 +56,11 @@ namespace Mhotivo.Models
 
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Email de Usuario")]
         [Display(Name = "Email de usuario")]
         public string UserEmail { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Contraseña")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
@@ -71,18 +71,18 @@ namespace Mhotivo.Models
 
     public class UserRegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombre")]
         [Display(Name = "Nombre")]
         public string DisplaName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Email")]
         [Display(Name = "Email")]
         public string UserName { get; set; }
 
         [Display(Name = "Estado")]
         public bool Status { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Contraseña")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
@@ -93,7 +93,7 @@ namespace Mhotivo.Models
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Tipo de Usuario")]
         [Display(Name = "Tipo de Usuario")]
         public int Id { get; set; }
     }
@@ -102,18 +102,18 @@ namespace Mhotivo.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombre")]
         [Display(Name = "Nombre")]
         public string DisplayName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Display(Name = "Activo")]
         public bool Status { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Contraseña")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
@@ -124,7 +124,7 @@ namespace Mhotivo.Models
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Tipo de Usuario")]
         [Display(Name = "Tipo de Usuario")]
         public int RoleId { get; set; }
     }

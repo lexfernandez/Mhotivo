@@ -35,7 +35,7 @@ namespace Mhotivo.Models
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
-        [Display(Name = "Pais")]
+        [Display(Name = "País")]
         public string Country { get; set; }
 
         [Display(Name = "Ciudad")]
@@ -56,10 +56,10 @@ namespace Mhotivo.Models
         [Display(Name = "Fecha de Inicio")]
         public string StartDate { get; set; }
 
-        [Display(Name = "EndDate")]
+        [Display(Name = "Fecha de Finalización")]
         public string EndDate { get; set; }
 
-        [Display(Name = "Biografia")]
+        [Display(Name = "Biografía")]
         public string Biography { get; set; }
     }
 
@@ -71,111 +71,123 @@ namespace Mhotivo.Models
 
         public string FullName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Finalización")]
+        [Display(Name = "Fecha de Finalización")]
+        public string EndDate { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Biografía")]
+        [Display(Name = "Biografía")]
+        public string Biography { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Nombres")]
         [Display(Name = "Nombres")]
         public string FirstName { get; set; }
 
-        [Required]
-        [Display(Name = "Numero de Identidad")]
+        [Required(ErrorMessage = "Debe Ingresar Número de Identidad")]
+        [Display(Name = "Número de Identidad")]
         public string IdNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Apellidos")]
         [Display(Name = "Apellidos")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Nacimiento")]
         [Display(Name = "Fecha de Nacimiento")]
         public string BirthDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nacionalidad")]
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Ciudad")]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Estado")]
         [Display(Name = "Estado")]
         public string State { get; set; }
 
-        [Required]
-        [Display(Name = "Pais")]
+        [Required(ErrorMessage = "Debe Ingresar País")]
+        [Display(Name = "País")]
         public string Country { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Dirección")]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 10)]
         [Display(Name = "Dirección")]
         public string Address { get; set; }
 
-        public string UrlPicture { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
         public string Gender { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Inicio")]
         [Display(Name = "Fecha de Inicio")]
         public string StartDate { get; set; }
 
-        [Display(Name = "EndDate")]
-        public string EndDate { get; set; }
+        [Display(Name = "Foto Perfil")]
+        public string UrlPicture { get; set; }
 
-        [Display(Name = "Biografia")]
-        public string Biography { get; set; }
     }
 
     public class MeisterRegisterModel
     {
         public string FullName { get; set; }
 
-        [Required]
+        [Display(Name = "Foto Perfil")]
+        public string UrlPicture { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Finalización")]
+        [Display(Name = "Fecha de Finalización")]
+        public string EndDate { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Biografía")]
+        [Display(Name = "Biografía")]
+        public string Biography { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Nombres")]
         [Display(Name = "Nombres")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Número de Identidad")]
+        [Display(Name = "Número de Identidad")]
+        public string IdNumber { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Apellidos")]
         [Display(Name = "Apellidos")]
         public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = "Numero de Identidad")]
-        public string IdNumber { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Nacimiento")]
         [Display(Name = "Fecha de Nacimiento")]
         public string BirthDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nacionalidad")]
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Ciudad")]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Estado")]
         [Display(Name = "Estado")]
         public string State { get; set; }
 
-        [Required]
-        [Display(Name = "Pais")]
+        [Required(ErrorMessage = "Debe Ingresar País")]
+        [Display(Name = "País")]
         public string Country { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Dirección")]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 10)]
         [Display(Name = "Dirección")]
         public string Address { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
         public string Gender { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Inicio")]
         [Display(Name = "Fecha de Inicio")]
         public string StartDate { get; set; }
 
-        [Display(Name = "EndDate")]
-        public string EndDate { get; set; }
-
-        [Display(Name = "Biografia")]
-        public string Biography { get; set; }
     }
 }

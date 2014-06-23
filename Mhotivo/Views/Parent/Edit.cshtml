@@ -83,12 +83,14 @@
             </div>
             <div class="controls">
                 <script type="text/javascript">
-                    $(function () {
-                        $('.date-picker').datepicker().next().on(ace.click_event, function () { $(this).prev().focus(); });
+                    $(document).ready(function () {
+                        $('.date-picker').datepicker().on('changeDate', function () {
+                            $(this).datepicker('hide');
+                        });
                     });
                 </script>
                 
-                @Html.TextBoxFor(model => model.BirthDate, new { @class="span10 date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
+                @Html.TextBoxFor(model => model.BirthDate, new { @class="date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
                 <span class="add-on">
                     <i class="icon-calendar"></i>
                 </span>

@@ -84,7 +84,7 @@ namespace Mhotivo.App_Data.Repositories
                     IdNumber = x.IdNumber,
                     UrlPicture = x.UrlPicture,
                     FullName = x.FullName,
-                    BirthDate = x.BirthDate.ToShortDateString(),
+                    BirthDate = x.BirthDate,
                     Nationality = x.Nationality,
                     Address = x.Address,
                     City = x.City,
@@ -112,7 +112,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = meister.FirstName,
                 LastName = meister.LastName,
                 FullName = meister.FullName,
-                BirthDate = meister.BirthDate.ToShortDateString(),
+                BirthDate = meister.BirthDate,
                 Nationality = meister.Nationality,
                 Address = meister.Address,
                 City = meister.City,
@@ -133,7 +133,7 @@ namespace Mhotivo.App_Data.Repositories
             meister.FullName = (meisterEditModel.FirstName + " " + meisterEditModel.LastName).Trim();
             meister.Country = meisterEditModel.Country;
             meister.IdNumber = meisterEditModel.IdNumber;
-            meister.BirthDate = DateTime.Parse(meisterEditModel.BirthDate);
+            meister.BirthDate =meisterEditModel.BirthDate;
             meister.Gender = Utilities.IsMasculino(meisterEditModel.Gender);
             meister.Nationality = meisterEditModel.Nationality;
             meister.State = meisterEditModel.State;
@@ -153,7 +153,7 @@ namespace Mhotivo.App_Data.Repositories
                 LastName = meisterRegisterModel.LastName,
                 FullName = (meisterRegisterModel.FirstName + " " + meisterRegisterModel.LastName).Trim(),
                 IdNumber = meisterRegisterModel.IdNumber,
-                BirthDate = DateTime.Parse(meisterRegisterModel.BirthDate),
+                BirthDate = meisterRegisterModel.BirthDate,
                 Gender = Utilities.IsMasculino(meisterRegisterModel.Gender),
                 Nationality = meisterRegisterModel.Nationality,
                 State = meisterRegisterModel.State,
@@ -175,7 +175,7 @@ namespace Mhotivo.App_Data.Repositories
                 LastName = meister.LastName,
                 FullName = (meister.FirstName + " " + meister.LastName).Trim(),
                 IdNumber = meister.IdNumber,
-                BirthDate = meister.BirthDate.ToShortDateString(),
+                BirthDate = meister.BirthDate,
                 Gender = Utilities.GenderToString(meister.Gender),
                 Nationality = meister.Nationality,
                 Country = meister.Country,

@@ -329,9 +329,21 @@
 
     	    });
 
-    	    $(function () {
+    	    $(document).ready(function () {
+
+	           $('.date-picker').datepicker().on('changeDate', function () {
+	                $(this).datepicker('hide');
+	            });
+
+	            $('.date-picker2').datepicker().on('changeDate', function () {
+	                $(this).datepicker('hide');
+	            });
+
+	        });
+
+    	    /*$(function () {
     	        $('.date-picker').datepicker().next().on(ace.click_event, function () { $(this).prev().focus(); });
-    	    });
+    	    });*/
 
     	    $.mask.definitions['~'] = '[+-]';
 /*$('.input-mask-date').mask('99/99/9999');

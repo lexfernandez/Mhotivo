@@ -87,18 +87,12 @@
     </div>
 
     <div style="float: left; width: 250px;">
-        
-        <div class="control-group" style="float: left; width: 250px;">
-            <div class="row-fluid input-append">
-                @Html.TextBoxFor(model => model.BirthDate, new { @class="span10 date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
-                <span class="add-on">
-                    <i class="icon-calendar"></i>
-                </span>
-                <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.BirthDate)</span>
-                <p class="text-error">@Html.ValidationMessageFor(model => model.BirthDate)</p>
-            </div>
-        </div>
-
+        @Html.TextBoxFor(model => model.BirthDate, new {@class="date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
+        <span class="add-on">
+            <i class="icon-calendar"></i>
+        </span>
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.BirthDate)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.BirthDate)</p>
     </div>
     <br style="clear: left;" />
     <br style="clear: left;" />
@@ -125,18 +119,12 @@
         <p class="text-error">@Html.ValidationMessageFor(model => model.AccountNumber)</p>
     </div>
     <div style="float: left; width: 250px;">
-        
-        <div class="control-group" style="float: left; width: 250px;">
-            <div class="row-fluid input-append">
-                @Html.TextBoxFor(model => model.StartDate, new { @class="span10 date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
-                <span class="add-on">
-                    <i class="icon-calendar"></i>
-                </span>
-                <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.StartDate)</span>
-                <p class="text-error">@Html.ValidationMessageFor(model => model.StartDate)</p>
-            </div>
-        </div>
-
+        @Html.TextBoxFor(model => model.StartDate, new { @class="date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})            
+        <span class="add-on">
+            <i class="icon-calendar"></i>
+        </span>
+        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.StartDate)</span>
+        <p class="text-error">@Html.ValidationMessageFor(model => model.StartDate)</p>
     </div>
     <br style="clear: left;" />
     <br style="clear: left;" />

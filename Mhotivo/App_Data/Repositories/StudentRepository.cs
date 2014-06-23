@@ -163,6 +163,7 @@ namespace Mhotivo.App_Data.Repositories
 
         public Student GenerateStudentFromRegisterModel(StudentRegisterModel studentRegisterModel)
         {
+   
             return new Student
             {
                 FirstName = studentRegisterModel.FirstName,
@@ -188,6 +189,7 @@ namespace Mhotivo.App_Data.Repositories
         public StudentEditModel GetStudentEditModelById(long id)
         {
             var student = GetById(id);
+
             return new StudentEditModel
             {
                 FirstName = student.FirstName,

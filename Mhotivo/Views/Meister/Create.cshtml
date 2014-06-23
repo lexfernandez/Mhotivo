@@ -72,13 +72,24 @@
     </div>
     <br style="clear: left;" />
     <br style="clear: left;" />
+
     <div style="float: left; width: 250px;">
-        @Html.EditorFor(model => model.IdNumber)
-        <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.IdNumber)</span>
-        <p class="text-error">@Html.ValidationMessageFor(model => model.IdNumber)</p>
+            
+        <div class="control-group" style="float: left; width: 250px;">
+            <div class="row-fluid input-append">
+                @Html.TextBoxFor(model => model.IdNumber, new { @class="input-large input-mask-idNumber"})
+                <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.IdNumber)</span>
+                <p class="text-error">@Html.ValidationMessageFor(model => model.IdNumber)</p>
+            </div>
+        </div>
+        @*@Html.EditorFor(model => model.IDNumber)*@
     </div>
+
     <div style="float: left; width: 250px;">
-        @Html.EditorFor(model => model.BirthDate)
+        @Html.TextBoxFor(model => model.BirthDate, new {@class="date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
+        <span class="add-on">
+            <i class="icon-calendar"></i>
+        </span>
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.BirthDate)</span>
         <p class="text-error">@Html.ValidationMessageFor(model => model.BirthDate)</p>
     </div>
@@ -100,12 +111,18 @@
     <div id="MeisterInformation" style="width: 500px;">
         <h3>Información del Maestro</h3>
         <div style="float: left; width: 250px;">
-            @Html.EditorFor(model => model.StartDate)
+            @Html.TextBoxFor(model => model.StartDate, new {@class="date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
+            <span class="add-on">
+                <i class="icon-calendar"></i>
+            </span>
             <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.StartDate)</span>
             <p class="text-error">@Html.ValidationMessageFor(model => model.StartDate)</p>
         </div>
         <div style="float: left; width: 250px;">
-            @Html.EditorFor(model => model.EndDate)
+            @Html.TextBoxFor(model => model.EndDate, new {@class="date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
+            <span class="add-on">
+                <i class="icon-calendar"></i>
+            </span>
             <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.EndDate)</span>
             <p class="text-error">@Html.ValidationMessageFor(model => model.EndDate)</p>
         </div>
