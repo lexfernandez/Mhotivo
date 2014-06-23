@@ -164,6 +164,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="App_Data\Repositories\AreaRepository.cs" />
     <Compile Include="Controllers\AcademicYearController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BenefactorController.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Controllers\MeisterController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\ParentController.cs" />
+    <Compile Include="Controllers\PensumController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SendNotifications.cs" />
@@ -191,9 +193,9 @@
     <Compile Include="Logic\AcademicYearLogic.cs" />
     <Compile Include="Logic\ISessionManagement.cs" />
     <Compile Include="Logic\SessionLayer.cs" />
-    <Compile Include="Migrations\201405140046109_DatabaseInitializer.cs" />
-    <Compile Include="Migrations\201405140046109_DatabaseInitializer.Designer.cs">
-      <DependentUpon>201405140046109_DatabaseInitializer.cs</DependentUpon>
+    <Compile Include="Migrations\201406182228497_initial.cs" />
+    <Compile Include="Migrations\201406182228497_initial.Designer.cs">
+      <DependentUpon>201406182228497_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
@@ -488,9 +490,6 @@
     <Content Include="Views\Group\Add.cshtml" />
     <Content Include="Views\Group\Edit.cshtml" />
     <Content Include="Views\Notification\Edit.cshtml" />
-    <Content Include="Views\Course\Edit.cshtml" />
-    <Content Include="Views\Course\Index.cshtml" />
-    <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\AcademicYear\Management.cshtml" />
     <Content Include="Views\Meister\Index.cshtml" />
     <Content Include="Views\Meister\Create.cshtml" />
@@ -508,6 +507,14 @@
     <Content Include="Views\ClassActivity\Create.cshtml" />
     <Content Include="Views\ClassActivity\Edit.cshtml" />
     <Content Include="Views\ClassActivity\Index.cshtml" />
+    <Content Include="Views\Pensum\Index.cshtml" />
+    <Content Include="Views\Pensum\Edit.cshtml" />
+    <Content Include="Views\Pensum\Details.cshtml" />
+    <Content Include="Views\Pensum\Create.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Course\Edit.cshtml" />
+    <Content Include="Views\Course\Details.cshtml" />
+    <Content Include="Views\Course\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">
@@ -519,10 +526,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201405140046109_DatabaseInitializer.resx">
-      <DependentUpon>201405140046109_DatabaseInitializer.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201406182228497_initial.resx">
+      <DependentUpon>201406182228497_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
