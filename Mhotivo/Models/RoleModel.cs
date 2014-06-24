@@ -18,7 +18,7 @@ namespace Mhotivo.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombre")]
         [Display(Name = "Nombre")]
         public String Name { get; set; }
 

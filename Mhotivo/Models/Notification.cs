@@ -11,21 +11,21 @@ namespace Mhotivo.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombre")]
         [Display(Name = "Name")]
         public string EventName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Remitente")]
         public string From { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Destinatario")]
         public virtual string To { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar CC")]
         [Display(Name = "CC")]
         public virtual string WithCopyTo { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar BCC")]
         [Display(Name = "BCC")]
         public virtual string WithHiddenCopyTo { get; set; }
 

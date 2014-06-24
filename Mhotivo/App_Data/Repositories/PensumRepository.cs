@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Mhotivo.Models;
@@ -16,6 +17,7 @@ namespace Mhotivo.App_Data.Repositories
         Pensum Update(Pensum itemToUpdate, bool courseUpdate, bool gradeUpdate);
         Pensum Delete(long id);
         void SaveChanges();
+        IEnumerable<DisplayPensumModel> GetAllPesums();
     }
 
     public class PensumRepository : IPensumRepository
@@ -38,6 +40,16 @@ namespace Mhotivo.App_Data.Repositories
         {
             var pensums = _context.Pensums.Where(x => x.Id == id);
             return pensums.Count() != 0 ? pensums.First() : null;
+        }
+
+        public IEnumerable<DisplayPensumModel> GetAllPesums()
+        {
+            return Query(x => x).ToList().Select(x => new DisplayPensumModel
+            {
+                Course = x.Course.Name,
+                Grade = x.Grade.Name,
+                Id = x.Id
+            });
         }
 
         public Pensum Create(Pensum itemToCreate)

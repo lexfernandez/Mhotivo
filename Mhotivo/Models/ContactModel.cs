@@ -22,11 +22,11 @@ namespace Mhotivo.Models
 
         public People People { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Tipo")]
         [Display(Name = "Tipo")]
         public string Type { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Valor")]
         [Display(Name = "Valor")]
         public string Value { get; set; }
     }
@@ -37,11 +37,11 @@ namespace Mhotivo.Models
 
         public string Controller { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Tipo")]
         [Display(Name = "Tipo")]
         public string Type { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Valor")]
         [Display(Name = "Valor")]
         public string Value { get; set; }
     }

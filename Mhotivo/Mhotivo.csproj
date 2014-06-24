@@ -505,6 +505,10 @@
     <Content Include="Views\ClassActivity\Create.cshtml" />
     <Content Include="Views\ClassActivity\Edit.cshtml" />
     <Content Include="Views\ClassActivity\Index.cshtml" />
+    <Content Include="Views\Pensum\Create.cshtml" />
+    <Content Include="Views\Pensum\Details.cshtml" />
+    <Content Include="Views\Pensum\Edit.cshtml" />
+    <Content Include="Views\Pensum\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mhotivo.Data\Mhotivo.Data.csproj">

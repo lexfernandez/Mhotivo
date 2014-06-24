@@ -16,7 +16,7 @@ namespace Mhotivo.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
         public string Nationality { get; set; }
         public string City { get; set; }
         public string State { get; set; }
@@ -33,7 +33,7 @@ namespace Mhotivo.Models
         [Display(Name = "ID")]
         public long Id { get; set; }
 
-        [Display(Name = "Identificacion")]
+        [Display(Name = "Identificación")]
         public string IdNumber { get; set; }
 
         [Display(Name = "Nombre Completo")]
@@ -63,48 +63,48 @@ namespace Mhotivo.Models
 
     public class PeopleRegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombre")]
         [Display(Name = "Nombre")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombre")]
         [Display(Name = "Apellido")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Nacimiento")]
         [Display(Name = "Fecha de Nacimiento")]
         public string BirthDay { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nacionalidad")]
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Ciudad")]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
-        [Required]
-        [Display(Name = "Pais")]
+        [Required(ErrorMessage = "Debe Ingresar País")]
+        [Display(Name = "País")]
         public string Country { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Estado")]
         [Display(Name = "Estado")]
         public string State { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Dirección")]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 10)]
         [Display(Name = "Dirección")]
         public string Address { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Foto Perfil")]
         [Display(Name = "Foto Perfil")]
         public HttpPostedFileBase FilePicture { get; set; }
 
-        [Required]
-        [Display(Name = "Identificacion")]
+        [Required(ErrorMessage = "Debe Ingresar Identificación")]
+        [Display(Name = "Identificación")]
         public string IdNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
         public string Sexo { get; set; }
     }
@@ -113,53 +113,56 @@ namespace Mhotivo.Models
     {
         public long Id { get; set; }
 
-        [Display(Name = "Identificacion")]
-        public string IdNumber { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombre")]
         [Display(Name = "Nombre")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nombre")]
         [Display(Name = "Apellido")]
         public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = "Nombre Completo")]
-        public string FullName { get; set; }
-
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Fecha de Nacimiento")]
         [Display(Name = "Fecha de Nacimiento")]
         public string BirthDay { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Nacionalidad")]
         [Display(Name = "Nacionalidad")]
         public string Nationality { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Ciudad")]
         [Display(Name = "Ciudad")]
         public string City { get; set; }
 
-        [Required]
-        [Display(Name = "Pais")]
+        [Required(ErrorMessage = "Debe Ingresar País")]
+        [Display(Name = "País")]
         public string Country { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Estado")]
         [Display(Name = "Estado")]
         public string State { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Dirección")]
         [StringLength(300, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 10)]
         [Display(Name = "Dirección")]
         public string Address { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar Foto Perfil")]
         [Display(Name = "Foto Perfil")]
         public HttpPostedFileBase FilePicture { get; set; }
 
-        public string UrlPicture { get; set; }
+        [Required(ErrorMessage = "Debe Ingresar Identificación")]
+        [Display(Name = "Identificación")]
+        public string IdNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
         public string Sexo { get; set; }
+
+        [Required(ErrorMessage = "Debe Ingresar Nombre Completo")]
+        [Display(Name = "Nombre Completo")]
+        public string FullName { get; set; }
+
+        public string UrlPicture { get; set; }
+
     }
 }

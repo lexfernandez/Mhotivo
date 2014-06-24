@@ -84,7 +84,7 @@ namespace Mhotivo.App_Data.Repositories
                     IdNumber = x.IdNumber,
                     UrlPicture = x.UrlPicture,
                     FullName = x.FullName,
-                    BirthDate = x.BirthDate.ToShortDateString(),
+                    BirthDate = x.BirthDate,
                     Nationality = x.Nationality,
                     Address = x.Address,
                     City = x.City,
@@ -94,8 +94,8 @@ namespace Mhotivo.App_Data.Repositories
                     Contacts = x.Contacts,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
-                    StartDate = x.StartDate.ToShortDateString(),
-                    EndDate = x.EndDate.ToShortDateString(),
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
                     Biography = x.Biography
 
                 });
@@ -112,7 +112,7 @@ namespace Mhotivo.App_Data.Repositories
                 FirstName = meister.FirstName,
                 LastName = meister.LastName,
                 FullName = meister.FullName,
-                BirthDate = meister.BirthDate.ToShortDateString(),
+                BirthDate = meister.BirthDate,
                 Nationality = meister.Nationality,
                 Address = meister.Address,
                 City = meister.City,
@@ -120,8 +120,8 @@ namespace Mhotivo.App_Data.Repositories
                 Country = meister.Country,
                 Gender = Utilities.GenderToString(meister.Gender),
                 Contacts = meister.Contacts,
-                StartDate = meister.StartDate.ToShortDateString(),
-                EndDate = meister.EndDate.ToShortDateString(),
+                StartDate = meister.StartDate,
+                EndDate = meister.EndDate,
                 Biography = meister.Biography
             };
         }
@@ -133,15 +133,15 @@ namespace Mhotivo.App_Data.Repositories
             meister.FullName = (meisterEditModel.FirstName + " " + meisterEditModel.LastName).Trim();
             meister.Country = meisterEditModel.Country;
             meister.IdNumber = meisterEditModel.IdNumber;
-            meister.BirthDate = DateTime.Parse(meisterEditModel.BirthDate);
+            meister.BirthDate =meisterEditModel.BirthDate;
             meister.Gender = Utilities.IsMasculino(meisterEditModel.Gender);
             meister.Nationality = meisterEditModel.Nationality;
             meister.State = meisterEditModel.State;
             meister.City = meisterEditModel.City;
             meister.Address = meisterEditModel.Address;
             meister.Biography = meisterEditModel.Biography;
-            meister.StartDate = DateTime.Parse(meisterEditModel.StartDate);
-            meister.EndDate = DateTime.Parse(meisterEditModel.EndDate);
+            meister.StartDate = meisterEditModel.StartDate;
+            meister.EndDate = meisterEditModel.EndDate;
             return Update(meister);
         }
 
@@ -153,7 +153,7 @@ namespace Mhotivo.App_Data.Repositories
                 LastName = meisterRegisterModel.LastName,
                 FullName = (meisterRegisterModel.FirstName + " " + meisterRegisterModel.LastName).Trim(),
                 IdNumber = meisterRegisterModel.IdNumber,
-                BirthDate = DateTime.Parse(meisterRegisterModel.BirthDate),
+                BirthDate = meisterRegisterModel.BirthDate,
                 Gender = Utilities.IsMasculino(meisterRegisterModel.Gender),
                 Nationality = meisterRegisterModel.Nationality,
                 State = meisterRegisterModel.State,
@@ -161,8 +161,8 @@ namespace Mhotivo.App_Data.Repositories
                 City = meisterRegisterModel.City,
                 Address = meisterRegisterModel.Address,
                 Biography = meisterRegisterModel.Biography,
-                StartDate = DateTime.Parse(meisterRegisterModel.StartDate),
-                EndDate = DateTime.Parse(meisterRegisterModel.EndDate)
+                StartDate = meisterRegisterModel.StartDate,
+                EndDate = meisterRegisterModel.EndDate
             };
         }
 
@@ -175,7 +175,7 @@ namespace Mhotivo.App_Data.Repositories
                 LastName = meister.LastName,
                 FullName = (meister.FirstName + " " + meister.LastName).Trim(),
                 IdNumber = meister.IdNumber,
-                BirthDate = meister.BirthDate.ToShortDateString(),
+                BirthDate = meister.BirthDate,
                 Gender = Utilities.GenderToString(meister.Gender),
                 Nationality = meister.Nationality,
                 Country = meister.Country,
@@ -183,8 +183,8 @@ namespace Mhotivo.App_Data.Repositories
                 City = meister.City,
                 Address = meister.Address,
                 Id = meister.Id,
-                StartDate = meister.StartDate.ToShortDateString(),
-                EndDate = meister.EndDate.ToShortDateString(),
+                StartDate = meister.StartDate,
+                EndDate = meister.EndDate,
                 Biography = meister.Biography
             };
         }

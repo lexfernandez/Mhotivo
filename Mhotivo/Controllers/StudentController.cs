@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
@@ -104,7 +105,6 @@ namespace Mhotivo.Controllers
         public ActionResult Add(StudentRegisterModel modelStudent)
         {
             Student myStudent = _studentRepository.GenerateStudentFromRegisterModel(modelStudent);
-
             Student student = _studentRepository.Create(myStudent);
             const string title = "Estudiante Agregado";
             var content = "El estudiante " + myStudent.FullName + " ha sido agregado exitosamente.";

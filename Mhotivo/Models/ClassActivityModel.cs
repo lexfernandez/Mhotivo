@@ -40,45 +40,46 @@ namespace Mhotivo.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Año Académico")]
         [Display(Name = "Año Académico")]
         public int AcademicYearId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Título")]
         [Display(Name = "Título")]
         public string DisplayName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Tipo")]
         [Display(Name = "Tipo")]
         public string Type { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Descripción")]
         [Display(Name = "Descripción")]
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Valor")]
         [Display(Name = "Valor")]
         public double Value { get; set; }
     }
 
     public class ClassActivityRegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Año Académico")]
         [Display(Name = "Año Académico")]
         public int AcademicYearId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Título")]
         [Display(Name = "Título")]
         public string DisplayName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Tipo")]
         [Display(Name = "Tipo")]
         public string Type { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe Ingresar Descripción")]
         [Display(Name = "Descripción")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar Valor")]
         [Display(Name = "Valor")]
         public double Value { get; set; }
     }

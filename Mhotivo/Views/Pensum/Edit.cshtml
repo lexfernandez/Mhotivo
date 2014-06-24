@@ -1,7 +1,7 @@
-﻿@model Mhotivo.Models.Course
+﻿@model Mhotivo.Models.PensumEditModel
 
 @{
-    ViewBag.Title = "Add";
+    ViewBag.Title = "Editar Pensum";
     Layout = "";
 }
 
@@ -9,47 +9,48 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 <div id="body" class="modal-body" style="max-height: 500px;">
-@using (Html.BeginForm("Add", "Course", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"}))
-{
-    @Html.ValidationSummary(true)
+@using (Html.BeginForm("Edit", "Pensum", FormMethod.Post, new { id = "Form", @class="form-horizontal", @Style="margin:0;"}))
+{@Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>Nuevo</legend>
-        
+        <legend>Editar Usuario</legend>
+
+        @Html.HiddenFor(model => model.Id)
         <p class="text-error">
-            @Html.ValidationMessageFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Area)
+            @Html.ValidationMessageFor(model => model.IdCourse)
+            @Html.ValidationMessageFor(model => model.IdGrade)
         </p>
-        
+
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.Name)
+                @Html.LabelFor(model => model.IdCourse)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.Name)
+                @Html.DropDownList("IdCourse")
             </div>
         </div>
-        
+            
         <div class="control-group">
             <div class="control-label">
-                @Html.LabelFor(model => model.Area)
+                @Html.LabelFor(model => model.IdGrade)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.Area)
+                @Html.DropDownList("IdGrade")
             </div>
         </div>
-        
+
+
         <div class="space"></div>
 
         <div class="modal-footer">
             <button data-dismiss="modal" class="btn btn-small">
                 <i class="icon-remove"></i>
-                Cancelar
+                Cancel
             </button>
 
             <button type="submit" class="btn btn-small btn-primary">
                 <i class="icon-ok"></i>
-                Crear
+                Actualizar
             </button>
         </div>
     </fieldset>

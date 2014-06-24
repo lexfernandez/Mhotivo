@@ -1,7 +1,7 @@
 ﻿@model Mhotivo.Models.MeisterEditModel
 
 @{
-    ViewBag.Title = "Editar Padres y Tutores";
+    ViewBag.Title = "Editar Maestro";
     Layout = "";
 }
 
@@ -39,14 +39,18 @@
                 <input type="file" name="FilePicture" id="FilePicture"/>
             </div>
         </div>
-
-        <div class="control-group">
-            <div class="control-label">
-                @Html.LabelFor(model => model.IdNumber)
-            </div>
-            <div class="controls">
-                @Html.EditorFor(model => model.IdNumber)
-            </div>
+        
+        <div class="controls">
+            @*@Html.EditorFor(model => model.IDNumber)*@
+                
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.input-mask-idNumber').mask('9999-9999-99999');
+                });
+            </script>
+               
+            @Html.TextBoxFor(model => model.IdNumber, new { @class="input-large input-mask-idNumber"})
+                
         </div>
 
         <div class="control-group">
@@ -72,7 +76,19 @@
                 @Html.LabelFor(model => model.BirthDate)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.BirthDate)
+                
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('.date-picker').datepicker().on('changeDate', function () {
+                            $(this).datepicker('hide');
+                        });
+                    });
+                </script>
+                @Html.TextBoxFor(model => model.BirthDate, new {@class="date-picker",@data_date_format="dd-mm-yyyy", @readonly=true})
+                <span class="add-on">
+                    <i class="icon-calendar"></i>
+                </span>
+
             </div>
         </div>
 
