@@ -190,7 +190,7 @@
                 @Html.LabelFor(model => model.BloodType)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.BloodType)
+                @Html.DropDownList("BloodType", new List<SelectListItem> { new SelectListItem {Value="O +", Text="O +" }, new SelectListItem{Value="O -", Text="O -"}, new SelectListItem {Value="A +", Text="A +" }, new SelectListItem{Value="A -", Text="A -"}, new SelectListItem {Value="B +", Text="B +" }, new SelectListItem{Value="B -", Text="B -"}, new SelectListItem {Value="AB +", Text="AB +" }, new SelectListItem{Value="AB -", Text="AB -"}})
             </div>
         </div>
            

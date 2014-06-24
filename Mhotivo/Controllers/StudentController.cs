@@ -49,10 +49,8 @@ namespace Mhotivo.Controllers
         {
             StudentEditModel student = _studentRepository.GetStudentEditModelById(id);
 
-            ViewBag.Tutor1Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName",
-                student.FirstParent);
-            ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName",
-                student.SecondParent);
+            ViewBag.FirstParent = new SelectList(_parentRepository.Query(x => x), "Id", "FullName");
+            ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName");
 
             return View("Edit", student);
         }

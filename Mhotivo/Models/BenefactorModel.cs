@@ -75,6 +75,7 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Capacidad")]
         [Range(0, int.MaxValue, ErrorMessage = "La Capacidad debe ser un número entero.")]
+        [RegularExpression(@"^[0-9]{0,15}$", ErrorMessage = "La capacidad debe ser un numero entero")]
         [Display(Name = "Capacidad")]
         public int Capacity { get; set; }
 
@@ -136,6 +137,7 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Capacidad")]
         [Range(0, int.MaxValue, ErrorMessage = "La Capacidad debe ser un número entero.")]
+        [RegularExpression(@"^[0-9]{0,15}$", ErrorMessage = "La capacidad debe ser un numero entero")]
         [Display(Name = "Capacidad")]
         public string Capacity { get; set; }
 

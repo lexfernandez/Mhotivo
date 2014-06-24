@@ -134,8 +134,8 @@ namespace Mhotivo.App_Data.Repositories
                 BloodType = student.BloodType,
                 AccountNumber = student.AccountNumber,
                 Biography = student.Biography,
-                FirstParent = student.Tutor1.FullName,
-                SecondParent = student.FullName
+                FirstParent = student.Tutor1 != null ? student.Tutor1.FullName : null,
+                SecondParent = student.Tutor2 != null ? student.Tutor2.FullName : null
             };
         }
 

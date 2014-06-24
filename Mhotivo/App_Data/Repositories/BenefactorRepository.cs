@@ -178,7 +178,8 @@ namespace Mhotivo.App_Data.Repositories
                 City = benefactor.City,
                 Address = benefactor.Address,
                 Id = benefactor.Id,
-                StudentsCount = benefactor.Students.Count
+                StudentsCount = benefactor.Students.Count,
+                Capacity = benefactor.Capacity
             };
         }
 

@@ -125,14 +125,15 @@
     <br style="clear: left;" />
     <br style="clear: left;" />
     <div style="float: left; width: 250px;">
-        @Html.EditorFor(model => model.BloodType)
+        @Html.DropDownListFor(model => model.Gender, new SelectList (new [] {"O +","O -", "A +","A -", "B +","B -", "AB +","AB -"}) )
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.BloodType)</span>
         <p class="text-error">@Html.ValidationMessageFor(model => model.BloodType)</p>
     </div>
     <br style="clear: left;" />
     <br style="clear: left;" />
     <div style="float: left; width: 250px;">
-        @Html.DropDownList("Tutor1Id", "--Padre o Tutor--")
+        @Html.DropDownListFor(model => model.FirstParent, ViewBag.FirstParent as SelectList)
+        @*@Html.DropDownList("FirstParent", "--Padre o Tutor--")*@
         <br /><span class="InputLabel">@Html.DisplayNameFor(model => model.FirstParent)</span>
         <p class="text-error">@Html.ValidationMessageFor(model => model.FirstParent)</p>
     </div>
