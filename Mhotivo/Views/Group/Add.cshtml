@@ -26,7 +26,7 @@
             @Html.LabelFor(model => model.Name)
         </div>
         <div class="controls">
-            @Html.EditorFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name)  @Html.ValidationMessageFor(model => model.Name)
         </div>
     </div>
     
@@ -45,17 +45,14 @@
         
         <div class="space"></div>
 
-        <div class="modal-footer">
-            <button data-dismiss="modal" class="btn btn-small">
-                <i class="icon-remove"></i>
-                Cancelar
-            </button>
-
-            <button type="submit" class="btn btn-small btn-primary">
-                <i class="icon-ok"></i>
-                Crear
-            </button>
-        </div>
+    <div class="modal-footer">
+        <div class="btn btn-small">@Html.ActionLink("Cancel","Index","Group")</div>
+        
+        <button type="submit" class="btn btn-small btn-primary">
+            <i class="icon-ok"></i>
+            Crear
+        </button>
+    </div>
     
 }
 
@@ -78,7 +75,7 @@
 
     $("#Form").submit(function (event) {
         $('#Users').val($('#Members').val());
-        alert("Handler for .submit() called. : <br/>" + $('#Users').val());
+        //alert("Handler for .submit() called. : <br/>" + $('#Users').val());
         //event.preventDefault();
     });
 </script>

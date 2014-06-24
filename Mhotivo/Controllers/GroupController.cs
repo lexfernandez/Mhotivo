@@ -58,7 +58,7 @@ namespace Mhotivo.Controllers
                 IQueryable<User> users = db.Users.Where(x => usersId.Contains(x.Id));
                 var g = new Group {Name = group.Name, Users = users.ToList()};
 
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && IsNameAvailble(g.Name))
                 {
                     db.Groups.Add(g);
                     db.SaveChanges();
@@ -69,9 +69,9 @@ namespace Mhotivo.Controllers
                     _viewMessageLogic.SetNewMessage("Validación de Información", "La información es inválida.", ViewMessageType.InformationMessage);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                _viewMessageLogic.SetNewMessage("Error", "Algo salió mal, por favor intente de nuevo.", ViewMessageType.ErrorMessage);
+                _viewMessageLogic.SetNewMessage("Error", ex.Message+" salió mal, por favor intente de nuevo.", ViewMessageType.ErrorMessage);
             }
             IQueryable<Group> groups = db.Groups.Select(x => x);
             return RedirectToAction("Index", groups);
@@ -103,7 +103,7 @@ namespace Mhotivo.Controllers
                     g.Users = g.Users.Concat(users).ToList();
                 }
 
-                if (ModelState.IsValid)
+                if (ModelState.IsValid )
                 {
                     db.Entry(g).State = EntityState.Modified;
                     db.SaveChanges();
@@ -154,6 +154,17 @@ namespace Mhotivo.Controllers
             {
                 return false;
             }
+        }
+
+        public bool IsNameAvailble(string name)
+        {
+            var tag = db.Groups.First(g => g.Name.CompareTo(name) == 0);
+            if (tag == null)
+            {
+                return true;
+            }
+            
+            return false;
         }
     }
 }

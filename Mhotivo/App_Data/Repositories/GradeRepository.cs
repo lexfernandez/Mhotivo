@@ -9,7 +9,7 @@ namespace Mhotivo.App_Data.Repositories
 {
     public interface IGradeRepository
     {
-        Grade First(Expression<Func<Grade, Grade>> query);
+        Grade First(Expression<Func<Grade, bool>> query);
         Grade GetById(long id);
         Grade Create(Grade itemToCreate);
         IQueryable<Grade> Query(Expression<Func<Grade, Grade>> expression);
@@ -29,9 +29,9 @@ namespace Mhotivo.App_Data.Repositories
            
         }
         
-        public Grade First(Expression<Func<Grade, Grade>> query)
+        public Grade First(Expression<Func<Grade, bool>> query)
         {
-            return _context.Grades.Select(query).FirstOrDefault();
+            return _context.Grades.First(query);
         }
 
         public Grade GetById(long id)

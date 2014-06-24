@@ -100,14 +100,36 @@ namespace Mhotivo.Controllers
                               EducationLevel = modelGrade.EducationLevel
                           };
 
-            Grade grade = _gradeRepository.Create(myGrade);
-            _gradeRepository.SaveChanges();
+            if (IsNameAvailble(modelGrade.Name))
+            {
+                Grade grade = _gradeRepository.Create(myGrade);
+                _gradeRepository.SaveChanges();
+                const string title = "Alumno Agregado al Grado";
+                var content = "El Alumno " + myGrade.Name + " ha sido agregado exitosamente.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
+            }
+            else
+            {
+                const string title = "Error";
+                var content = "El Alumno " + myGrade.Name + " no fue agregado.";
+                _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.ErrorMessage);
+            }
+            
 
-            const string title = "Alumno Agregado al Grado";
-            var content = "El Alumno " + myGrade.Name + " ha sido agregado exitosamente.";
-            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
+            
 
             return RedirectToAction("Index");
+        }
+
+        public bool IsNameAvailble(string name)
+        {
+            var tag = _gradeRepository.First(g => g.Name.CompareTo(name) == 0);
+            if (tag == null)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         //

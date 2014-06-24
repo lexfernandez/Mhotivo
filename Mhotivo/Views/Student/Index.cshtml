@@ -37,7 +37,7 @@ else
         
             @foreach (var item in Model) {
                 <tr>
-                    <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">
+                    <td >
                         <a href="~/@Html.DisplayNameFor(model => model.UrlPicture)" data-rel="colorbox">
                             <img alt="150x150" src="~/@Html.DisplayNameFor(model => model.UrlPicture)" />
                             <div class="text">
@@ -46,13 +46,14 @@ else
                     </td>
                     
 
-                    <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.FullName)</td>
-			        <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.StartDate)</td>
-                    <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.BloodType)</td>
-                    <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.AccountNumber)</td>
-			        <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.FirstParent)</td>
-			        <td data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">@Html.DisplayFor(modelItem => item.SecondParent)</td>
+                    <td  >@Html.DisplayFor(modelItem => item.FullName)</td>
+			        <td  >@Html.DisplayFor(modelItem => item.StartDate)</td>
+                    <td  >@Html.DisplayFor(modelItem => item.BloodType)</td>
+                    <td  >@Html.DisplayFor(modelItem => item.AccountNumber)</td>
+			        <td  >@Html.DisplayFor(modelItem => item.FirstParent)</td>
+			        <td >@Html.DisplayFor(modelItem => item.SecondParent)</td>
                     <td>
+                        <a data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">Detail</a>
                         <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Student/Edit/@Html.DisplayFor(modelItem => item.Id)"><i class="icon-edit bigger-120"></i></a>
                         <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.Id)_Val"><i class="icon-trash bigger-120"></i></a>
                         @using (Html.BeginForm("Delete", "Student", new { id = Html.DisplayFor(modelItem => item.Id) }, FormMethod.Post,
