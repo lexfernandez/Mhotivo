@@ -53,7 +53,7 @@ else
 			        <td  >@Html.DisplayFor(modelItem => item.FirstParent)</td>
 			        <td >@Html.DisplayFor(modelItem => item.SecondParent)</td>
                     <td>
-                        <a data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">Detail</a>
+                        <a data-id="Student/Details/@Html.DisplayFor(modelItem => item.Id)" class="toDetails">Detalles</a>
                         <a class="toEdit" data-toggle="modal" role="button" data-target="#EditModal" id="/Student/Edit/@Html.DisplayFor(modelItem => item.Id)"><i class="icon-edit bigger-120"></i></a>
                         <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.Id)_Val"><i class="icon-trash bigger-120"></i></a>
                         @using (Html.BeginForm("Delete", "Student", new { id = Html.DisplayFor(modelItem => item.Id) }, FormMethod.Post,
