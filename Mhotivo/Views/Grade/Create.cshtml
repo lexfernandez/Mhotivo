@@ -35,7 +35,9 @@
                 @Html.LabelFor(model => model.EducationLevel)
             </div>
             <div class="controls">
-                @Html.EditorFor(model => model.EducationLevel)
+                <select id="EducationLevel" name="EducationLevel"><option selected="selected" value="Primaria">Primaria</option>
+                <option value="Secundaria">Secundaria</option>
+                </select>
             </div>
         </div>
         
