@@ -18,7 +18,6 @@ namespace Mhotivo.App_Data
         public DbSet<ContactInformation> ContactInformations { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Enroll> Enrolls { get; set; }
-        public DbSet<Event> Events { get; set; }
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Meister> Meisters { get; set; }

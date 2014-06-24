@@ -20,7 +20,7 @@
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
             },
-            defaultView: 'agendaDay',
+            defaultView: 'month',
             editable: true,
             allDaySlot: false,
             selectable: true,
@@ -98,7 +98,7 @@
             'NewEventDate': $('#eventDate').val(),
             'NewEventTime': $('#eventTime').val(),
             'NewEventDuration': $('#eventDuration').val()
-        }
+        };
 
         ClearPopupFormValues();
 
@@ -137,7 +137,7 @@
             'ID': EventID,
             'NewEventStart': EventStart,
             'NewEventEnd': EventEnd
-        }
+        };
 
         $.ajax({
             type: 'POST',
@@ -153,7 +153,7 @@
 
 }
 
-
+@Html.ActionLink("Ir a vista de Agenda","Agenda","Event")
 <div class="container">
 
     <div id='calendar' style="width:80%"></div>

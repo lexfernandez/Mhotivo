@@ -33,7 +33,7 @@ else
                 <tr>
 				    <td>@Html.DisplayFor(modelItem => item.Name)</td>
                     <td>
-                        <a href="/Group/Edit/@Html.DisplayFor(modelItem => item.Id)"><i class="icon-edit bigger-120"></i></a>
+                        <a href="/Group/Edit/@Html.DisplayFor(modelItem => item.Id)"><i class="icon-edit bigger-120">edit</i></a>
                         <a class="toDelete" role="button" id="@Html.DisplayFor(modelItem => item.Id)_Val"><i class="icon-trash bigger-120"></i></a>
                         @using (Html.BeginForm("Delete", "Group", new { id = Html.DisplayFor(modelItem => item.Id) }, FormMethod.Post,
                             new { id = "Form_" + Html.DisplayFor(modelItem => item.Id) + "_Val", style = "display: none" })) { }
