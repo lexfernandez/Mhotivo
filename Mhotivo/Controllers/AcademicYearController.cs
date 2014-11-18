@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.App_Data.Repositories.Interfaces;
 using Mhotivo.Logic;
 using Mhotivo.Models;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.App_Data.Repositories.Interfaces;
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 

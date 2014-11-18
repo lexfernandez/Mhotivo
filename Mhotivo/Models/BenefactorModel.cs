@@ -5,13 +5,6 @@ using System.Web;
 
 namespace Mhotivo.Models
 {
-    public class Benefactor : People
-    {
-        public int Capacity { get; set; }
-
-        public virtual ICollection<Student> Students { get; set; }
-    }
-
     public class DisplayBenefactorModel
     {
         public long Id { get; set; }

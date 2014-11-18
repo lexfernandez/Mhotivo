@@ -1,5 +1,6 @@
 using Mhotivo.App_Data;
 using Mhotivo.App_Data.Repositories;
+using Mhotivo.App_Data.Repositories.Interfaces;
 using Mhotivo.Logic;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Mhotivo.App_Start.NinjectWebCommon), "Start")]
