@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mhotivo.Models
 {
-    public class EventCreate
+    public class EventCreateModel
     {
         [Required(ErrorMessage = "Debe Ingresar Fecha de Inicio")]
         [Display(Name = "Fecha de Inicio")]
