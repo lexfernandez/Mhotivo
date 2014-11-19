@@ -5,11 +5,6 @@ using System.Web;
 
 namespace Mhotivo.Models
 {
-    public class Parent : People
-    {
-        public string JustARandomColumn { get; set; }
-    }
-
     public class DisplayParentModel
     {
         public long Id { get; set; }

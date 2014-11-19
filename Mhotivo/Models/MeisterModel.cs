@@ -4,13 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mhotivo.Models
 {
-    public class Meister : People
-    {
-        public string Biography { get; set; }
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
-    }
-
     public class DisplayMeisterModel
     {
         public long Id { get; set; }
