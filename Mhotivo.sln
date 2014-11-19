@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mhotivo.DBDeployer", "Mhoti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mhotivo.Interface", "Mhotivo.Interface\Mhotivo.Interface.csproj", "{AEC3FFC7-BCA3-4B90-8E44-DEA10E8F89E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mhotivo.Implement", "Mhotivo.Implement\Mhotivo.Implement.csproj", "{60F95856-177F-4D03-A555-EB23E73BFCD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AEC3FFC7-BCA3-4B90-8E44-DEA10E8F89E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEC3FFC7-BCA3-4B90-8E44-DEA10E8F89E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEC3FFC7-BCA3-4B90-8E44-DEA10E8F89E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60F95856-177F-4D03-A555-EB23E73BFCD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60F95856-177F-4D03-A555-EB23E73BFCD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60F95856-177F-4D03-A555-EB23E73BFCD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60F95856-177F-4D03-A555-EB23E73BFCD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
