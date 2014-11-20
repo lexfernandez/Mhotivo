@@ -1,5 +1,9 @@
 using System.Collections.ObjectModel;
 using Mhotivo.Models;
+using Mhotivo.Data.Entities;
+using Mhotivo.Implement.Context;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Interface.Interfaces;
 
 namespace Mhotivo.Migrations
 {
@@ -8,15 +12,15 @@ namespace Mhotivo.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Mhotivo.App_Data.MhotivoContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MhotivoContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "Mhotivo.App_Data.MhotivoContext";
+            ContextKey = "Mhotivo.Implement.Context.MhotivoContext";
         }
 
-        protected override void Seed(Mhotivo.App_Data.MhotivoContext context)
+        protected override void Seed(MhotivoContext context)
         {
             //  This method will be called after migrating to the latest version.
 

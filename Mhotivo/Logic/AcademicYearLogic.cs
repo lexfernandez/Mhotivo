@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Linq;
-using Mhotivo.App_Data.Repositories;
-using Mhotivo.App_Data.Repositories.Interfaces;
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+
+using Mhotivo.Interface.Interfaces;
+using Mhotivo.Implement.Context;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Data.Entities;
+
 using Mhotivo.Models;
 
 namespace Mhotivo.Logic

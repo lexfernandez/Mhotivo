@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using Mhotivo.App_Data;
+//using Mhotivo.App_Data;
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
+using Mhotivo.Data.Entities;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Implement.Context;
+using Mhotivo.Interface.Interfaces;
 
 namespace Mhotivo.Controllers
 {

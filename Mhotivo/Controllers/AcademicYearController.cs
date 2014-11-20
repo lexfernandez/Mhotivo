@@ -7,10 +7,9 @@ using System.Web.WebPages;
 
 using Mhotivo.Interface.Interfaces;
 using Mhotivo.Implement.Repositories;
-
+using AutoMapper;
 using Mhotivo.Logic;
 using Mhotivo.Models;
-using AutoMapper;
 using Mhotivo.Data;
 using Mhotivo.Data.Entities;
 
@@ -80,16 +79,6 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult ChangeTeacher(long id, long teacherId)
         {
-            Mapper.CreateMap<User, UserRegisterModel>().ReverseMap();
-            var newUser = Mapper.Map<UserRegisterModel, User>(registerModel);
-
-            Mapper.CreateMap<AcademicYear, AcademicYearViewData>().ReverseMap();
-
-
-            newUser.RegisterDate = DateTime.Now;
-            newUser.BirthDate = DateTime.Now;
-            newUser.PasswordFlag = DateTime.Now.AddDays(-1);
-
             AcademicYear academicYear = _academicYearRepository.GetById(id);
             Meister meister = _meisterRepository.GetById(teacherId);
             academicYear.Teacher = meister;

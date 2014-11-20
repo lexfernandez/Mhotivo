@@ -2,10 +2,13 @@
 using System.Linq;
 using System.Web;
 using System.Web.Security;
-using Mhotivo.App_Data.Repositories;
-using Mhotivo.App_Data.Repositories.Interfaces;
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+using Mhotivo.Data.Entities;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Interface.Interfaces;
 using Mhotivo.Models;
-
+using AutoMapper;
 
 namespace Mhotivo.Logic
 {
