@@ -159,8 +159,8 @@ namespace Mhotivo.Controllers
         {
             var myStudent = _studentRepository.GetById(modelStudent.Id);
 
-            Mapper.CreateMap<StudentEditModel, Student>().ReverseMap();
-            var studentModel = Mapper.Map<Student, StudentEditModel>(myStudent);
+            Mapper.CreateMap<Student, StudentEditModel>().ReverseMap();
+            var studentModel = Mapper.Map<StudentEditModel, Student>(modelStudent);
 
             _studentRepository.UpdateStudentFromStudentEditModel(studentModel, myStudent);
 
