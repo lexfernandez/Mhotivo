@@ -14,7 +14,8 @@ namespace Mhotivo.Implement
 
         public static bool IsMasculino(string sex)
         {
-            return sex.Equals("Masculino");
+            return sex.Equals("Hombre");
+
         }
     }
 }
