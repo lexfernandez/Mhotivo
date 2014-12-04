@@ -149,6 +149,7 @@
   <ItemGroup>
     <Compile Include="App_Data\IRepository.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\AutoMapperConfiguration.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -189,19 +190,25 @@
     <Compile Include="Migrations\201411210122159_RenameBD.Designer.cs">
       <DependentUpon>201411210122159_RenameBD.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412032215213_Allen.cs" />
+    <Compile Include="Migrations\201412032215213_Allen.Designer.cs">
+      <DependentUpon>201412032215213_Allen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
+    <Compile Include="Models\AppointmentDiaryModel.cs" />
     <Compile Include="Models\AreaModel.cs" />
     <Compile Include="Models\BenefactorModel.cs" />
     <Compile Include="Models\ClassActivityModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
-    <Compile Include="Models\DiaryEvent.cs" />
+    <Compile Include="Models\DiaryEventModel.cs" />
     <Compile Include="Models\EnrollModel.cs" />
     <Compile Include="Models\EventCreateModel.cs" />
     <Compile Include="Models\GradeModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\MeisterModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
     <Compile Include="Models\ParentModel.cs" />
     <Compile Include="Models\PensumModel.cs" />
     <Compile Include="Models\PeopleModel.cs" />
@@ -347,6 +354,7 @@
     <Content Include="Scripts\bootstrap-tagsinput.min.js" />
     <Content Include="Scripts\bootstrap-wysiwyg.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\fake_json_endpoint.html" />
     <Content Include="Scripts\fullcalendar.js" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
@@ -362,6 +370,9 @@
     <Content Include="Scripts\jquery.hotkeys.min.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\jquery.mobile.custom.min.js" />
+    <Content Include="Scripts\jquery.tagsinput.css" />
+    <Content Include="Scripts\jquery.tagsinput.js" />
+    <Content Include="Scripts\jquery.tagsinput.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -531,6 +542,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411210122159_RenameBD.resx">
       <DependentUpon>201411210122159_RenameBD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412032215213_Allen.resx">
+      <DependentUpon>201412032215213_Allen.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

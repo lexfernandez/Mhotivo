@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 //using Mhotivo.App_Data.Repositories;
 //using Mhotivo.App_Data.Repositories.Interfaces;
 using Mhotivo.Data.Entities;
@@ -26,24 +28,20 @@ namespace Mhotivo.Controllers
         public ActionResult Index()
         {
             _viewMessageLogic.SetViewMessageIfExist();
-            return View(_userRepository.GetAllUsers());
+
+            var listaUsuarios = _userRepository.GetAllUsers();
+
+            var listaUsuariosModel = listaUsuarios.Select(Mapper.Map<DisplayUserModel>);
+
+            return View(listaUsuariosModel);
         }
 
         [HttpGet]
         public ActionResult Edit(long id)
         {
             User thisUser = _userRepository.GetById(id);
-            var user = new UserEditModel
-                       {
-                           Email = thisUser.Email,
-                           Id = thisUser.Id,
-                           DisplayName = thisUser.DisplayName,
-                           Password = thisUser.Password,
-                           ConfirmPassword = thisUser.Password,
-                           Status = thisUser.Status,
-                           RoleId = thisUser.Role.Id
-                       };
-
+            
+            var user = Mapper.Map<UserEditModel>(thisUser);
             ViewBag.RoleId = new SelectList(_roleRepository.Query(x => x), "Id", "Name", thisUser.Role.Id);
 
             return View("Edit", user);
@@ -53,18 +51,17 @@ namespace Mhotivo.Controllers
         public ActionResult Edit(UserEditModel modelUser)
         {
             bool updateRole = false;
-            User myUser = _userRepository.GetById(modelUser.Id);
-            myUser.DisplayName = modelUser.DisplayName;
-            myUser.Email = modelUser.Email;
-            myUser.Password = modelUser.Password;
-            myUser.Status = modelUser.Status;
-            if (myUser.Role.Id != modelUser.RoleId)
+
+            var myUser = Mapper.Map<User>(modelUser);
+
+            if( myUser.Role==null || myUser.Role.Id != modelUser.RoleId)
             {
                 myUser.Role = _roleRepository.GetById(modelUser.RoleId);
                 updateRole = true;
             }
 
             User user = _userRepository.Update(myUser, updateRole);
+
             const string title = "Usuario Actualizado";
             var content = "El usuario " + user.DisplayName + " - " + user.Email +
                              " ha sido actualizado exitosamente.";
@@ -96,15 +93,7 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Add(UserRegisterModel modelUser)
         {
-            var myUser = new User
-                         {
-                             DisplayName = modelUser.DisplaName,
-                             Email = modelUser.UserName,
-                             Password = modelUser.Password,
-                             Role = _roleRepository.GetById(modelUser.Id),
-                             Status = modelUser.Status
-                         };
-
+            var myUser = Mapper.Map<User>(modelUser);
             var user = _userRepository.Create(myUser);
 
             const string title = "Usuario Agregado";

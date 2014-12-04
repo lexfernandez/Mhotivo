@@ -38,13 +38,13 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            var notification = new Notification();
+            var notification = new NotificationModel();
             ;
             return View("Add", notification);
         }
 
         [HttpPost]
-        public ActionResult Add(Notification eventNotification)
+        public ActionResult Add(NotificationModel eventNotification)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace Mhotivo.Controllers
         // POST: /Notification/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, Notification notification)
+        public ActionResult Edit(int id, NotificationModel notification)
         {
             try
             {

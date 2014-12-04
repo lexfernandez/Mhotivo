@@ -66,6 +66,7 @@
     <Compile Include="Entities\ContactInformation.cs" />
     <Compile Include="Entities\Course.cs" />
     <Compile Include="Entities\Enroll.cs" />
+    <Compile Include="Entities\AppointmentParticipants.cs" />
     <Compile Include="Entities\Grade.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Meister.cs" />
