@@ -152,7 +152,7 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
-        public string Gender { get; set; }
+        public bool Gender { get; set; }
 
     }
 }

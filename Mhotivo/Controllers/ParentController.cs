@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 
 //using Mhotivo.App_Data.Repositories;
 //using Mhotivo.App_Data.Repositories.Interfaces;
@@ -31,7 +32,12 @@ namespace Mhotivo.Controllers
         {
             _viewMessageLogic.SetViewMessageIfExist();
 
-            return View(_parentRepository.GetAllParents());
+            var allParents = _parentRepository.GetAllParents();
+
+            Mapper.CreateMap<DisplayParentModel, Parent>().ReverseMap();
+            var allParentDisplaysModel = allParents.Select(Mapper.Map<Parent, DisplayParentModel>).ToList();
+
+            return View(allParentDisplaysModel);
         }
 
         [HttpGet]

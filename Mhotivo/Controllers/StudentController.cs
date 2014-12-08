@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 //using Mhotivo.App_Data.Repositories;
 //using Mhotivo.App_Data.Repositories.Interfaces;
@@ -30,7 +32,12 @@ namespace Mhotivo.Controllers
         public ActionResult Index()
         {
             _viewMessageLogic.SetViewMessageIfExist();
-            return View(_studentRepository.GetAllStudents());
+            var allStudents = _studentRepository.GetAllStudents();
+
+            Mapper.CreateMap<DisplayStudentModel, Student>().ReverseMap();
+            var allStudentDisplaysModel = allStudents.Select(Mapper.Map<Student, DisplayStudentModel>).ToList();
+
+            return View(allStudentDisplaysModel);
         }
 
         [HttpGet]
