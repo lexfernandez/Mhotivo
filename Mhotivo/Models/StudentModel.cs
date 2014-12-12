@@ -129,6 +129,7 @@ namespace Mhotivo.Models
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar un Numero de Cuenta")]
         [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 
@@ -202,7 +203,7 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
-        public string Gender { get; set; }
+        public bool Gender { get; set; }
 
         [Required(ErrorMessage = "Debe Ingresar Fecha de Inicio")]
         [Display(Name = "Fecha de Inicio")]
@@ -212,6 +213,7 @@ namespace Mhotivo.Models
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar un Número de Cuenta")]
         [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 
@@ -221,10 +223,10 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Padre o Tutor")]
         [Display(Name = "Padre o Tutor")]
-        public Parent FirstParent { get; set; }
+        public long FirstParent { get; set; }
 
         [Required(ErrorMessage = "Debe Ingresar Madre o Segundo Tutor")]
         [Display(Name = "Madre o Segundo Tutor")]
-        public Parent SecondParent { get; set; }
+        public long SecondParent { get; set; }
     }
 }

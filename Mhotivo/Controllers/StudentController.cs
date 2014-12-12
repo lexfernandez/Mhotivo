@@ -114,8 +114,9 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            ViewBag.Tutor1Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName");
-            ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName");
+            ViewBag.Tutor1Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName",0);
+            ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName",0);
+            
             return View("Create");
         }
 
@@ -123,8 +124,10 @@ namespace Mhotivo.Controllers
         public ActionResult Add(StudentRegisterModel modelStudent)
         {
             Mapper.CreateMap<Student, StudentRegisterModel>().ReverseMap();
-            var studentModel = Mapper.Map<StudentRegisterModel, Student>(modelStudent);
 
+            var studentModel = Mapper.Map<StudentRegisterModel, Student>(modelStudent);
+            studentModel.Tutor1 = _parentRepository.GetById(modelStudent.FirstParent);
+            studentModel.Tutor2 = _parentRepository.GetById(modelStudent.SecondParent);
             var myStudent = _studentRepository.GenerateStudentFromRegisterModel(studentModel);
             var student = _studentRepository.Create(myStudent);
             const string title = "Estudiante Agregado";
