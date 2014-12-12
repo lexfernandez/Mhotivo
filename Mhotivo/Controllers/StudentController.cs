@@ -64,9 +64,9 @@ namespace Mhotivo.Controllers
             var studentModel = Mapper.Map<Student, StudentEditModel>(student);
 
             ViewBag.Tutor1Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName",
-                studentModel.FirstParent);
+                studentModel.Tutor1);
             ViewBag.Tutor2Id = new SelectList(_parentRepository.Query(x => x), "Id", "FullName",
-                studentModel.SecondParent);
+                studentModel.Tutor2);
 
             return View("Edit", studentModel);
         }

@@ -47,8 +47,7 @@ namespace Mhotivo.Implement.Repositories
         public IQueryable<Student> Query(Expression<Func<Student, Student>> expression)
         {
             var myStudents = _context.Students.Select(expression);
-            //return myStudents.Count() != 0 ? myStudents.Include(x => x.Tutor1) : myStudents;
-            return myStudents;
+            return myStudents.Count() != 0 ? myStudents.Include(x => x.Tutor1) : myStudents;
         }
 
         public IQueryable<Student> Filter(Expression<Func<Student, bool>> expression)
