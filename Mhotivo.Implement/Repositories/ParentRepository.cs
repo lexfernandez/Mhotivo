@@ -28,12 +28,13 @@ namespace Mhotivo.Implement.Repositories
 
         public Parent GetById(long id)
         {
-            var parent = _context.Parents.Where(x => x.Id == id);
+            var parent = _context.Parents.Where(x => x.Id == id && !x.Disable);
             return parent.Count() != 0 ? parent.First() : null;
         }
 
         public Parent Create(Parent itemToCreate)
         {
+            itemToCreate.Disable = false;
             var parent = _context.Parents.Add(itemToCreate);
             _context.SaveChanges();
             return parent;
@@ -60,14 +61,14 @@ namespace Mhotivo.Implement.Repositories
         public Parent Delete(long id)
         {
             var itemToDelete = GetById(id);
-            _context.Parents.Remove(itemToDelete);
+            itemToDelete.Disable = true;
             _context.SaveChanges();
             return itemToDelete;
         }
 
         public IEnumerable<Parent> GetAllParents()
         {
-            return Query(x => x).ToList().Select(x => new Parent
+            return Query(x => x).Where(x => !x.Disable).ToList().Select(x => new Parent
             {
                 Id = x.Id,
                 IdNumber = x.IdNumber,
@@ -83,7 +84,8 @@ namespace Mhotivo.Implement.Repositories
                 Gender = x.Gender,
                 Contacts = x.Contacts,
                 FirstName = x.FirstName,
-                LastName = x.LastName
+                LastName = x.LastName,
+                Photo = x.Photo
             });
         }
 
@@ -107,6 +109,7 @@ namespace Mhotivo.Implement.Repositories
                 //Gender = Utilities.GenderToString(parent.Gender),
                 Gender = parent.Gender,
                 Contacts = parent.Contacts,
+                Photo = parent.Photo
             };
         }
 
@@ -124,6 +127,7 @@ namespace Mhotivo.Implement.Repositories
             parent.State = parentEditModel.State;
             parent.City = parentEditModel.City;
             parent.Address = parentEditModel.Address;
+            parent.Photo = parentEditModel.Photo;
             return Update(parent);
         }
 
@@ -143,6 +147,7 @@ namespace Mhotivo.Implement.Repositories
                 Country = parentRegisterModel.Country,
                 City = parentRegisterModel.City,
                 Address = parentRegisterModel.Address,
+                Photo = parentRegisterModel.Photo,
             };
         }
 
@@ -164,6 +169,7 @@ namespace Mhotivo.Implement.Repositories
                 City = parent.City,
                 Address = parent.Address,
                 Id = parent.Id,
+                Photo = parent.Photo,
             };
         }
 
