@@ -119,7 +119,11 @@ namespace Mhotivo.Controllers
             var parentModel = Mapper.Map<ParentRegisterModel, Parent>(modelParent);
 
             var myParent = _parentRepository.GenerateParentFromRegisterModel(parentModel);
-            
+            if (_parentRepository.ExistIdNumber(modelParent.IdNumber))
+            {
+                _viewMessageLogic.SetNewMessage("Padre o Tutor Agregado", "Ya existe este IdNumber", ViewMessageType.ErrorMessage);
+                return View("Create");
+            }
 
             Parent parent = _parentRepository.Create(myParent);
             const string title = "Padre o Tutor Agregado";

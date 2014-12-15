@@ -172,6 +172,15 @@ namespace Mhotivo.Implement.Repositories
             _context.SaveChanges();
         }
 
+        public bool ExistIdNumber(string idNumber)
+        {
+            var parentWithIdNumber = _context.Parents.Where(x => x.IdNumber.Equals(idNumber));
+            if (parentWithIdNumber.Any())
+                return true;
+
+            return false;
+        }
+
         internal void Detach(Parent parent)
         {
             _context.Entry(parent).State = EntityState.Detached;
