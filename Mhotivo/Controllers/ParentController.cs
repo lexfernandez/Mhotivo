@@ -123,7 +123,7 @@ namespace Mhotivo.Controllers
 
             Parent parent = _parentRepository.Create(myParent);
             const string title = "Padre o Tutor Agregado";
-            var content = "El Padre o Tutor " + myParent.FullName + "ha sido agregado exitosamente.";
+            var content = "El Padre o Tutor " + myParent.FullName + " ha sido agregado exitosamente.";
             _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
