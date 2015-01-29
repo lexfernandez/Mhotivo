@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mhotivo.Models
 {
-    public class Course
+    public class Course /* TODO: This should have a separate model */
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mhotivo.Models
 {
-    public class Area
+    public class Area /*Separate model from entity */
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

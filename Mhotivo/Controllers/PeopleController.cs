@@ -1,7 +1,12 @@
 ﻿using System.Web.Mvc;
-using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+using Mhotivo.Interface.Interfaces;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Data.Entities;
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
+using AutoMapper;
 
 namespace Mhotivo.Controllers
 {
@@ -25,16 +30,22 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Edit(long Id)
         {
-            PeopleEditModel people = _peopleRepository.GetPeopleEditModelById(Id);
+            var people = _peopleRepository.GetPeopleEditModelById(Id);
+            Mapper.CreateMap<PeopleEditModel, People>().ReverseMap();
+            var peopleModel = Mapper.Map<People, PeopleEditModel>(people);
 
-            return View("Edit", people);
+            return View("Edit", peopleModel);
         }
 
         [HttpPost]
         public ActionResult Edit(PeopleEditModel peopleModel)
         {
-            People people = _peopleRepository.GetById(peopleModel.Id);
-            _peopleRepository.UpdatePeopleFromPeopleEditModel(peopleModel, people);
+            var people = _peopleRepository.GetById(peopleModel.Id);
+
+            Mapper.CreateMap<People, PeopleEditModel>().ReverseMap();
+            var peopleEdit = Mapper.Map<PeopleEditModel, People>(peopleModel);
+
+            _peopleRepository.UpdatePeopleFromPeopleEditModel(peopleEdit, people);
 
             const string title = "Persona Actualizada";
             var content = "La persona " + people.FullName + " - " + people.Id + " ha sido actualizada exitosamente.";

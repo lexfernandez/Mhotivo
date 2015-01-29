@@ -1,17 +1,11 @@
-﻿using System;
+﻿using Mhotivo.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace Mhotivo.Models
 {
-    public class Benefactor : People
-    {
-        public int Capacity { get; set; }
-
-        public virtual ICollection<Student> Students { get; set; }
-    }
-
     public class DisplayBenefactorModel
     {
         public long Id { get; set; }

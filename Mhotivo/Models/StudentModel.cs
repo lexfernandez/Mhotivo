@@ -1,22 +1,11 @@
-﻿using System;
+﻿using Mhotivo.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace Mhotivo.Models
 {
-    public class Student : People
-    {
-        public string StartDate { get; set; }
-        public string BloodType { get; set; }
-        public string AccountNumber { get; set; }
-        public string Biography { get; set; }
-
-        public virtual Parent Tutor1 { get; set; }
-        public virtual Parent Tutor2 { get; set; }
-        public virtual Benefactor Benefactor { get; set; }
-    }
-
     public class DisplayStudentModel
     {
         public long Id { get; set; }
@@ -140,6 +129,7 @@ namespace Mhotivo.Models
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar un Numero de Cuenta")]
         [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 
@@ -223,6 +213,7 @@ namespace Mhotivo.Models
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar un Número de Cuenta")]
         [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 

@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Mhotivo.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace Mhotivo.Models
 {
-    public class Parent : People
-    {
-        public string JustARandomColumn { get; set; }
-    }
-
     public class DisplayParentModel
     {
         public long Id { get; set; }
@@ -156,7 +152,7 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
-        public string Gender { get; set; }
+        public bool Gender { get; set; }
 
     }
 }

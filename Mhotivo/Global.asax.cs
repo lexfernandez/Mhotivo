@@ -7,7 +7,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Mhotivo.App_Data;
+//using Mhotivo.App_Data;
+using Mhotivo.Implement.Context;
 using Mhotivo.Migrations;
 
 namespace Mhotivo

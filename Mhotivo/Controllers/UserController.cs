@@ -1,7 +1,12 @@
-﻿using System.Web.Mvc;
-using Mhotivo.App_Data.Repositories;
+﻿using Mhotivo.Data.Entities;
+using Mhotivo.Encryption;
+using Mhotivo.Interface.Interfaces;
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
+
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+using System.Web.Mvc;
 
 namespace Mhotivo.Controllers
 {
@@ -29,15 +34,15 @@ namespace Mhotivo.Controllers
         {
             User thisUser = _userRepository.GetById(id);
             var user = new UserEditModel
-                       {
-                           Email = thisUser.Email,
-                           Id = thisUser.Id,
-                           DisplayName = thisUser.DisplayName,
-                           Password = thisUser.Password,
-                           ConfirmPassword = thisUser.Password,
-                           Status = thisUser.Status,
-                           RoleId = thisUser.Role.Id
-                       };
+            {
+                Email = thisUser.Email,
+                Id = thisUser.Id,
+                DisplayName = thisUser.DisplayName,
+                Password = thisUser.Password,
+                ConfirmPassword = thisUser.Password,
+                Active = thisUser.Status,
+                RoleId = thisUser.Role.Id,
+            };
 
             ViewBag.RoleId = new SelectList(_roleRepository.Query(x => x), "Id", "Name", thisUser.Role.Id);
 
@@ -52,7 +57,8 @@ namespace Mhotivo.Controllers
             myUser.DisplayName = modelUser.DisplayName;
             myUser.Email = modelUser.Email;
             myUser.Password = modelUser.Password;
-            myUser.Status = modelUser.Status;
+            myUser.Status = modelUser.Active;
+
             if (myUser.Role.Id != modelUser.RoleId)
             {
                 myUser.Role = _roleRepository.GetById(modelUser.RoleId);
@@ -61,7 +67,7 @@ namespace Mhotivo.Controllers
 
             User user = _userRepository.Update(myUser, updateRole);
             const string title = "Usuario Actualizado";
-            var content = "El usuario " + user.DisplayName + " - " + user.Email +
+            string content = "El usuario " + user.DisplayName + " - " + user.Email +
                              " ha sido actualizado exitosamente.";
 
             _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
@@ -72,10 +78,12 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Delete(long id)
         {
-            User user = _userRepository.Delete(id);
-
+            User myUser = _userRepository.GetById(id);
+            myUser.Status = false;
+            _userRepository.Update(myUser, true);
             const string title = "Usuario Eliminado";
-            var content = "El usuario " + user.DisplayName + " - " + user.Email + " ha sido eliminado exitosamente.";
+            string content = "El usuario " + myUser.DisplayName + " - " + myUser.Email +
+                             " ha sido eliminado exitosamente.";
             _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
 
             return RedirectToAction("Index");
@@ -92,18 +100,18 @@ namespace Mhotivo.Controllers
         public ActionResult Add(UserRegisterModel modelUser)
         {
             var myUser = new User
-                         {
-                             DisplayName = modelUser.DisplaName,
-                             Email = modelUser.UserName,
-                             Password = modelUser.Password,
-                             Role = _roleRepository.GetById(modelUser.Id),
-                             Status = modelUser.Status
-                         };
+             {
+                 DisplayName = modelUser.DisplaName,
+                 Email = modelUser.UserName,
+                 Password = Md5CryptoService.EncryptData(modelUser.Password),
+                 Role = _roleRepository.GetById(modelUser.Id),
+                 Status = true
+             };
 
-            var user = _userRepository.Create(myUser);
+            User user = _userRepository.Create(myUser);
 
             const string title = "Usuario Agregado";
-            var content = "El usuario " + user.DisplayName + " - " + user.Email + " ha sido agregado exitosamente.";
+            string content = "El usuario " + user.DisplayName + " - " + user.Email + " ha sido agregado exitosamente.";
             _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");

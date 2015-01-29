@@ -3,23 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using Mhotivo.App_Data.Repositories.Interfaces;
 using Mhotivo.Models;
 
 namespace Mhotivo.App_Data.Repositories
 {
-    public interface IRoleRepository :  IDisposable
-    {
-        Role First(Expression<Func<Role, Role>> query);
-        Role GetById(long id);
-        Role Create(Role itemToCreate);
-        IQueryable<TResult> Query<TResult>(Expression<Func<Role, TResult>> expression);
-        IQueryable<Role> Filter(Expression<Func<Role, bool>> expression);
-        Role Update(Role itemToUpdate);
-        void Delete(Role itemToDelete);
-        void SaveChanges();
-        IEnumerable<Role> GetAllRoles();
-    }
-
     public class RoleRepository : IRoleRepository
     {
         private readonly MhotivoContext _context;

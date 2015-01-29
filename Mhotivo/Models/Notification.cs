@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace Mhotivo.Models
 {
-    public class Notification
+    public class Notification /*TODO: Separate model from entity */
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mhotivo.Models
 {
-    public class ClassActivityGrading
+    public class ClassActivityGrading /*TODO: separate entity from model */
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

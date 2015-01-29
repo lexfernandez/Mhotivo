@@ -2,8 +2,13 @@
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using Mhotivo.App_Data;
+//using Mhotivo.App_Data;
 using Mhotivo.Models;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Interface.Interfaces;
+using Mhotivo.Data.Entities;
+using Mhotivo.Implement.Context;
+
 
 namespace Mhotivo.Controllers
 {

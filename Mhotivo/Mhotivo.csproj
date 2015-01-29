@@ -40,6 +40,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
@@ -141,22 +147,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Data\MhotivoContext.cs" />
     <Compile Include="App_Data\IRepository.cs" />
-    <Compile Include="App_Data\Repositories\AcademicYearRepository.cs" />
-    <Compile Include="App_Data\Repositories\BenefactorRepository.cs" />
-    <Compile Include="App_Data\Repositories\ClassActivityRepository.cs" />
-    <Compile Include="App_Data\Repositories\ContactRepository.cs" />
-    <Compile Include="App_Data\Repositories\CourseRepository.cs" />
-    <Compile Include="App_Data\Repositories\EnrollRepository.cs" />
-    <Compile Include="App_Data\Repositories\DiaryEventRepository.cs" />
-    <Compile Include="App_Data\Repositories\MeisterRepository.cs" />
-    <Compile Include="App_Data\Repositories\ParentRepository.cs" />
-    <Compile Include="App_Data\Repositories\PensumRepository.cs" />
-    <Compile Include="App_Data\Repositories\PeopleRepository.cs" />
-    <Compile Include="App_Data\Repositories\RoleRepository.cs" />
-    <Compile Include="App_Data\Repositories\StudentRepository.cs" />
-    <Compile Include="App_Data\Repositories\UserRepository.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -171,7 +162,6 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\EnrollController.cs" />
     <Compile Include="Controllers\EventController.cs" />
-    <Compile Include="App_Data\Repositories\GradeRepository.cs" />
     <Compile Include="Controllers\GradeController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -183,6 +173,8 @@
     <Compile Include="Controllers\SendNotifications.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Encryption\IEncryption.cs" />
+    <Compile Include="Encryption\MD5CryptoService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,22 +183,28 @@
     <Compile Include="Logic\SessionLayer.cs" />
     <Compile Include="Logic\ViewMessage\ViewMessageLogic.cs" />
     <Compile Include="Logic\ViewMessage\ViewMessageType.cs" />
+    <Compile Include="Migrations\201406232303419__initial.cs" />
+    <Compile Include="Migrations\201406232303419__initial.Designer.cs">
+      <DependentUpon>201406232303419__initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411210122159_RenameBD.cs" />
+    <Compile Include="Migrations\201411210122159_RenameBD.Designer.cs">
+      <DependentUpon>201411210122159_RenameBD.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
-    <Compile Include="Models\AppointmentDiary.cs" />
     <Compile Include="Models\AreaModel.cs" />
     <Compile Include="Models\BenefactorModel.cs" />
-    <Compile Include="Models\ClassActivityGradingModel.cs" />
     <Compile Include="Models\ClassActivityModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
-    <Compile Include="Models\CourseModel.cs" />
     <Compile Include="Models\DiaryEvent.cs" />
     <Compile Include="Models\EnrollModel.cs" />
+    <Compile Include="Models\EventCreateModel.cs" />
     <Compile Include="Models\GradeModel.cs" />
+    <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupModel.cs" />
     <Compile Include="Models\MeisterModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
-    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\ParentModel.cs" />
     <Compile Include="Models\PensumModel.cs" />
     <Compile Include="Models\PeopleModel.cs" />
@@ -515,12 +513,28 @@
       <Project>{1ee5faf4-d47a-4655-950f-8d8e1eaadfe0}</Project>
       <Name>Mhotivo.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mhotivo.Implement\Mhotivo.Implement.csproj">
+      <Project>{60f95856-177f-4d03-a555-eb23e73bfcd7}</Project>
+      <Name>Mhotivo.Implement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mhotivo.Interface\Mhotivo.Interface.csproj">
+      <Project>{aec3ffc7-bca3-4b90-8e44-dea10e8f89e8}</Project>
+      <Name>Mhotivo.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Filters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201406232303419__initial.resx">
+      <DependentUpon>201406232303419__initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411210122159_RenameBD.resx">
+      <DependentUpon>201411210122159_RenameBD.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -550,6 +564,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

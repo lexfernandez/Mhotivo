@@ -1,7 +1,16 @@
 ﻿using System.Web.Mvc;
-using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+
+using Mhotivo.Interface.Interfaces;
+using Mhotivo.Implement.Repositories;
+
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
+
+using Mhotivo.Data;
+using Mhotivo.Data.Entities;
+using AutoMapper;
 
 namespace Mhotivo.Controllers
 {
@@ -63,8 +72,12 @@ namespace Mhotivo.Controllers
             }
             else
             {
-                Benefactor myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
-                _benefactorRepository.UpdateBenefactorFromBenefactorEditModel(modelBenefactor, myBenefactor);
+                var myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
+
+                Mapper.CreateMap<Benefactor, BenefactorEditModel>().ReverseMap();
+                var editBenefactor = Mapper.Map<BenefactorEditModel, Benefactor>(modelBenefactor);
+
+                _benefactorRepository.UpdateBenefactorFromBenefactorEditModel(editBenefactor, myBenefactor);
 
                 const string title = "Beneficiario Actualizado";
                 var content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";
@@ -106,7 +119,10 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Add(BenefactorRegisterModel modelBenefactor)
         {
-            Benefactor myBenefactor = _benefactorRepository.GenerateBenefactorFromRegisterModel(modelBenefactor);
+            Mapper.CreateMap<Benefactor, BenefactorRegisterModel>().ReverseMap();
+            var regBenefactor = Mapper.Map<BenefactorRegisterModel, Benefactor>(modelBenefactor);
+
+            var myBenefactor = _benefactorRepository.GenerateBenefactorFromRegisterModel(regBenefactor);
 
             _benefactorRepository.Create(myBenefactor);
             const string title = "Padre o Tutor Agregado";
@@ -119,7 +135,10 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult Details(long id)
         {
-            DisplayBenefactorModel benefactor = _benefactorRepository.GetBenefactorDisplayModelById(id);
+            var benefactor = _benefactorRepository.GetBenefactorDisplayModelById(id);
+
+            Mapper.CreateMap<DisplayBenefactorModel, Benefactor>().ReverseMap();
+            var modelBenefactor = Mapper.Map<Benefactor, DisplayBenefactorModel>(benefactor);
 
             return View("Details", benefactor);
         }
@@ -127,9 +146,12 @@ namespace Mhotivo.Controllers
         [HttpGet]
         public ActionResult DetailsEdit(long id)
         {
-            BenefactorEditModel benefactor = _benefactorRepository.GetBenefactorEditModelById(id);
+            var benefactor = _benefactorRepository.GetBenefactorEditModelById(id);
 
-            return View("DetailsEdit", benefactor);
+            Mapper.CreateMap<BenefactorEditModel, Benefactor>().ReverseMap();
+            var modelBenefactor = Mapper.Map<Benefactor, BenefactorEditModel>(benefactor);
+
+            return View("DetailsEdit", modelBenefactor);
         }
 
         [HttpPost]
@@ -145,8 +167,12 @@ namespace Mhotivo.Controllers
             }
             else
             {
-                Benefactor myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
-                _benefactorRepository.UpdateBenefactorFromBenefactorEditModel(modelBenefactor, myBenefactor);
+                var myBenefactor = _benefactorRepository.GetById(modelBenefactor.Id);
+
+                Mapper.CreateMap<Benefactor, BenefactorEditModel>().ReverseMap();
+                var editlBenefactor = Mapper.Map<BenefactorEditModel, Benefactor>(modelBenefactor);
+
+                _benefactorRepository.UpdateBenefactorFromBenefactorEditModel(editlBenefactor, myBenefactor);
 
                 const string title = "Beneficiario Actualizado";
                 var content = "El Beneficiario " + myBenefactor.FullName + " ha sido actualizado exitosamente.";

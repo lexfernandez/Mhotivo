@@ -1,23 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Mhotivo.Models
 {
-    public class User
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        public string Email { get; set; }
-        public string DisplayName { get; set; }
-        public string Password { get; set; }
-        public bool Status { get; set; }
-        public Role Role { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
-    }
-
     public class DisplayUserModel
     {
         public int Id { get; set; }
@@ -28,11 +12,11 @@ namespace Mhotivo.Models
         [Display(Name = "Nombre")]
         public string DisplayName { get; set; }
 
-        [Display(Name = "Estado")]
-        public string Status { get; set; }
-
         [Display(Name = "Tipo de Usuario")]
         public string Role { get; set; }
+
+        [Display(Name = "Activo")]
+        public string Status { get; set; }
     }
 
     public class LocalPasswordModel
@@ -80,7 +64,7 @@ namespace Mhotivo.Models
         public string UserName { get; set; }
 
         [Display(Name = "Estado")]
-        public bool Status { get; set; }
+        public bool Active { get; set; }
 
         [Required(ErrorMessage = "Debe Ingresar Contraseña")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
@@ -111,7 +95,7 @@ namespace Mhotivo.Models
         public string Email { get; set; }
 
         [Display(Name = "Activo")]
-        public bool Status { get; set; }
+        public bool Active { get; set; }
 
         [Required(ErrorMessage = "Debe Ingresar Contraseña")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
