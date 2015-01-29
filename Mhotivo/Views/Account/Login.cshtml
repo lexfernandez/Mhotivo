@@ -74,14 +74,15 @@
                                                     <fieldset>
                                                         <label>
                                                             <span class="block input-icon input-icon-right">
-                                                                <input type="text" class="span12" placeholder="Correo" id="UserEmail" name="UserEmail" />
+                                                                <input class="span12" placeholder="Correo" id="UserEmail" name="UserEmail" type="email" required/>
+                                                                @*<input id="email" class="required email error" remote="emails.action" maxlength="40" name="email" size="20" type="text" tabindex="11" value="" aria-required="true" aria-invalid="true">*@
                                                                 <i class="icon-user"></i>
                                                             </span>
                                                         </label>
 
                                                         <label>
                                                             <span class="block input-icon input-icon-right">
-                                                                <input type="password" class="span12" placeholder="Password" id="Password" name="Password" />
+                                                                <input type="password" class="span12" placeholder="Password" id="Password" name="Password" required/>
                                                                 <i class="icon-lock"></i>
                                                             </span>
                                                         </label>
@@ -160,6 +161,9 @@
                 $('#'+id).addClass('visible');
             }
         </script>
+        <script>
+            $("#loginForm").validate();
+</script>
     </body>
 </html>
 
