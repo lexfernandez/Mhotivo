@@ -206,6 +206,7 @@ namespace Mhotivo.Controllers
 
         public List<DiaryEventModel> LoadAppointmentSummaryInDateRange(double start, double end)
         {
+            //Test
             DateTime fromDate = ConvertFromUnixTimestamp(start);
             DateTime toDate = ConvertFromUnixTimestamp(end);
             using (_appointmentDiaryRepository)
