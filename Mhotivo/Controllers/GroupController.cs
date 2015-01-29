@@ -32,7 +32,7 @@ namespace Mhotivo.Controllers
             IEnumerable<AddGroup> groups = db.Groups.Select(x => new AddGroup
             {
                 Name = x.Name,
-                Users = (List<User>) x.Users
+                Users = (List<User>)x.Users
             });
             return View(groups);
         }
@@ -41,7 +41,7 @@ namespace Mhotivo.Controllers
         {
             var members =
                 db.Users.Where(x => x.DisplayName.Contains(filter) || x.Email.Contains(filter))
-                    .Select(x => new {name = x.DisplayName + " <" + x.Email + ">", value = x.Id})
+                    .Select(x => new { name = x.DisplayName + " <" + x.Email + ">", value = x.Id })
                     .ToList();
             return Json(members, JsonRequestBehavior.AllowGet);
         }
@@ -60,33 +60,33 @@ namespace Mhotivo.Controllers
         [HttpPost]
         public ActionResult Add(AddGroup group)
         {
-            try
-            {
-                List<int> usersId = group.Users.Split(',').Select(Int32.Parse).ToList();
-                IQueryable<User> users = db.Users.Where(x => usersId.Contains(x.Id));
-                var g = new Group {Name = group.Name, Users = users.ToList()};
+            /* try
+             {
+                 List<int> usersId = group.Users.Split(',').Select(Int32.Parse).ToList();
+                 IQueryable<User> users = db.Users.Where(x => usersId.Contains(x.Id));
+                 var g = new Group {Name = group.Name, Users = users.ToList()};
 
-                if (ModelState.IsValid && IsNameAvailble(g.Name))
-                {
-                    db.Groups.AddOrUpdate(g);
+                 if (ModelState.IsValid && IsNameAvailble(g.Name))
+                 {
+                     db.Groups.AddOrUpdate(g);
 
-                    _viewMessageLogic.SetNewMessage("Grupo Agregado", "El grupo fue agregado exitosamente.",
-                        ViewMessageType.SuccessMessage);
-                }
-                else
-                {
-                    _viewMessageLogic.SetNewMessage("Validación de Información", "La información es inválida.",
-                        ViewMessageType.InformationMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                _viewMessageLogic.SetNewMessage("Error", ex.Message + " salió mal, por favor intente de nuevo.",
-                    ViewMessageType.ErrorMessage);
-            }
+                     _viewMessageLogic.SetNewMessage("Grupo Agregado", "El grupo fue agregado exitosamente.",
+                         ViewMessageType.SuccessMessage);
+                 }
+                 else
+                 {
+                     _viewMessageLogic.SetNewMessage("Validación de Información", "La información es inválida.",
+                         ViewMessageType.InformationMessage);
+                 }
+             }
+             catch (Exception ex)
+             {
+                 _viewMessageLogic.SetNewMessage("Error", ex.Message + " salió mal, por favor intente de nuevo.",
+                     ViewMessageType.ErrorMessage);
+             }
 
-            IQueryable<Group> groups = db.Groups.Select(x => x);
-            */
+             IQueryable<Group> groups = db.Groups.Select(x => x);*/
+
             return RedirectToAction("Index");
         }
 
