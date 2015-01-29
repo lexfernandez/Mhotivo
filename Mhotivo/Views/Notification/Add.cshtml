@@ -1,4 +1,4 @@
-﻿@model Mhotivo.Models.Notification
+﻿@model Mhotivo.Models.NotificationModel
 
 @{
     ViewBag.Title = "Notificaciones";
@@ -43,10 +43,19 @@
         <label for="form-input-readonly" class="control-label">@Html.LabelFor(model => model.From)</label>
 
         <div class="controls">
-            @Html.EditorFor(model => model.From)
-            &nbsp; &nbsp;
-            <input type="checkbox" name="useMyAccount" id="useMyAccount" checked="checked" >
-            <label for="useMyAccount" class="lbl"> Usar mi cuenta!</label>
+           <table style="border: transparent">
+                <tr>
+                    <td>
+                         @Html.EditorFor(model => model.From)
+                    </td>
+                    <td>
+                        &nbsp; &nbsp;<input type="checkbox" name="useMyAccount" id="useMyAccount" checked="checked" >            
+                    </td>
+                    <td>
+                        <label> Usar mi cuenta!</label>                
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="control-group">
@@ -91,17 +100,18 @@
         
         <div class="space"></div>
 
-        <div class="modal-footer">
-            <button data-dismiss="modal" class="btn btn-small">
+    <div class="modal-footer">
+        @Html.ActionLink("Cancelar","Index","Notification",null,new{@class="btn btn-small icon-remove"}) 
+        @* <button data-dismiss="modal" class="btn btn-small" onclick="">
                 <i class="icon-remove"></i>
                 Cancelar
-            </button>
+            </button>*@
 
-            <button type="submit" class="btn btn-small btn-primary">
-                <i class="icon-ok"></i>
-                Crear
-            </button>
-        </div>
+        <button type="submit" class="btn btn-small btn-primary">
+            <i class="icon-ok"></i>
+            Crear
+        </button>
+    </div>
     
 }
 
@@ -113,7 +123,7 @@
             type: "POST",
             typeahead: {
                 source: function(query) {
-                    return $.getJSON('/Notification/GetGroupsAndEmails/',{ filter: query });
+                    return $.getJSON('/NotificationModel/GetGroupsAndEmails/',{ filter: query });
                 }
             }
         });
@@ -122,7 +132,7 @@
             type: "POST",
             typeahead: {
                 source: function (query) {
-                    return $.getJSON('/Notification/GetGroupsAndEmails/', { filter: query });
+                    return $.getJSON('/NotificationModel/GetGroupsAndEmails/', { filter: query });
                 }
             }
         });
@@ -133,7 +143,7 @@
                 source: function (query) {
 
 
-                    return $.getJSON('/Notification/GetGroupsAndEmails/', { filter: query });
+                    return $.getJSON('/NotificationModel/GetGroupsAndEmails/', { filter: query });
                 }
             }
         });
@@ -158,7 +168,7 @@
     $("#Form").submit(function (event) {
         var sHTML = $('#htmlMessage').code();
         $('#Message').val(sHTML);
-        alert("Handler for .submit() called. : <br/>" + $('#Message').val());
+       // alert("Handler for .submit() called. : <br/>" + $('#Message').val());
         //event.preventDefault();
     });
 </script>

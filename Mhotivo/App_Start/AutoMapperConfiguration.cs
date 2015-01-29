@@ -17,6 +17,9 @@ namespace Mhotivo
 
             Mapper.CreateMap<UserEditModel, User>();
             Mapper.CreateMap<User, UserEditModel>();
+
+            Mapper.CreateMap<Notification, NotificationModel>();
+            Mapper.CreateMap<NotificationModel, Notification>();
         }
     }
 }

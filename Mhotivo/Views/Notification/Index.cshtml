@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Mhotivo.Models.Notification>
+﻿@model IEnumerable<Mhotivo.Models.NotificationModel>
 
 @{
     ViewBag.Title = "Notificaciones";
@@ -8,14 +8,15 @@
 @Html.Partial("~/Views/Shared/_MessageArea.cshtml")
 
 <h2>Notificaciones</h2>
-
+<br/>
 <a href="/Notification/Add/"><span class="btn btn-small btn-primary active">Agregar Notificación</span></a>
-
+<br/>
+<br/>
 @if (!Model.Any())
 {
     <div class="well well-large">
         <h4 class="blue">Tabla Vacía</h4>
-        No hay ninguna dato a mostrar.
+        No hay ningun dato a mostrar.
     </div>
 }
 else
