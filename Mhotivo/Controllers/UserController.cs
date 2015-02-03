@@ -7,6 +7,7 @@ using Mhotivo.Interface.Interfaces;
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 using AutoMapper;
+using Mhotivo.Encryption;
 
 namespace Mhotivo.Controllers
 {
@@ -100,7 +101,8 @@ namespace Mhotivo.Controllers
                          {
                              DisplayName = modelUser.DisplaName,
                              Email = modelUser.UserName,
-                             Password = modelUser.Password,
+                             Password =modelUser.Password,
+                             //Password = Md5CryptoService.EncryptData(modelUser.Password),
                              Role = _roleRepository.GetById(modelUser.Id),
                              Status = modelUser.Status
                          };

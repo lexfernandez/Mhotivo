@@ -173,6 +173,8 @@
     <Compile Include="Controllers\SendNotifications.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Encryption\IEncryption.cs" />
+    <Compile Include="Encryption\MD5CryptoService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
