@@ -193,6 +193,10 @@
     <Compile Include="Migrations\201412151627072_RenameActived.Designer.cs">
       <DependentUpon>201412151627072_RenameActived.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502030229588_Test.cs" />
+    <Compile Include="Migrations\201502030229588_Test.Designer.cs">
+      <DependentUpon>201502030229588_Test.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
     <Compile Include="Models\AreaModel.cs" />
@@ -538,6 +542,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412151627072_RenameActived.resx">
       <DependentUpon>201412151627072_RenameActived.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502030229588_Test.resx">
+      <DependentUpon>201502030229588_Test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
