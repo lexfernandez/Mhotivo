@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Mhotivo.Data.Entities;
 
 namespace Mhotivo.Models
 {
@@ -16,7 +17,7 @@ namespace Mhotivo.Models
         public string Status { get; set; }
 
         [Display(Name = "Tipo de Usuario")]
-        public string Role { get; set; }
+        public Role Role { get; set; }
     }
 
     public class LocalPasswordModel
@@ -40,13 +41,15 @@ namespace Mhotivo.Models
 
     public class LoginModel
     {
-        [Required(ErrorMessage = "Debe Ingresar Email de Usuario")]
+        
         [Display(Name = "Email de usuario")]
+        [Required(ErrorMessage = "Debe Ingresar Email de Usuario")]
+        [EmailAddress]
         public string UserEmail { get; set; }
-
-        [Required(ErrorMessage = "Debe Ingresar Contraseña")]
+        
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
+        [Required(ErrorMessage = "Debe Ingresar Contraseña")]
         public string Password { get; set; }
 
         [Display(Name = "¿Recordar cuenta?")]

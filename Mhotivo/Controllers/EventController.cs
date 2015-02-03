@@ -13,6 +13,7 @@ using Mhotivo.Data.Entities;
 using Mhotivo.Logic;
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
+using Mhotivo.Implement.Context;
 
 namespace Mhotivo.Controllers
 {
@@ -22,6 +23,7 @@ namespace Mhotivo.Controllers
         private readonly ISessionManagement _sessionManagement;
         private readonly IUserRepository _userRepository;
         private readonly ViewMessageLogic _viewMessageLogic;
+        public MhotivoContext db = new MhotivoContext();
 
         public EventController(IAppointmentDiaryRepository appointmentDiaryRepository,
             ISessionManagement sessionManagement, IUserRepository userRepository)
@@ -95,25 +97,38 @@ namespace Mhotivo.Controllers
 
         public void UpdateEvent(int id, string NewEventStart, string NewEventEnd)
         {
-            UpdateDiaryEvent(id, NewEventStart, NewEventEnd);
+            UpdateDiaryEvent(id,"", NewEventStart, NewEventEnd,"",new User());
         }
 
 
-        public bool SaveEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration)
+        public bool SaveEvent(int Id, string Title, string NewEventDate, string NewEventTime, string NewEventDuration)
         {
+            
             string userEmail = _sessionManagement.GetUserLoggedEmail();
             User creator = _userRepository.First(x => x.Email == userEmail);
-            return CreateNewEvent(Title, NewEventDate, NewEventTime, NewEventDuration, creator);
+
+            if (Id == 0)
+            {
+                return CreateNewEvent(Title, NewEventDate, NewEventTime, NewEventDuration, creator);
+            }
+            else
+            {
+                UpdateDiaryEvent(Id, Title, NewEventDate, NewEventTime, NewEventDuration,creator);
+                return true;
+            }
         }
 
         public JsonResult GetDiarySummary(double start, double end)
         {
-            List<DiaryEvent> apptListForDate = LoadAppointmentSummaryInDateRange(start, end);
+            List<DiaryEventModel> apptListForDate = LoadAppointmentSummaryInDateRange(start, end);
             var eventList = from e in apptListForDate
                 select new
                        {
                            id = e.Id,
                            title = e.Title,
+                           date = e.Date,
+                           duration = e.Duration,
+                           time = e.Time,                           
                            start = e.StartDateString,
                            end = e.EndDateString,
                            someKey = e.SomeImportantKeyId,
@@ -125,12 +140,15 @@ namespace Mhotivo.Controllers
 
         public JsonResult GetDiaryEvents(double start, double end)
         {
-            List<DiaryEvent> apptListForDate = LoadAllAppointmentsInDateRange(start, end);
+            List<DiaryEventModel> apptListForDate = LoadAllAppointmentsInDateRange(start, end);
             var eventList = from e in apptListForDate
                 select new
                        {
                            id = e.Id,
                            title = e.Title,
+                           fecha =e.Date.ToShortDateString(),
+                           duration=e.Duration,
+                           time=e.Time,
                            start = e.StartDateString,
                            end = e.EndDateString,
                            color = e.StatusColor,
@@ -142,7 +160,7 @@ namespace Mhotivo.Controllers
             return Json(rows, JsonRequestBehavior.AllowGet);
         }
 
-        public List<DiaryEvent> LoadAllAppointmentsInDateRange(double start, double end)
+        public List<DiaryEventModel> LoadAllAppointmentsInDateRange(double start, double end)
         {
             DateTime fromDate = ConvertFromUnixTimestamp(start);
             DateTime toDate = ConvertFromUnixTimestamp(end);
@@ -155,27 +173,30 @@ namespace Mhotivo.Controllers
                             s.Creator.Email.CompareTo(loggedEmail)==0 && s.DateTimeScheduled >= fromDate &&
                             DbFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
 
-                var result = new List<DiaryEvent>();
+                var result = new List<DiaryEventModel>();
                 foreach (AppointmentDiary item in rslt)
                 {
-                    var rec = new DiaryEvent();
+                    var rec = new DiaryEventModel();
                     rec.Id = item.Id;
                     //rec.SomeImportantKeyID = item.SomeImportantKey;
                     rec.StartDateString = item.DateTimeScheduled.ToString("s");
                         // "s" is a preset format that outputs as: "2009-02-27T12:12:22"
                     rec.EndDateString = item.DateTimeScheduled.AddMinutes(item.AppointmentLength).ToString("s");
                         // field AppointmentLength is in minutes
-                    rec.Title = item.Title + " - " + item.AppointmentLength + " mins";
+                    rec.Title = item.Title;
+                    rec.Duration = item.AppointmentLength;
+                    rec.Date = new DateTime(item.DateTimeScheduled.Year, item.DateTimeScheduled.Month, item.DateTimeScheduled.Day);
+                    rec.Time = item.DateTimeScheduled.ToString("HH:MM");
                     rec.StatusString = Enums.GetName((AppointmentStatus) item.StatusEnum);
                     rec.StatusColor = Enums.GetEnumDescription<AppointmentStatus>(rec.StatusString);
                     string colorCode = rec.StatusColor.Substring(0, rec.StatusColor.IndexOf(":"));
                     rec.ClassName = rec.StatusColor.Substring(rec.StatusColor.IndexOf(":") + 1,
                         rec.StatusColor.Length - colorCode.Length - 1);
                     rec.StatusColor = colorCode;
-                    if (item.IsAproveed)
-                    {
+                    //if (item.IsAproveed)
+                    //{
                         result.Add(rec);
-                    }
+                    //}
                 }
 
                 return result;
@@ -183,8 +204,9 @@ namespace Mhotivo.Controllers
         }
 
 
-        public List<DiaryEvent> LoadAppointmentSummaryInDateRange(double start, double end)
+        public List<DiaryEventModel> LoadAppointmentSummaryInDateRange(double start, double end)
         {
+            //Test
             DateTime fromDate = ConvertFromUnixTimestamp(start);
             DateTime toDate = ConvertFromUnixTimestamp(end);
             using (_appointmentDiaryRepository)
@@ -197,16 +219,18 @@ namespace Mhotivo.Controllers
                             s.DateTimeScheduled >= fromDate &&
                             DbFunctions.AddMinutes(s.DateTimeScheduled, s.AppointmentLength) <= toDate);
 
-                var result = new List<DiaryEvent>();
+                var result = new List<DiaryEventModel>();
                 int i = 0;
                 foreach (AppointmentDiary item in rslt)
                 {
-                    var rec = new DiaryEvent {Id = i};
+                    var rec = new DiaryEventModel {Id = i};
                     string stringDate = string.Format("{0:yyyy-MM-dd}", item.DateTimeScheduled);
                     rec.StartDateString = stringDate + "T00:00:00"; //ISO 8601 format
                     rec.EndDateString = stringDate + "T23:59:59";
                     rec.Title = item.Title;
-                    if (item.IsAproveed)
+                    rec.Duration = item.AppointmentLength;
+                    rec.Date = new DateTime(item.DateTimeScheduled.Year, item.DateTimeScheduled.Month, item.DateTimeScheduled.Day);
+                    rec.Time = item.DateTimeScheduled.ToString("HH:MM"); if (item.IsAproveed)
                     {
                         result.Add(rec);
                     }
@@ -218,7 +242,7 @@ namespace Mhotivo.Controllers
             }
         }
 
-        public void UpdateDiaryEvent(int id, string NewEventStart, string NewEventEnd)
+        public void UpdateDiaryEvent(int id, string Title, string NewEventStart, string NewEventEnd, string NewEventDuration,User creator)
         {
             // EventStart comes ISO 8601 format, eg:  "2000-01-10T10:00:00Z" - need to convert to DateTime
             using (_appointmentDiaryRepository)
@@ -226,16 +250,11 @@ namespace Mhotivo.Controllers
                 AppointmentDiary rec = _appointmentDiaryRepository.First(s => s.Id == id);
                 if (rec != null)
                 {
-                    DateTime dateTimeStart =
-                        DateTime.Parse(NewEventStart, null, DateTimeStyles.RoundtripKind).ToLocalTime();
-                        // and convert offset to localtime
-                    rec.DateTimeScheduled = dateTimeStart;
-                    if (!String.IsNullOrEmpty(NewEventEnd))
-                    {
-                        TimeSpan span = DateTime.Parse(NewEventEnd, null, DateTimeStyles.RoundtripKind).ToLocalTime() -
-                                        dateTimeStart;
-                        rec.AppointmentLength = Convert.ToInt32(span.TotalMinutes);
-                    }
+                    rec.Title = Title;
+                    rec.DateTimeScheduled = DateTime.ParseExact(NewEventStart + " " + NewEventEnd, "dd/MM/yyyy HH:mm",
+                        CultureInfo.InvariantCulture);
+                    rec.AppointmentLength = Int32.Parse(NewEventDuration);
+                    rec.Creator = creator;           
                     _appointmentDiaryRepository.SaveChanges();
                 }
             }
@@ -268,6 +287,17 @@ namespace Mhotivo.Controllers
             {
                 return false;
             }
+        }
+        [HttpPost]
+        public JsonResult GetGroupsAndEmails(string filter)
+        {
+            List<string> groups = db.Groups.Where(x => x.Name.Contains(filter)).Select(x => x.Name).ToList();
+            List<string> mails =
+                db.Users.Where(x => x.DisplayName.Contains(filter) || x.Email.Contains(filter))
+                    .Select(x => x.Email)
+                    .ToList();
+            groups = groups.Union(mails).ToList();
+            return Json(groups, JsonRequestBehavior.AllowGet);
         }
     }
 }
