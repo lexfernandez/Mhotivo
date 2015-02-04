@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\AcademicYear.cs" />
+    <Compile Include="Entities\AcademicYearDetail.cs" />
     <Compile Include="Entities\AppointmentDiary.cs" />
     <Compile Include="Entities\Area.cs" />
     <Compile Include="Entities\Benefactor.cs" />
