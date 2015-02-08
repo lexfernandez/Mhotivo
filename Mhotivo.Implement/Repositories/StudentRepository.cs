@@ -75,12 +75,12 @@ namespace Mhotivo.Implement.Repositories
             _context.SaveChanges();
         }
 
+        
         public IEnumerable<Student> GetAllStudents()
         {
             return Query(x => x).ToList().Select(x => new Student
             {
                 Id = x.Id,
-                UrlPicture = x.UrlPicture,
                 FullName = x.FullName,
                 BirthDate = x.BirthDate,
                 Nationality = x.Nationality,

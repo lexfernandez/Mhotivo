@@ -7,18 +7,18 @@ namespace Mhotivo.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class AcademicYearDetail : IMigrationMetadata
+    public sealed partial class InitialMigrations1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AcademicYearDetail));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialMigrations1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201502040255578_AcademicYearDetail"; }
+            get { return "201502080638116_InitialMigrations1"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

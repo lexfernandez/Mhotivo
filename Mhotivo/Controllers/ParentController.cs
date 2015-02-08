@@ -113,10 +113,7 @@ namespace Mhotivo.Controllers
                     Mapper.CreateMap<Parent, ParentEditModel>().ReverseMap();
                     var parentModel = Mapper.Map<ParentEditModel, Parent>(modelParent);
 
-                    parentModel.Photo = null;
 
-                    if (fileBytes != null)
-                        parentModel.Photo = fileBytes;
                     
                     _parentRepository.UpdateParentFromParentEditModel(parentModel, myParent);
 

@@ -192,6 +192,10 @@
     <Compile Include="Migrations\201411210122159_RenameBD.Designer.cs">
       <DependentUpon>201411210122159_RenameBD.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412032215213_Allen.cs" />
+    <Compile Include="Migrations\201412032215213_Allen.Designer.cs">
+      <DependentUpon>201412032215213_Allen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201412151627072_RenameActived.cs" />
     <Compile Include="Migrations\201412151627072_RenameActived.Designer.cs">
       <DependentUpon>201412151627072_RenameActived.cs</DependentUpon>
@@ -200,9 +204,13 @@
     <Compile Include="Migrations\201502030229588_Test.Designer.cs">
       <DependentUpon>201502030229588_Test.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201502040255578_AcademicYearDetail.cs" />
-    <Compile Include="Migrations\201502040255578_AcademicYearDetail.Designer.cs">
-      <DependentUpon>201502040255578_AcademicYearDetail.cs</DependentUpon>
+    <Compile Include="Migrations\201502080634374_InitialMigrations.cs" />
+    <Compile Include="Migrations\201502080634374_InitialMigrations.Designer.cs">
+      <DependentUpon>201502080634374_InitialMigrations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502080638116_InitialMigrations1.cs" />
+    <Compile Include="Migrations\201502080638116_InitialMigrations1.Designer.cs">
+      <DependentUpon>201502080638116_InitialMigrations1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYearModel.cs" />
@@ -216,6 +224,7 @@
     <Compile Include="Models\EventCreateModel.cs" />
     <Compile Include="Models\GradeModel.cs" />
     <Compile Include="Models\GroupModel.cs" />
+    <Compile Include="Models\HomeworkModel.cs" />
     <Compile Include="Models\MeisterModel.cs" />
     <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\NotificationModel.cs" />
@@ -552,6 +561,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411210122159_RenameBD.resx">
       <DependentUpon>201411210122159_RenameBD.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412032215213_Allen.resx">
+      <DependentUpon>201412032215213_Allen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412151627072_RenameActived.resx">
       <DependentUpon>201412151627072_RenameActived.cs</DependentUpon>
@@ -559,8 +573,11 @@
     <EmbeddedResource Include="Migrations\201502030229588_Test.resx">
       <DependentUpon>201502030229588_Test.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201502040255578_AcademicYearDetail.resx">
-      <DependentUpon>201502040255578_AcademicYearDetail.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201502080634374_InitialMigrations.resx">
+      <DependentUpon>201502080634374_InitialMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502080638116_InitialMigrations1.resx">
+      <DependentUpon>201502080638116_InitialMigrations1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
