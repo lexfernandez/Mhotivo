@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using Mhotivo.App_Data;
+//using Mhotivo.App_Data;
+using AutoMapper;
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
+using Mhotivo.Data.Entities;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Implement.Context;
+using Mhotivo.Interface.Interfaces;
 
 namespace Mhotivo.Controllers
 {
@@ -20,51 +25,56 @@ namespace Mhotivo.Controllers
         }
 
         //
-        // GET: /Notification/
+        // GET: /NotificationModel/
 
         public ActionResult Index()
         {
             _viewMessageLogic.SetViewMessageIfExist();
-            IQueryable<Notification> notifications = db.Notifications.Where(x => true);
-            return View(notifications);
+            var notifications = db.Notifications.Where(x => true);
+            var notificationsModel = notifications.Select(Mapper.Map<NotificationModel>);
+            return View(notificationsModel);
         }
 
         //
-        // GET: /Notification/Create
+        // GET: /NotificationModel/Create
         [HttpGet]
         public ActionResult Add()
         {
-            var notification = new Notification();
-            ;
+            var notification = new NotificationModel();
+    
             return View("Add", notification);
         }
 
         [HttpPost]
-        public ActionResult Add(Notification eventNotification)
+        public ActionResult Add(NotificationModel eventNotification)
         {
-            if (ModelState.IsValid)
-            {
-                var template = new Notification
-                               {
-                                   EventName = eventNotification.EventName,
-                                   From = eventNotification.From,
-                                   To = eventNotification.To,
-                                   WithCopyTo = eventNotification.WithCopyTo,
-                                   WithHiddenCopyTo = eventNotification.WithHiddenCopyTo,
-                                   Subject = eventNotification.Subject,
-                                   Message = eventNotification.Message,
-                                   Created = DateTime.Now
-                               };
+            //if (ModelState.IsValid)
+            //{
+                //var template = new Notification
+                //               {
+                //                   EventName = eventNotification.EventName,
+                //                   From = eventNotification.From,
+                //                   To = eventNotification.To,
+                //                   WithCopyTo = eventNotification.WithCopyTo,
+                //                   WithHiddenCopyTo = eventNotification.WithHiddenCopyTo,
+                //                   Subject = eventNotification.Subject,
+                //                   Message = eventNotification.Message,
+                //                   Created = DateTime.Now
+                //               };
+
+                var template = Mapper.Map<Notification>(eventNotification);
+                template.Created = DateTime.Now;
+
                 db.Notifications.Add(template);
                 db.SaveChanges();
                 const string title = "Notificación Agregado";
                 var content = "El evento " + eventNotification.EventName + " ha sido agregado exitosamente.";
                 _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
-            }
-            else
-            {
-                _viewMessageLogic.SetNewMessage("", "", ViewMessageType.ErrorMessage);
-            }
+            //}
+            //else
+            //{
+            //    _viewMessageLogic.SetNewMessage("", "Oooops we have encountered an error, please try again later...", ViewMessageType.ErrorMessage);
+            //}
             return RedirectToAction("Index");
         }
 
@@ -80,16 +90,19 @@ namespace Mhotivo.Controllers
         }
 
         //
-        // GET: /Notification/Edit/5
+        // GET: /NotificationModel/Edit/5
 
         public ActionResult Edit(int id)
         {
-            Notification toEdit = db.Notifications.FirstOrDefault(x => x.Id.Equals(id));
-            return View(toEdit);
+            var toEdit = db.Notifications.FirstOrDefault(x => x.Id.Equals(id));
+
+            var toEditModel = Mapper.Map<NotificationModel>(toEdit);
+
+            return View(toEditModel);
         }
 
         //
-        // POST: /Notification/Edit/5
+        // POST: /NotificationModel/Edit/5
 
         [HttpPost]
         public ActionResult Edit(int id, Notification notification)
@@ -113,7 +126,7 @@ namespace Mhotivo.Controllers
 
 
         //
-        // POST: /Notification/Delete/5
+        // POST: /NotificationModel/Delete/5
 
         [HttpPost]
         public ActionResult Delete(int id)

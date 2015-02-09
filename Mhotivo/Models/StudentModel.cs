@@ -1,22 +1,11 @@
-﻿using System;
+﻿using Mhotivo.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace Mhotivo.Models
 {
-    public class Student : People
-    {
-        public string StartDate { get; set; }
-        public string BloodType { get; set; }
-        public string AccountNumber { get; set; }
-        public string Biography { get; set; }
-
-        public virtual Parent Tutor1 { get; set; }
-        public virtual Parent Tutor2 { get; set; }
-        public virtual Benefactor Benefactor { get; set; }
-    }
-
     public class DisplayStudentModel
     {
         public long Id { get; set; }
@@ -72,10 +61,10 @@ namespace Mhotivo.Models
         public string Biography { get; set; }
 
         [Display(Name = "Tutor o Padre")]
-        public string FirstParent { get; set; }
+        public Parent Tutor1 { get; set; }
 
         [Display(Name = "Segundo Tutor o Madre")]
-        public string SecondParent { get; set; }
+        public Parent Tutor2 { get; set; }
     }
 
     public class StudentEditModel
@@ -130,7 +119,7 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
-        public string Gender { get; set; }
+        public bool Gender { get; set; }
 
         [Required(ErrorMessage = "Debe Ingresar Fecha de Inicio")]
         [Display(Name = "Fecha de Inicio")]
@@ -140,6 +129,7 @@ namespace Mhotivo.Models
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar un Numero de Cuenta")]
         [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 
@@ -149,11 +139,11 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Padre o Tutor")]
         [Display(Name = "Padre o Tutor")]
-        public Parent FirstParent { get; set; }
+        public Parent Tutor1 { get; set; }
 
         [Required(ErrorMessage = "Debe Ingresar Madre o Segundo Tutor")]
         [Display(Name = "Madre o Segundo Tutor")]
-        public Parent SecondParent { get; set; }
+        public Parent Tutor2 { get; set; }
     }
 
     public class StudentBenefactorEditModel
@@ -213,7 +203,7 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Sexo")]
         [Display(Name = "Sexo")]
-        public string Gender { get; set; }
+        public bool Gender { get; set; }
 
         [Required(ErrorMessage = "Debe Ingresar Fecha de Inicio")]
         [Display(Name = "Fecha de Inicio")]
@@ -223,6 +213,7 @@ namespace Mhotivo.Models
         [Display(Name = "Tipo de Sangre")]
         public string BloodType { get; set; }
 
+        [Required(ErrorMessage = "Debe Ingresar un Número de Cuenta")]
         [Display(Name = "Número de Cuenta")]
         public string AccountNumber { get; set; }
 
@@ -232,10 +223,10 @@ namespace Mhotivo.Models
 
         [Required(ErrorMessage = "Debe Ingresar Padre o Tutor")]
         [Display(Name = "Padre o Tutor")]
-        public Parent FirstParent { get; set; }
+        public long FirstParent { get; set; }
 
         [Required(ErrorMessage = "Debe Ingresar Madre o Segundo Tutor")]
         [Display(Name = "Madre o Segundo Tutor")]
-        public Parent SecondParent { get; set; }
+        public long SecondParent { get; set; }
     }
 }

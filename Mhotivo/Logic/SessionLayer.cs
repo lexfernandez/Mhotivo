@@ -2,9 +2,14 @@
 using System.Linq;
 using System.Web;
 using System.Web.Security;
-using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+using Mhotivo.Data.Entities;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Interface.Interfaces;
 using Mhotivo.Models;
-
+using AutoMapper;
+using Mhotivo.Encryption;
 
 namespace Mhotivo.Logic
 {
@@ -78,7 +83,12 @@ namespace Mhotivo.Logic
         }
 
         private User ValidateUser(string userName, string password)
-        {    
+        {
+            //Con Encriptacion
+
+            //string pass = Md5CryptoService.EncryptData(password);
+            //var myUsers = _userRepository.Filter(x => x.Email.Equals(userName) && x.Password.Equals(pass) && x.Status);
+
             var myUsers = _userRepository.Filter(x => x.Email.Equals(userName) && x.Password.Equals(password) && x.Status);
 
             return (myUsers != null && myUsers.Any() ? myUsers.First() : null); 

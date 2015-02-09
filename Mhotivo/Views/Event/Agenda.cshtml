@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Mhotivo.Models.AppointmentDiary>
+﻿@model IEnumerable<Mhotivo.Models.AppointmentDiaryModel>
 
 @{
     ViewBag.Title = "Agenda";
@@ -37,7 +37,7 @@ else
                     <th>@Html.DisplayFor(modelItem => item.Title)</th>
                     <th>@Html.DisplayFor(modelItem => item.DateTimeScheduled)</th>
                     <th>@Html.DisplayFor(modelItem => item.AppointmentLength)</th>
-                    <th>@Html.DisplayFor(modelItem => item.Creator.DisplayName)</th>
+                    
                     <th>@Html.DisplayFor(modelItem => item.IsAproveed)</th>
                 </tr>
             }

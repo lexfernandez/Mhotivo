@@ -34,12 +34,6 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -63,7 +57,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Entities\AcademicYear.cs" />
+    <Compile Include="Entities\AcademicYearDetail.cs" />
+    <Compile Include="Entities\AppointmentDiary.cs" />
+    <Compile Include="Entities\Area.cs" />
+    <Compile Include="Entities\Benefactor.cs" />
+    <Compile Include="Entities\ClassActivity.cs" />
+    <Compile Include="Entities\ClassActivityGrading.cs" />
+    <Compile Include="Entities\ContactInformation.cs" />
+    <Compile Include="Entities\Course.cs" />
+    <Compile Include="Entities\Enroll.cs" />
+    <Compile Include="Entities\AppointmentParticipants.cs" />
+    <Compile Include="Entities\Grade.cs" />
+    <Compile Include="Entities\Group.cs" />
+    <Compile Include="Entities\Homework.cs" />
+    <Compile Include="Entities\Meister.cs" />
+    <Compile Include="Entities\Notification.cs" />
+    <Compile Include="Entities\Parent.cs" />
+    <Compile Include="Entities\Pensum.cs" />
+    <Compile Include="Entities\People.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\Student.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

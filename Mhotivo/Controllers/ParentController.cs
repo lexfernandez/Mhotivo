@@ -1,7 +1,16 @@
-﻿using System.Web.Mvc;
-using Mhotivo.App_Data.Repositories;
+﻿using System.IO;
+using System.Linq;
+using System.Web.Mvc;
+
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+using Mhotivo.Interface.Interfaces;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Data.Entities;
+
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
+using AutoMapper;
 
 namespace Mhotivo.Controllers
 {
@@ -24,10 +33,19 @@ namespace Mhotivo.Controllers
         {
             _viewMessageLogic.SetViewMessageIfExist();
 
-            return View(_parentRepository.GetAllParents());
+            var allParents = _parentRepository.GetAllParents();
+
+            Mapper.CreateMap<DisplayParentModel, Parent>().ReverseMap();
+            var allParentDisplaysModel = allParents.Select(Mapper.Map<Parent, DisplayParentModel>).ToList();
+            foreach (var displayParentModel in allParentDisplaysModel)
+            {
+                displayParentModel.StrGender = Implement.Utilities.GenderToString(displayParentModel.Gender);
+            }
+
+            return View(allParentDisplaysModel);
         }
 
-        [HttpGet]
+        
         public ActionResult ContactEdit(long id)
         {
             ContactInformation thisContactInformation = _contactInformationRepository.GetById(id);
@@ -43,26 +61,75 @@ namespace Mhotivo.Controllers
             return View("ContactEdit", contactInformation);
         }
 
-        [HttpGet]
+        
         public ActionResult Edit(long id)
         {
-            ParentEditModel parent = _parentRepository.GetParentEditModelById(id);
+            var parent = _parentRepository.GetParentEditModelById(id);
+            Mapper.CreateMap<ParentEditModel, Parent>().ReverseMap();
+            var parentModel = Mapper.Map<Parent, ParentEditModel>(parent);
+            parentModel.StrGender = Implement.Utilities.GenderToString(parent.Gender);
 
-            return View("Edit", parent);
+            //if (parentModel.FilePicture == null)
+            //    parentModel.FilePicture = new byte[long.MaxValue];
+
+            return View("Edit", parentModel);
         }
 
         [HttpPost]
         public ActionResult Edit(ParentEditModel modelParent)
         {
-            Parent myParent = _parentRepository.GetById(modelParent.Id);
+            var validImageTypes = new string[]
+            {
+                "image/gif",
+                "image/jpeg",
+                "image/pjpeg",
+                "image/png"
+            };
 
-            _parentRepository.UpdateParentFromParentEditModel(modelParent, myParent);
+            if (modelParent.UpladPhoto != null && modelParent.UpladPhoto.ContentLength > 0)
+            {
+                if (!validImageTypes.Contains(modelParent.UpladPhoto.ContentType))
+                {
+                    ModelState.AddModelError("UpladPhoto", "Por favor seleccione entre una imagen GIF, JPG o PNG");
+                }
+            }
 
-            const string title = "Padre o Tutor Actualizado";
-            var content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";
-            _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    byte[] fileBytes = null;
+                    if (modelParent.UpladPhoto != null)
+                    {
+                        using (var binaryReader = new BinaryReader(modelParent.UpladPhoto.InputStream))
+                        {
+                            fileBytes = binaryReader.ReadBytes(modelParent.UpladPhoto.ContentLength);
+                        }
+                    }
 
-            return RedirectToAction("Index");
+                    var myParent = _parentRepository.GetById(modelParent.Id);
+                    modelParent.Gender = Implement.Utilities.IsMasculino(modelParent.StrGender);
+
+                    Mapper.CreateMap<Parent, ParentEditModel>().ReverseMap();
+                    var parentModel = Mapper.Map<ParentEditModel, Parent>(modelParent);
+
+
+                    
+                    _parentRepository.UpdateParentFromParentEditModel(parentModel, myParent);
+
+                    const string title = "Padre o Tutor Actualizado";
+                    var content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";
+                    _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.InformationMessage);
+
+                    return RedirectToAction("Index");
+
+                }
+                catch
+                {
+                    return View(modelParent);
+                }
+            }
+            return View(modelParent);
         }
 
         [HttpPost]
@@ -77,7 +144,7 @@ namespace Mhotivo.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
+        
         public ActionResult ContactAdd(long id)
         {
             var model = new ContactInformationRegisterModel
@@ -88,46 +155,69 @@ namespace Mhotivo.Controllers
             return View("ContactAdd", model);
         }
 
-        [HttpGet]
-        public ActionResult Add()
+        
+        public ActionResult Create()
         {
-            return View("Create");
+            var modelRegister = new ParentRegisterModel();
+            return View(modelRegister);
         }
 
         [HttpPost]
-        public ActionResult Add(ParentRegisterModel modelParent)
+        public ActionResult Create(ParentRegisterModel modelParent)
         {
-            Parent myParent = _parentRepository.GenerateParentFromRegisterModel(modelParent);
+            modelParent.Gender = Implement.Utilities.IsMasculino(modelParent.StrGender);
+            Mapper.CreateMap<Parent, ParentRegisterModel>().ReverseMap();
+            var parentModel = Mapper.Map<ParentRegisterModel, Parent>(modelParent);
+
+            var myParent = _parentRepository.GenerateParentFromRegisterModel(parentModel);
+            if (_parentRepository.ExistIdNumber(modelParent.IdNumber))
+            {
+                _viewMessageLogic.SetNewMessage("Dato Invalido", "Ya existe este IdNumber", ViewMessageType.ErrorMessage);
+                return RedirectToAction("Index");
+            }
 
             Parent parent = _parentRepository.Create(myParent);
             const string title = "Padre o Tutor Agregado";
-            var content = "El Padre o Tutor " + myParent.FullName + "ha sido agregado exitosamente.";
+            var content = "El Padre o Tutor " + myParent.FullName + " ha sido agregado exitosamente.";
             _viewMessageLogic.SetNewMessage(title, content, ViewMessageType.SuccessMessage);
 
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
+        
         public ActionResult Details(long id)
         {
-            DisplayParentModel parent = _parentRepository.GetParentDisplayModelById(id);
+            var parent = _parentRepository.GetParentDisplayModelById(id);
 
-            return View("Details", parent);
+            Mapper.CreateMap<DisplayParentModel, Parent>().ReverseMap();
+            var parentModel = Mapper.Map<Parent, DisplayParentModel>(parent);
+            parentModel.StrGender = Implement.Utilities.GenderToString(parent.Gender);
+
+            return View("Details", parentModel);
         }
 
-        [HttpGet]
+        
         public ActionResult DetailsEdit(long id)
         {
-            ParentEditModel parent = _parentRepository.GetParentEditModelById(id);
+            var parent = _parentRepository.GetParentEditModelById(id);
 
-            return View("DetailsEdit", parent);
+            Mapper.CreateMap<ParentEditModel, Parent>().ReverseMap();
+            var parentModel = Mapper.Map<Parent, ParentEditModel>(parent);
+            parentModel.StrGender = Implement.Utilities.GenderToString(parent.Gender);
+
+            return View("DetailsEdit", parentModel);
         }
 
         [HttpPost]
         public ActionResult DetailsEdit(ParentEditModel modelParent)
         {
-            Parent myParent = _parentRepository.GetById(modelParent.Id);
-            _parentRepository.UpdateParentFromParentEditModel(modelParent, myParent);
+            var myParent = _parentRepository.GetById(modelParent.Id);
+            modelParent.Gender = Implement.Utilities.IsMasculino(modelParent.StrGender);
+
+            Mapper.CreateMap<Parent, ParentEditModel>().ReverseMap();
+            var parentModel = Mapper.Map<ParentEditModel, Parent>(modelParent);
+
+            _parentRepository.UpdateParentFromParentEditModel(parentModel, myParent);
 
             const string title = "Padre o Tutor Actualizado";
             var content = "El Padre o Tutor " + myParent.FullName + " ha sido actualizado exitosamente.";

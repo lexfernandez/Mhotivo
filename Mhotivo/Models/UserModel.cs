@@ -1,23 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using Mhotivo.Data.Entities;
 
 namespace Mhotivo.Models
 {
-    public class User
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        public string Email { get; set; }
-        public string DisplayName { get; set; }
-        public string Password { get; set; }
-        public bool Status { get; set; }
-        public Role Role { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
-    }
-
     public class DisplayUserModel
     {
         public int Id { get; set; }
@@ -32,7 +17,7 @@ namespace Mhotivo.Models
         public string Status { get; set; }
 
         [Display(Name = "Tipo de Usuario")]
-        public string Role { get; set; }
+        public Role Role { get; set; }
     }
 
     public class LocalPasswordModel
@@ -56,13 +41,15 @@ namespace Mhotivo.Models
 
     public class LoginModel
     {
-        [Required(ErrorMessage = "Debe Ingresar Email de Usuario")]
+        
         [Display(Name = "Email de usuario")]
+        [Required(ErrorMessage = "Debe Ingresar Email de Usuario")]
+        [EmailAddress]
         public string UserEmail { get; set; }
-
-        [Required(ErrorMessage = "Debe Ingresar Contraseña")]
+        
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
+        [Required(ErrorMessage = "Debe Ingresar Contraseña")]
         public string Password { get; set; }
 
         [Display(Name = "¿Recordar cuenta?")]

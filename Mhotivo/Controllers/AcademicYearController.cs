@@ -2,9 +2,16 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+
+using Mhotivo.Interface.Interfaces;
+using Mhotivo.Implement.Repositories;
+using AutoMapper;
 using Mhotivo.Logic;
 using Mhotivo.Models;
+using Mhotivo.Data;
+using Mhotivo.Data.Entities;
 
 namespace Mhotivo.Controllers
 {
@@ -24,41 +31,43 @@ namespace Mhotivo.Controllers
 
         public ActionResult Management()
         {
-            var elements = new AcademicYearViewManagement
-                           {
-                               Elements =
-                                   _academicYearRepository.Filter(x => x.IsActive)
-                                   .ToList()
-                                   .Select(x => new AcademicYearViewData
-                                                {
-                                                    Approved = x.Approved ? "Active" : "Inactive",
-                                                    Course = x.Course.Name,
-                                                    Grade = x.Grade.Name,
-                                                    Id = x.Id,
-                                                    EndDate =
-                                                        (x.TeacherEndDate == null
-                                                            ? "Sin Maestro Asignado"
-                                                            : x.TeacherEndDate.Value.ToShortDateString()),
-                                                    Limit = x.StudentsLimit,
-                                                    Meister =
-                                                        x.Teacher == null ? "Sin Maestro Asignado" : x.Teacher.FullName,
-                                                    Room = x.Room.IsEmpty() ? "Sin Aula Asignada" : x.Room,
-                                                    Schedule =
-                                                        x.Schedule == null
-                                                            ? "Sin Maestro Asignado"
-                                                            : x.Schedule.Value.ToShortTimeString(),
-                                                    Section = x.Section,
-                                                    StartDate =
-                                                        x.TeacherStartDate == null
-                                                            ? "Sin Maestro Asignado"
-                                                            : x.TeacherStartDate.Value.ToShortDateString(),
-                                                    Year = x.Year.Year
-                                                }),
-                               CurrentYear = DateTime.Now.Year,
-                               CanGenerate = true
-                           };
+            //var elements = new AcademicYearViewManagement
+            //               {
+            //                   Elements =
+            //                       _academicYearRepository.Filter(x => x.IsActive)
+            //                       .ToList()
+            //                       .Select(x => new AcademicYearViewData
+            //                                    {
+            //                                        Approved = x.Approved ? "Active" : "Inactive",
+            //                                        Course = x.Course.Name,
+            //                                        Grade = x.Grade.Name,
+            //                                        Id = x.Id,
+            //                                        EndDate =
+            //                                            (x.TeacherEndDate == null
+            //                                                ? "Sin Maestro Asignado"
+            //                                                : x.TeacherEndDate.Value.ToShortDateString()),
+            //                                        Limit = x.StudentsLimit,
+            //                                        Meister =
+            //                                            x.Teacher == null ? "Sin Maestro Asignado" : x.Teacher.FullName,
+            //                                        Room = x.Room.IsEmpty() ? "Sin Aula Asignada" : x.Room,
+            //                                        Schedule =
+            //                                            x.Schedule == null
+            //                                                ? "Sin Maestro Asignado"
+            //                                                : x.Schedule.Value.ToShortTimeString(),
+            //                                        Section = x.Section,
+            //                                        StartDate =
+            //                                            x.TeacherStartDate == null
+            //                                                ? "Sin Maestro Asignado"
+            //                                                : x.TeacherStartDate.Value.ToShortDateString(),
+            //                                        Year = x.Year.Year
+            //                                    }),
+            //                   CurrentYear = DateTime.Now.Year,
+            //                   CanGenerate = true
+            //               };
 
-            return View(elements);
+            //return View(elements);
+            return ViewBag();//TODO: Esto no va.
+
         }
 
         [HttpGet]
@@ -74,7 +83,7 @@ namespace Mhotivo.Controllers
         {
             AcademicYear academicYear = _academicYearRepository.GetById(id);
             Meister meister = _meisterRepository.GetById(teacherId);
-            academicYear.Teacher = meister;
+           // academicYear.Teacher = meister;
             _academicYearRepository.Update(academicYear, false, false, false);
             _academicYearRepository.SaveChanges();
             return RedirectToAction("Index", "Home");

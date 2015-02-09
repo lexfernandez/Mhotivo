@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories;
+//using Mhotivo.App_Data.Repositories.Interfaces;
+
+using Mhotivo.Interface.Interfaces;
+using Mhotivo.Implement.Repositories;
+using Mhotivo.Data.Entities;
+
 using Mhotivo.Logic.ViewMessage;
 using Mhotivo.Models;
 
